@@ -2,7 +2,7 @@ package works.lysenko.util.data.range.graph;
 
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.prop.grid.Ranges;
 
 import java.util.*;
@@ -48,10 +48,10 @@ record Stats() {
         statsRow(minSum, maxSum);
     }
 
-    static void stats(final Map<?, ? extends ActualFraction> shares) {
+    static void stats(final Map<?, ? extends ValuedRangeResult> shares) {
 
-        final Collection<ActualFraction> list = new ArrayList<>(shares.values());
-        final double value = list.stream().mapToDouble(ActualFraction::doubleValue).sum();
+        final Collection<ValuedRangeResult> list = new ArrayList<>(shares.values());
+        final double value = list.stream().mapToDouble(ValuedRangeResult::doubleValue).sum();
         statsRow(value);
     }
 

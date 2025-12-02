@@ -5,7 +5,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.chrs.___;
 import works.lysenko.util.data.enums.Brackets;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,10 +29,10 @@ import static works.lysenko.util.spec.Numbers.ZERO;
 public record Text(String value, String max) {
 
     @SuppressWarnings("NumericCastThatLosesPrecision")
-    private static String getPropertyValueFraction(final Map<Fraction, ActualFraction> shares, final int fences) {
+    private static String getPropertyValueFraction(final Map<Fraction, ValuedRangeResult> shares, final int fences) {
 
         final Collection<String> result = new ArrayList<>(ZERO);
-        for (final Map.Entry<Fraction, ActualFraction> value : shares.entrySet())
+        for (final Map.Entry<Fraction, ValuedRangeResult> value : shares.entrySet())
             result.add(b(L0, s((int) (value.getKey().doubleValue() * fences)), ts(value.getValue().value())));
         return (StringUtils.join(result, COMMA_SPACE));
     }
@@ -46,7 +46,7 @@ public record Text(String value, String max) {
      * @param li     the limit object representing overflow status and maximum value
      * @return a new Text object containing the constructed maximum and fraction values
      */
-    public static Text text(final Map<Fraction, ActualFraction> shares, final int fences, final Limit li) {
+    public static Text text(final Map<Fraction, ValuedRangeResult> shares, final int fences, final Limit li) {
 
         final String max = rb(li.overflow(), a(kv(s(___.MAX), s(ts(fr(li.max())), L0, li.max()))));
         final String value = e(Brackets.CURLY, getPropertyValueFraction(shares, fences));

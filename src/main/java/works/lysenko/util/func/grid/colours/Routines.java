@@ -92,7 +92,7 @@ public record Routines() {
         // Mapping
         final boolean ignoreOrder = vr.irq().colours().ignore(ORDER);
         final boolean ignoreOther = vr.irq().colours().ignore(OTHER);
-        final Map<Integer, ActualFraction> actual = grid.processor().getColoursByRates(vr.irq().colours().border(),
+        final Map<Integer, ValuedRangeResult> actual = grid.processor().getColoursByRates(vr.irq().colours().border(),
                 vr.irq().colours().ignoreHSB());
         final _ColoursQuotas expected = vr.irq().colours();
         final IntegerRange amount = vr.irq().colours().amount();
@@ -116,7 +116,7 @@ public record Routines() {
      * @return the ColoursResult indicating the validation result
      */
     @SuppressWarnings({"MethodWithTooManyParameters", "MethodWithMultipleReturnPoints", "unchecked"})
-    private static ColoursValidationResult areColoursOk(final ValidationMeta meta, final Map<Integer, ActualFraction> actual
+    private static ColoursValidationResult areColoursOk(final ValidationMeta meta, final Map<Integer, ValuedRangeResult> actual
             , final _ColoursQuotas expected, final boolean ignoreOrder, final IntegerRange amount, final boolean ignoreOther) {
 
         final Fraction threshold = meta.vr().irq().colours().border();
@@ -199,7 +199,7 @@ public record Routines() {
      * @return the ColoursValidationResult indicating whether the validation passed, failed, or fell within defined margins
      */
     private static ColoursValidationResult getColoursResult(final Request vr, final Severity max, final Map<Integer,
-            ActualFraction> actual, final _ColoursQuotas expected, final _RangedMargin margin, final boolean ignoreOrder,
+                                                                    ValuedRangeResult> actual, final _ColoursQuotas expected, final _RangedMargin margin, final boolean ignoreOrder,
                                                             final IntegerRange amount, final boolean ignoreOther) {
 
         final Noun noun = new Noun(COLOUR, COLOURS);

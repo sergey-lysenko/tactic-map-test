@@ -4,7 +4,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.data.range.Graph;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 import works.lysenko.util.prop.grid.Ranges;
@@ -32,7 +32,7 @@ public class Render<T> {
     private final ValidationMeta meta;
     private final _Quotas<T> expected;
     private final Renderers renderers;
-    private final Map<T, ActualFraction> actual;
+    private final Map<T, ValuedRangeResult> actual;
 
     /**
      * Constructs a Render instance for handling rendering operations with the given validation meta,
@@ -43,7 +43,7 @@ public class Render<T> {
      * @param actual    The actual shares data represented as a map.
      * @param renderers The rendering functions to be used.
      */
-    public Render(final ValidationMeta meta, final _Quotas<T> expected, final Map<T, ActualFraction> actual,
+    public Render(final ValidationMeta meta, final _Quotas<T> expected, final Map<T, ValuedRangeResult> actual,
                   final Renderers renderers) {
 
         this.meta = meta;

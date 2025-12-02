@@ -3,7 +3,7 @@ package works.lysenko.util.data.range.graph.values.integers;
 import org.apache.commons.lang3.StringUtils;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.data.enums.Brackets;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,10 +27,10 @@ import static works.lysenko.util.spec.Numbers.ZERO;
  */
 public record Text(String value, String max) {
 
-    private static String getPropertyValueInteger(final Map<Integer, ActualFraction> shares) {
+    private static String getPropertyValueInteger(final Map<Integer, ValuedRangeResult> shares) {
 
         final Collection<String> result = new ArrayList<>(ZERO);
-        for (final Map.Entry<Integer, ActualFraction> value : shares.entrySet())
+        for (final Map.Entry<Integer, ValuedRangeResult> value : shares.entrySet())
             result.add(b(L0, s(value.getKey()), ts(value.getValue().value())));
         return (StringUtils.join(result, COMMA_SPACE));
     }
@@ -42,7 +42,7 @@ public record Text(String value, String max) {
         return new Text(value, maxS);
     }
 
-    static Text text(final Map<Integer, ActualFraction> shares, final boolean overflow, final double max) {
+    static Text text(final Map<Integer, ValuedRangeResult> shares, final boolean overflow, final double max) {
 
         final String value = e(Brackets.CURLY, getPropertyValueInteger(shares));
         final String maxS = rb(overflow, a(kv(s(MAX), s(ts(fr(max)), L0, max))));
