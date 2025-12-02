@@ -4,11 +4,12 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.data.enums.RangeResult;
 
 /**
- * The _ActualFraction interface defines the structure for classes that encapsulate a Fraction value along with a RangeResult.
- * This interface represents a fractional value that can be validated within a specific range.
+ * The _ValuedRangeResult interface represents a contract for objects that encapsulate a fractional value
+ * and an associated range validation result. Implementations of this interface provide methods for accessing
+ * and modifying the fractional value, as well as the result of the range validation.
  */
 @SuppressWarnings("InterfaceWithOnlyOneDirectInheritor")
-public interface _ActualFraction {
+public interface _ValuedRangeResult {
 
     /**
      * Retrieves the fractional value in double precision.

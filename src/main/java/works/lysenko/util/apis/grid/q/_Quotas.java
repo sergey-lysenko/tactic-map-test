@@ -7,10 +7,10 @@ import works.lysenko.util.func.grid.Renderers;
 import java.util.List;
 
 /**
- * Represents a generic interface for managing shares of a certain datatype.
- * Primary operations include retrieving, setting, and organizing 'Quota' objects.
+ * Represents an entity managing a collection of quotas and associated operations.
+ * This interface provides methods to retrieve, sort, modify, and evaluate quotas.
  *
- * @param <T> The type of object associated with the shares.
+ * @param <T> The type of the quota values managed by implementations of this interface.
  */
 @SuppressWarnings("InterfaceWithOnlyOneDirectInheritor")
 public interface _Quotas<T> {
@@ -47,10 +47,10 @@ public interface _Quotas<T> {
 
     /**
      * Retrieves a list of sorted Quota objects.
-     * The sorting criteria and behavior depend on the implementation.
+     * The sorting criteria and behaviour depend on the implementation.
      *
      * @param silent A boolean flag indicating whether sorting should be performed silently
-     *               without additional operations or whether certain side-effects might occur.
+     *               without additional operations or whether certain side effects might occur.
      * @return A list of sorted Quota objects of the specified generic type T.
      */
     List<_Quota<T>> getSorted(boolean silent);
@@ -77,4 +77,13 @@ public interface _Quotas<T> {
      * @return An instance of Slack representing a value with an allowed deviation and a border.
      */
     Slack slack();
+
+    /**
+     * Checks whether the given value is within the precision defined by the specified quota.
+     *
+     * @param value the value to check for precision compliance
+     * @param quota the quota against which the precision is evaluated
+     * @return true if the value is within the precision range defined by the quota, false otherwise
+     */
+    boolean isWithinPrecision(Object value, _Quota<?> quota);
 }

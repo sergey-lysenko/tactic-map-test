@@ -74,6 +74,11 @@ public interface _Quota<T> {
      */
     T value();
 
+    /**
+     * Retrieves the precision value associated with the current instance.
+     *
+     * @return the precision value of type T
+     */
     T precision();
 
     /**
