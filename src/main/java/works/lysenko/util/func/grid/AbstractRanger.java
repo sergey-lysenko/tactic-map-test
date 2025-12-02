@@ -41,11 +41,11 @@ import static works.lysenko.util.lang.word.R.RESULT;
 import static works.lysenko.util.lang.word.S.SHARES;
 
 /**
- * Represents an abstract Ranger for a generic type T.
- * Contains methods for adding actual values, validating the expected values, checking if issues are present,
- * and determining if the values are within the specified ranges.
+ * An abstract class that provides the framework for validating actual data against expected quotas
+ * and generating validation results. This class handles initialisation, validation logic, processing
+ * of actual and expected values, and rendering of results.
  *
- * @param <T> type of value
+ * @param <T> the type of elements that this ranger will validate
  */
 public abstract class AbstractRanger<T> implements _Ranger<T> {
 
@@ -62,15 +62,17 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     private final Render<T> render;
 
     /**
-     * Constructs an AbstractRanger object with the provided parameters.
+     * Constructs an AbstractRanger instance, initializing the validation metadata, actual data,
+     * expected quotas, and configuration options regarding order and other attributes.
      *
-     * @param meta        the ValidationMeta object containing meta information for the validation request
-     * @param actual      a Map of actual values to be validated
-     * @param expected    the _Quotas object representing the expected values
-     * @param amount      the IntegerRange object defining the valid amount range
-     * @param ignoreOrder a boolean indicating whether the order should be ignored during validation
-     * @param renderers   the Renderers object for customization during validation
-     * @param severity    the Severity level for the validation
+     * @param meta        the ValidationMeta object encapsulating metadata associated with the validation process
+     * @param actual      a map containing actual data of type T as keys with their respective ActualFraction values
+     * @param expected    the _Quotas object representing the expected quotas for validation
+     * @param amount      the IntegerRange object defining the range for quantity validation
+     * @param ignoreOrder a boolean indicating whether to ignore the order of elements during validation
+     * @param ignoreOther a boolean indicating whether to ignore elements not specified in the expected quotas
+     * @param renderers   the Renderers object used to handle rendering during validation
+     * @param severity    the Severity level used to categorize issues encountered during validation
      */
     protected AbstractRanger(final ValidationMeta meta, final Map<T, ActualFraction> actual, final _Quotas<T> expected,
                              final IntegerRange amount, final boolean ignoreOrder, final boolean ignoreOther, final Renderers renderers,
@@ -89,11 +91,11 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     }
 
     /**
-     * Validates the expected quotas by inspecting the provided _Quotas object. This method
-     * ensures there are no duplicate quota values within the list retrieved from the given
-     * _Quotas instance. In the case of duplicate entries, an appropriate log event is triggered.
+     * Validates the expected quotas by checking for duplicates in the provided list
+     * and logs an event if duplicates are found.
      *
-     * @param expected the _Quotas object containing a list of quota values to be validated
+     * @param expected the _Quotas object containing a list of expected quotas
+     *                 to be validated for duplicates
      */
     private static void validateExpected(final _Quotas<?> expected) {
 
@@ -106,12 +108,13 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     }
 
     /**
-     * Adds a sample to the provided range results.
+     * Adds a sample to the specified range results object by correlating the provided actual value
+     * with the expected and actual shares.
      *
-     * @param toResults     the RangeResults object to which the sample should be added.
-     * @param expectedShare the expected share of type T.
-     * @param actualValue   the actual value of type T.
-     * @param actualShare   the actual share fraction.
+     * @param toResults     the RangeResults object where the sample will be added
+     * @param expectedShare the Quota object representing the expected share for validation
+     * @param actualValue   the actual value of type T to be evaluated and added to the results
+     * @param actualShare   the ActualFraction object representing the actual share of the value
      */
     public abstract void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, ActualFraction actualShare);
 
@@ -181,12 +184,12 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     }
 
     /**
-     * Retrieves a sample by correlating the actual value with its corresponding expected share
-     * and actual share derived from the provided list of actual values.
+     * Retrieves a sample corresponding to a specific element from the provided list,
+     * correlating it with its expected and actual shares based on predefined validation logic.
      *
-     * @param of   the actual value of type T for which the sample is to be obtained
-     * @param from the list of actual values from which the sample is to be derived
-     * @return a Sample object containing the corresponding expected share and actual share
+     * @param of   the element of type T for which a sample will be generated
+     * @param from the list of elements of type T from which the sample is derived
+     * @return a Sample object consisting of the corresponding expected share and actual share
      */
     @SuppressWarnings("unchecked")
     private Sample getSample(final T of, final List<T> from) {
@@ -258,15 +261,8 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     }
 
     /**
-     * Represents a sample consisting of a corresponding expected share (Quota) and an actual share (ActualFraction).
-     * <p>
-     * This record is a lightweight, immutable data structure that associates an expected quota
-     * with its corresponding actual share, facilitating validation and comparison operations.
-     * <p>
-     * Note: Both fields are mandatory and should be properly initialized to ensure consistency.
-     *
-     * @param correspondingShare The expected share of type Quota<?> representing the defined range or quota.
-     * @param actualShare        The actual share of type ActualFraction representing the observed or actual fraction.
+     * Represents a record type used to encapsulate a sample within the validation process.
+     * A sample is defined by correlating an expected quota with its actual corresponding share.
      */
     private record Sample(Quota<?> correspondingShare, ActualFraction actualShare) {
 
