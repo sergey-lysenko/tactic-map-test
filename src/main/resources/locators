@@ -1,0 +1,24 @@
+# Format of this file is
+# Human readable description==Xpath locator or Css selector
+
+# Common
+Android Launcher==//android.widget.FrameLayout[@package='com.google.android.apps.nexuslauncher']
+
+# Project Specific
+Info==(//android.view.View[@content-desc='info'])[1]/..
+Search==(//android.view.View[@content-desc='info'])[2]/..
+Zoom In==(//android.view.View[@content-desc='info'])[3]/..
+Zoom Out==(//android.view.View[@content-desc='info'])[4]/..
+View Holder==//androidx.compose.ui.viewinterop.ViewFactoryHolder
+Add Object==//android.view.View[@content-desc='Add object']/..
+Ruler==//android.view.View[@content-desc='Ruler']/..
+Total Distance==//android.view.View[@content-desc='Total Distance']/..
+Polygon==//android.view.View[@content-desc='Polygon']/..
+Elevation Graph==//android.view.View[@content-desc='Elevation graph']/..
+Find My Location==//android.view.View[@content-desc='find my location']/..
+Compass==//android.view.View[@content-desc='compass']/..
+Drag Handle==//android.view.View[@content-desc='Drag handle']
+Login==(//android.view.View[@content-desc='Settings'])[1]/..
+Settings==(//android.view.View[@content-desc='Settings'])[2]/..
+Search 1==//android.view.View[@content-desc='Search']/..
+Search 2==//android.widget.TextView[@text='Search']/..

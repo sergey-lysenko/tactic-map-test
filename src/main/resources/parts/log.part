@@ -1,0 +1,44 @@
+# ==============================================================================
+# Sleep and Logging Settings
+# ==============================================================================
+# How short a sleep duration should be to avoid adding a log message. Default: 10 (milliseconds)
+# .silent.sleeping.border=10
+# ------------------------------------------------------------------------------
+# Log table width for alignment in printed logs.
+.log.table.width=192
+# ------------------------------------------------------------------------------
+# Ranger-specific log width for aligned output.
+.ranger.log.absent.range=false
+.ranger.log.boundaries=false
+.ranger.log.non.failing.out.of.bounds=false
+.ranger.log.order.change=false
+.ranger.log.overstretch=false
+.ranger.log.scale.check=false
+.ranger.log.scale.debug=false
+.ranger.log.sort.check=false
+.ranger.log.wide.range=false
+.ranger.log.width=99
+
+# ==============================================================================
+# Long Operation Settings
+# ==============================================================================
+# Maximum duration of an operation to be considered "long". Default: 9999 (milliseconds)
+# .long.operation.border=9999
+# ------------------------------------------------------------------------------
+# Severity level for long operations. Default: 0
+.long.operation.severity=1
+
+# ==============================================================================
+# Log Line Similarity Settings
+# ==============================================================================
+# Enable or disable log line similarity checks. Default: true
+# .log.lines.similarity.check=true
+# ------------------------------------------------------------------------------
+# Maximum allowed difference (in milliseconds) between logged operations for similarity comparison. Default: 2500
+.log.lines.similarity.delta=2500
+# ------------------------------------------------------------------------------
+# Number of consecutive log lines to include in similarity checks. Default: 9
+.log.lines.similarity.depth=9
+# ------------------------------------------------------------------------------
+# Maximum number of log line entries to check for similarity. Default: 41
+.log.lines.similarity.limit=71

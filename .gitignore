@@ -1,0 +1,12 @@
+/*.apk
+/.classpath
+/.idea/*
+/.project
+/.settings/*
+/appium*
+/environment.bash
+/etc/device
+/etc/users-pool
+/target/
+/var/*
+/dependency-reduced-pom.xml
