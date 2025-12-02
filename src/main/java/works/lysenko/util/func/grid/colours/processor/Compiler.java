@@ -109,7 +109,7 @@ public record Compiler() {
         final String newPercentage = expected.percentage();
         final Fraction min = fr(median - radius);
         final Fraction max = fr(median + radius);
-        final Quota<Integer> newExpected = new Quota<>(key, min, max);
+        final Quota<Integer> newExpected = new Quota<>(key, (Integer) expected.precision(), min, max);
         explain(actual, expected, oldPercentage, newPercentage);
         in.add(newExpected);
     }
@@ -128,11 +128,11 @@ public record Compiler() {
 
         if (Ranges.logBoundaries) {
             if (oldPercentage.equals(newPercentage))
-                logEvent(S3, b(c(ACTUAL), VALUE, s(ts(true, actual)), IS_TOO_CLOSE_TO___, s(expected, _COMMA_), WIDTH_IS_STILL,
-                        oldPercentage));
+                logEvent(S3, b(c(ACTUAL), VALUE, s(ts(true, actual)), IS_TOO_CLOSE_TO___, s(expected, _COMMA_),
+                        WIDTH_IS_STILL, oldPercentage));
             else
-                logEvent(S3, b(c(EXPECTED), s(expected), WIDTH_WAS_REDUCED_BY___, s(ts(true, actual)), FROM, oldPercentage, TO,
-                        newPercentage));
+                logEvent(S3, b(c(EXPECTED), s(expected), WIDTH_WAS_REDUCED_BY___, s(ts(true, actual)), FROM, oldPercentage,
+                        TO, newPercentage));
         }
     }
 
@@ -153,7 +153,7 @@ public record Compiler() {
         final Fraction max = fr(max(actual.doubleValue(), expected.max().doubleValue()));
         final FractionRange fractionRange = new FractionRange(min, max);
         Trace.log(traceable(fractionRange));
-        in.add(new Quota<>(key, min, max));
+        in.add(new Quota<>(key, expected.precision(), min, max));
     }
 
     /**
