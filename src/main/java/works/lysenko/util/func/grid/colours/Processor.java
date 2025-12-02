@@ -51,7 +51,7 @@ import static works.lysenko.util.lang.word.M.MARGIN;
  * Represents a processor that merges actual and expected share ranges and performs operations on them.
  */
 @SuppressWarnings({"rawtypes", "unchecked", "CallToSuspiciousStringMethod"})
-public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) implements _Processor {
+public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected) implements _Processor {
 
     public void processNegativeResult(final Request vr) {
 
@@ -120,7 +120,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
         final List<_Quota<Integer>> newRanges = new ArrayList<>(actual.size());
 
         // cycling through actual and merging ranges
-        for (final Map.Entry<Integer, ActualFraction> entry : actual.entrySet())
+        for (final Map.Entry<Integer, ValuedRangeResult> entry : actual.entrySet())
             processFailed(margin, entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
@@ -141,7 +141,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
         final List<_Quota<Integer>> newRanges = new ArrayList<>(actual.size());
 
         // cycling through actual and merging ranges
-        for (final Map.Entry<Integer, ActualFraction> entry : actual.entrySet()) processPassed(entry, newRanges, ignoreShrink);
+        for (final Map.Entry<Integer, ValuedRangeResult> entry : actual.entrySet()) processPassed(entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
         if (Update.passed && isNotNull(expected)) if (isNotNull(expected.get())) for (final Object entry : expected.get())
@@ -157,11 +157,11 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
      * @param ignoreShrink Flag to determine whether the shrink operation should be ignored.
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private void processFailed(final _RangedMargin rangedMargin, final Map.Entry<Integer, ? extends ActualFraction> entry,
+    private void processFailed(final _RangedMargin rangedMargin, final Map.Entry<Integer, ? extends ValuedRangeResult> entry,
                                final List<? super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
 
         final Integer key = entry.getKey();
-        final ActualFraction value = entry.getValue();
+        final ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
         final Fraction margin = (isNotNull(range)) ? range.actualAbsoluteMargin(value.value()) : null;
@@ -188,11 +188,11 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
      * @param newRanges    The list of Quota objects to update with new data.
      * @param ignoreShrink Flag to determine whether the shrink operation should be ignored.
      */
-    private void processPassed(final Map.Entry<Integer, ? extends ActualFraction> entry,
+    private void processPassed(final Map.Entry<Integer, ? extends ValuedRangeResult> entry,
                                final List<? super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
 
         final Integer key = entry.getKey();
-        final ActualFraction value = entry.getValue();
+        final ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
         final Fraction margin = (isNotNull(range)) ? range.actualAbsoluteMargin(value.value()) : null;
