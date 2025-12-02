@@ -64,8 +64,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
             logDebug(b(NEW_COLOURS_PROPERTY___, yb(e(CURLY, newValue))));
             logDebug(vr.irq().colours().renderIgnore());
             if (Update.colour) {
-                if (vr.irq().colours().ignore(UPDATE))
-                    logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_REQUESTED_BY___));
+                if (vr.irq().colours().ignore(UPDATE)) logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_REQUESTED_BY___));
                 else updateExpected(vr.name(), newValue);
             } else logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_WAS_NOT___));
         }
@@ -89,8 +88,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
             logDebug(b(NEW_COLOURS_PROPERTY___, yb(e(CURLY, newValue))));
             logDebug(vr.irq().colours().renderIgnore());
             if (Update.colour) {
-                if (vr.irq().colours().ignore(UPDATE))
-                    logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_REQUESTED_BY___));
+                if (vr.irq().colours().ignore(UPDATE)) logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_REQUESTED_BY___));
                 else updateExpected(vr.name(), newValue);
             } else logDebug(b(c(COLOUR), EXPECTATIONS_UPDATE_WAS_NOT___));
         }
@@ -126,11 +124,8 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
             processFailed(margin, entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
-        if (isNotNull(expected))
-            if (isNotNull(expected.get()))
-                for (final Object entry : expected.get())
-                    if (!actual.containsKey(((_Quota<Integer>) entry).value()))
-                        newRanges.add((_Quota<Integer>) entry);
+        if (isNotNull(expected)) if (isNotNull(expected.get())) for (final Object entry : expected.get())
+            if (!actual.containsKey(((_Quota<Integer>) entry).value())) newRanges.add((_Quota<Integer>) entry);
         return newRanges;
     }
 
@@ -149,11 +144,8 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
         for (final Map.Entry<Integer, ActualFraction> entry : actual.entrySet()) processPassed(entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
-        if (Update.passed && isNotNull(expected))
-            if (isNotNull(expected.get()))
-                for (final Object entry : expected.get())
-                    if (!actual.containsKey(((_Quota<Integer>) entry).value()))
-                        newRanges.add((_Quota<Integer>) entry);
+        if (Update.passed && isNotNull(expected)) if (isNotNull(expected.get())) for (final Object entry : expected.get())
+            if (!actual.containsKey(((_Quota<Integer>) entry).value())) newRanges.add((_Quota<Integer>) entry);
         return newRanges;
     }
 
@@ -185,7 +177,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
                     reuse(EXPECTED, range, newRanges);
                 }
             }
-        } else reuse(ACTUAL, shareOfInteger(key, value), newRanges);
+        } else reuse(ACTUAL, shareOfInteger(key, (int) range.precision(), value), newRanges);
     }
 
     /**
@@ -205,7 +197,7 @@ public record Processor(Map<Integer, ActualFraction> actual, _Quotas expected) i
         Trace.log(traceable(key, value, range, margin));
         if (isNotNull(margin)) {
             if (0 == margin.doubleValue()) shrink(key, value, range, (Collection<? super _Quota>) newRanges, ignoreShrink);
-        } else reuse(ACTUAL, shareOfInteger(key, value), newRanges);
+        } else reuse(ACTUAL, shareOfInteger(key, (int) range.precision(), value), newRanges);
     }
 
 }
