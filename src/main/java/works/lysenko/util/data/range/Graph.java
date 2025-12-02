@@ -3,7 +3,7 @@ package works.lysenko.util.data.range;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.data.range.graph.Writer;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.expected.ColoursQuotas;
 import works.lysenko.util.grid.expected.QuotasHSB;
 import works.lysenko.util.grid.record.graph.Options;
@@ -36,7 +36,7 @@ import static works.lysenko.util.lang.word.W.WRONG;
  * @param <T> type of value
  */
 @SuppressWarnings("unchecked")
-public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesOf, Map<T, ActualFraction> map, Options go,
+public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesOf, Map<T, ValuedRangeResult> map, Options go,
                        Renderers renderers,
                        Integer fences) {
 
@@ -50,7 +50,7 @@ public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesO
      * @param <T>       The type of value.
      * @return A1 new Graph object initialised with the provided parameters.
      */
-    public static <T> Graph<T> graphActual(final Map<T, ActualFraction> actual, final Options go, final Renderers renderers,
+    public static <T> Graph<T> graphActual(final Map<T, ValuedRangeResult> actual, final Options go, final Renderers renderers,
                                            final Integer fences) {
 
         return new Graph<>(c(ACTUAL), null, null, actual, go, renderers, fences);
@@ -110,11 +110,11 @@ public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesO
                 edge = Writer.graphExpectedFraction(title, amount, sharesOf, go, renderers, fences);
         }
         if (isNotNull(map) && isNull(sharesOf)) { // Actual
-            final Map.Entry<?, ActualFraction> entry = map.entrySet().stream().findFirst().orElse(null);
+            final Map.Entry<?, ValuedRangeResult> entry = map.entrySet().stream().findFirst().orElse(null);
             if (isNotNull(entry) && (entry.getKey() instanceof Integer))
-                edge = Writer.graphActualInteger(title, (Map<Integer, ActualFraction>) map, go, renderers);
+                edge = Writer.graphActualInteger(title, (Map<Integer, ValuedRangeResult>) map, go, renderers);
             if (isNotNull(entry) && (entry.getKey() instanceof Fraction))
-                edge = Writer.graphActualFraction(title, (Map<Fraction, ActualFraction>) map, go, renderers, fences);
+                edge = Writer.graphActualFraction(title, (Map<Fraction, ValuedRangeResult>) map, go, renderers, fences);
         }
         logTrace(a(kv(EDGE, ts(true, edge))));
         if (isNull(edge)) fail(b(UNABLE_TO, RENDER, GRAPH, DUE_TO, WRONG, CONFIGURATION));

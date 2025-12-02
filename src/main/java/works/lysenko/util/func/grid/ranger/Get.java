@@ -41,27 +41,33 @@ public record Get() {
     /**
      * Determines the corresponding share of a given value from a set of expected quotas based on its validation metadata.
      *
-     * @param <T>           The type of the value and share being processed.
-     * @param meta          The validation metadata containing details like severity, subject, and contextual information.
-     * @param expected      The collection of expected quotas to match against.
-     * @param actualValue   The actual value being validated.
-     * @param expectedShare The expected share that the actual value should correspond to.
-     * @param index         The index of the current quota being processed within the validation sequence.
-     * @param ignoreOther   A flag indicating whether shares outside the specified range should be ignored.
+     * @param <T>         The type of the value and share being processed.
+     * @param meta        The validation metadata containing details like severity, subject, and contextual information.
+     * @param expected    The collection of expected quotas to match against.
+     * @param value       The actual value being validated.
+     * @param quota       The expected share that the actual value should correspond to.
+     * @param index       The index of the current quota being processed within the validation sequence.
+     * @param ignoreOther A flag indicating whether shares outside the specified range should be ignored.
      * @return The corresponding quota from the expected set that matches the actual value, or a fallback quota if mismatched.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Quota<T> correspondingShareOf(final ValidationMeta meta, final _Quotas<T> expected,
-                                                    final T actualValue, final Quota<T> expectedShare, final int index,
-                                                    final boolean ignoreOther) {
+    public static <T> Quota<T> substitute(final ValidationMeta meta, final _Quotas<T> expected,
+                                          final T value, final Quota<T> quota, final int index,
+                                          final boolean ignoreOther) {
 
-        final Quota<T> theRange;
+        final Quota<T> the;
+        log(meta, value, quota, index);
+        the = (Quota<T>) getSubstitute(meta, expected, value, ignoreOther);
+
+        return the;
+    }
+
+    private static <T> void log(final ValidationMeta meta, final T actualValue, final Quota<T> quota, final int index) {
+
         final String actualString = (actualValue instanceof Fraction) ? ts((Fraction) actualValue) : s(actualValue);
         if (Ranges.logOrderChange)
             exec.logEvent(S3, b(c(meta.subject().noun().singular()), q(actualString), INSTEAD, OF, EXPECTED,
-                    s(expectedShare.value()), AT, INDEX, s(index), IS, ALLOWED));
-        theRange = (Quota<T>) getShareFor(meta, expected, actualValue, ignoreOther);
-        return theRange;
+                    s(quota.value()), AT, INDEX, s(index), IS, ALLOWED));
     }
 
     /**
@@ -69,23 +75,23 @@ public record Get() {
      * If no matching share is found, logs a generic failure with the appropriate severity level.
      *
      * @param meta        The validation metadata containing details like severity and subject.
-     * @param shares      The list of quotas to search through.
+     * @param quotas      The list of quotas to search through.
      * @param value       The value to match within the quotas.
      * @param ignoreOther A flag indicating whether the severity level should account for other considerations.
      * @return The matching share from the list of quotas, or null if no match is found.
      */
-    private static _Quota<?> getShareFor(final ValidationMeta meta, final _Quotas<?> shares, final Object value,
-                                         final boolean ignoreOther) {
+    private static _Quota<?> getSubstitute(final ValidationMeta meta, final _Quotas<?> quotas, final Object value,
+                                           final boolean ignoreOther) {
 
-        for (final _Quota<?> share : shares.get()) {
-            if (share.value().equals(value)) {
-                return share;
-            }
+        for (final _Quota<?> quota : quotas.get()) {
+            if (quota.value().equals(value))  return quota;
+            if (quotas.isWithinPrecision(value, quota)) return quota;
         }
         final Severity severity = ignoreOther ? Severity.values()[meta.max().ordinal() + Allowed.otherSeverityReduction] :
                 meta.max();
-        if (!ignoreOther || Ranges.logAbsentRange) logGenericFailure(severity, b(UNABLE_TO, FIND, RANGE, FOR, VALUE, q(s(value)), AMONG, GIVEN,
-                meta.subject().noun().plural()));
+        if (!ignoreOther || Ranges.logAbsentRange)
+            logGenericFailure(severity, b(UNABLE_TO, FIND, RANGE, FOR, VALUE, q(s(value)), AMONG, GIVEN,
+                    meta.subject().noun().plural()));
         return null;
     }
 }

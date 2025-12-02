@@ -3,7 +3,7 @@ package works.lysenko.util.data.range.graph.values;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.data.range.graph.Values;
 import works.lysenko.util.data.records.Slack;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Parameters;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ import static works.lysenko.util.data.enums.Ansi.yb;
  * @param shares A1 map where each key is associated with a Fraction value representing shares.
  * @param max    A1 Fraction value indicating the maximum value among shares.
  */
-public record FromMap(Map<?, ActualFraction> shares, Fraction max) {
+public record FromMap(Map<?, ValuedRangeResult> shares, Fraction max) {
 
     /**
      * Generates and returns the graph parameters based on the current state.
