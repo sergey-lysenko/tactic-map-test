@@ -9,7 +9,7 @@ import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.type.list.RangeResults;
 import works.lysenko.util.data.type.list.RangerResults;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.func.grid.ranger.Get;
 import works.lysenko.util.func.grid.ranger.Issues;
 import works.lysenko.util.func.grid.ranger.Render;
@@ -51,7 +51,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
 
     private final ValidationMeta meta;
     private final IntegerRange amount;
-    private final Map<T, ActualFraction> actual;
+    private final Map<T, ValuedRangeResult> actual;
     private final Severity severity;
     private final _Quotas<T> expected;
     private final boolean ignoreOrder;
@@ -66,7 +66,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * expected quotas, and configuration options regarding order and other attributes.
      *
      * @param meta        the ValidationMeta object encapsulating metadata associated with the validation process
-     * @param actual      a map containing actual data of type T as keys with their respective ActualFraction values
+     * @param actual      a map containing actual data of type T as keys with their respective ValuedRangeResult values
      * @param expected    the _Quotas object representing the expected quotas for validation
      * @param amount      the IntegerRange object defining the range for quantity validation
      * @param ignoreOrder a boolean indicating whether to ignore the order of elements during validation
@@ -74,7 +74,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * @param renderers   the Renderers object used to handle rendering during validation
      * @param severity    the Severity level used to categorize issues encountered during validation
      */
-    protected AbstractRanger(final ValidationMeta meta, final Map<T, ActualFraction> actual, final _Quotas<T> expected,
+    protected AbstractRanger(final ValidationMeta meta, final Map<T, ValuedRangeResult> actual, final _Quotas<T> expected,
                              final IntegerRange amount, final boolean ignoreOrder, final boolean ignoreOther, final Renderers renderers,
                              final Severity severity) {
 
@@ -112,11 +112,11 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * with the expected and actual shares.
      *
      * @param toResults     the RangeResults object where the sample will be added
-     * @param expectedShare the Quota object representing the expected share for validation
+     * @param expectedShare the Quota object representing the expected result for validation
      * @param actualValue   the actual value of type T to be evaluated and added to the results
-     * @param actualShare   the ActualFraction object representing the actual share of the value
+     * @param actualShare   the ValuedRangeResult object representing the actual result of the value
      */
-    public abstract void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, ActualFraction actualShare);
+    public abstract void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, ValuedRangeResult actualShare);
 
     public final ValidationMeta meta() {
 
@@ -189,13 +189,13 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      *
      * @param of   the element of type T for which a sample will be generated
      * @param from the list of elements of type T from which the sample is derived
-     * @return a Sample object consisting of the corresponding expected share and actual share
+     * @return a Sample object consisting of the corresponding expected result and actual result
      */
     @SuppressWarnings("unchecked")
     private Sample getSample(final T of, final List<T> from) {
 
-        Quota<T> expectedShare = null;
-        Quota<T> correspondingShare = null;
+        Quota<T> quota = null;
+        Quota<T> substitute = null;
 
         final int indexOfActual = from.indexOf(of);
         final boolean compulsive = Method.COMPULSIVE == meta().subject().method();
@@ -203,19 +203,19 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
         if (indexOfActual >= expected.get().size()) {
             optionalError(indexOfActual, from, compulsive);
         } else {
-            expectedShare = (Quota<T>) expected.get().get(indexOfActual);
-            correspondingShare = expectedShare;
+            quota = (Quota<T>) expected.get().get(indexOfActual);
+            substitute = quota;
         }
 
-        if (isNotNull(expectedShare) && !expectedShare.value().equals(of)) {
-            if (ignoreOrder) correspondingShare = Get.correspondingShareOf(meta, expected, of, expectedShare, indexOfActual, ignoreOther);
+        if (isNotNull(quota) && !quota.value().equals(of)) {
+            if (ignoreOrder || isNotNull(quota.precision())) substitute = Get.substitute(meta, expected, of, quota, indexOfActual, ignoreOther);
             else issues.addUnexpectedActual(of, indexOfActual);
         }
 
-        final ActualFraction share = actual.get(of);
+        final ValuedRangeResult result = actual.get(of);
 
-        if (compulsive && isNull(correspondingShare)) issues.addNoCorrespondingShare(ignoreOther);
-        return new Sample(correspondingShare, share);
+        if (compulsive && isNull(substitute)) issues.addNoCorrespondingShare(ignoreOther);
+        return new Sample(substitute, result);
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -224,9 +224,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
         if (compulsive) {
             if (isNotNull(amount)) {
                 if (indexOfActual >= amount.max()) issues.addTooFewExpectations(amount.max(), from);
-            } else {
-                issues.addTooFewExpectations(expected.get().size(), from);
-            }
+            } else issues.addTooFewExpectations(expected.get().size(), from);
         }
     }
 
@@ -241,7 +239,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
     private void processValue(final RangeResults results, final T actualValue, final List<T> actualValues) {
 
         final Sample sample = getSample(actualValue, actualValues);
-        addSample(results, (Quota<T>) sample.correspondingShare(), actualValue, sample.actualShare());
+        addSample(results, (Quota<T>) sample.quota(), actualValue, sample.result());
     }
 
     /**
@@ -262,9 +260,9 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
 
     /**
      * Represents a record type used to encapsulate a sample within the validation process.
-     * A sample is defined by correlating an expected quota with its actual corresponding share.
+     * A sample is defined by correlating an expected quota with its actual corresponding result.
      */
-    private record Sample(Quota<?> correspondingShare, ActualFraction actualShare) {
+    private record Sample(Quota<?> quota, ValuedRangeResult result) {
 
     }
 }

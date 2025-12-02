@@ -324,7 +324,7 @@ public abstract class AbstractQuotas implements _Quotas {
 
             final String range = ts(quota.min()).equals(ts(quota.max())) ? ts(quota.min()) : b(L0, ts(quota.min()),
                     ts(quota.max()));
-            final String text = (isNull(quota.precision())) ? s(quota.value()) : s(quota.value(), L2, yb(quota.precision()));
+            final String text = (isNull(quota.precision())) ? s(quota.value()) : s(quota.value(), L2, quota.precision());
             result.add(b(L0, s(text), range));
         }
         return (StringUtils.join(result, COMMA_SPACE));
@@ -363,6 +363,8 @@ public abstract class AbstractQuotas implements _Quotas {
 
         this.quotas = quotas;
     }
+
+    public abstract boolean isWithinPrecision(final Object value, final _Quota quota);
 
     /**
      * Represents a value with specific precision.

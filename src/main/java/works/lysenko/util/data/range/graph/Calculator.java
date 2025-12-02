@@ -3,7 +3,7 @@ package works.lysenko.util.data.range.graph;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.data.range.AbstractQuotas;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +23,12 @@ public record Calculator() {
      * @param map The map of key-value pairs where the values are Fractions.
      * @return The maximum value in the map as a double. If the map is empty, returns AbstractQuotas.LOWER_LIMIT.
      */
-    public static Fraction maxMapValue(final Map<?, ? extends ActualFraction> map) {
+    public static Fraction maxMapValue(final Map<?, ? extends ValuedRangeResult> map) {
 
         if (isNull(map)) return null;
         return fr(map.values()
                 .stream()
-                .mapToDouble(ActualFraction::doubleValue)
+                .mapToDouble(ValuedRangeResult::doubleValue)
                 .max()
                 .orElse(AbstractQuotas.LOWER_LIMIT.doubleValue()));
     }

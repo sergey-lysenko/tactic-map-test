@@ -4,7 +4,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.data.range.FractionRange;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours._ActualFraction;
+import works.lysenko.util.func.grid.colours._ValuedRangeResult;
 import works.lysenko.util.func.logs.Trace;
 import works.lysenko.util.prop.grid.Ranges;
 import works.lysenko.util.prop.grid.Update;
@@ -145,7 +145,7 @@ public record Compiler() {
      * @param in       The List where the merged Quota object will be added.
      */
     @SuppressWarnings("TypeMayBeWeakened")
-    public static void merge(final Integer key, final _ActualFraction actual, final _Quota expected, final List<?
+    public static void merge(final Integer key, final _ValuedRangeResult actual, final _Quota expected, final List<?
             super Quota> in) {
 
         logDebug(b(MERGING_ACTUAL_VALUE, ts(true, actual.value()), WITH, s(expected), FOR, s(key)));
@@ -192,7 +192,7 @@ public record Compiler() {
      * @param ignoreShrink Flag indicating whether shrinking should be ignored.
      */
     @SuppressWarnings({"CallToSuspiciousStringMethod", "rawtypes"})
-    public static void shrink(final Integer key, final _ActualFraction actual, final _Quota expected, final Collection<?
+    public static void shrink(final Integer key, final _ValuedRangeResult actual, final _Quota expected, final Collection<?
             super _Quota> in, final boolean ignoreShrink) {
 
         if (Update.shrink) {
