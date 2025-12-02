@@ -100,7 +100,7 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
      * @param exactShare The exact fractional share represented by a Fraction object.
      * @return A Quota object of type Integer initialised with the specified value, precision, and exact share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final int precision, final Fraction exactShare) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final Fraction exactShare) {
 
         return new Quota<>(value, precision, exactShare, exactShare);
     }
@@ -113,7 +113,7 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
      * @param share     An instance of _ActualFraction that represents the share as a Fraction encapsulated within it.
      * @return A Quota object of type Integer initialised with the specified value, precision, and share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final int precision, final _ActualFraction share) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final _ActualFraction share) {
 
         final Fraction exactShare = share.value();
         return new Quota<>(value, precision, exactShare, exactShare);
@@ -145,7 +145,7 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
      * @param max       The maximum fractional value for the quota, represented as a Fraction object.
      * @return A Quota object of type Integer initialized with the specified value, precision, minimum, and maximum fractions.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final int precision, final Fraction min, final Fraction max) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final Fraction min, final Fraction max) {
 
         return new Quota<>(value, precision, min, max);
     }
