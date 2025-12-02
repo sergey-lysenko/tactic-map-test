@@ -7,5 +7,6 @@ import static works.lysenko.util.spec.Symbols.*;
 @SuppressWarnings({"ClassWithoutLogger", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "AutoBoxing"})
 public record Q() {
 
-    public static final String QUOTAS = s(QU, O, TA, S);
+    public static final String QUOTA = s(QU, O, TA);
+    public static final String QUOTAS = s(QUOTA, S);
 }
