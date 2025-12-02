@@ -18,6 +18,7 @@ import static works.lysenko.Base.logEvent;
 import static works.lysenko.util.chrs.___.MAX;
 import static works.lysenko.util.chrs.___.MIN;
 import static works.lysenko.util.chrs.____.NULL;
+import static works.lysenko.util.data.enums.Ansi.yb;
 import static works.lysenko.util.data.enums.Severity.S0;
 import static works.lysenko.util.data.enums.Severity.S1;
 import static works.lysenko.util.data.enums.Severity.S2;
@@ -42,6 +43,7 @@ import static works.lysenko.util.lang.I.IS_NOT_AN_INTEGER_IN___;
 import static works.lysenko.util.lang.T.THE_SORTED___;
 import static works.lysenko.util.prop.data.Delimeters.L0;
 import static works.lysenko.util.prop.data.Delimeters.L1;
+import static works.lysenko.util.prop.data.Delimeters.L2;
 import static works.lysenko.util.spec.Numbers.ONE;
 import static works.lysenko.util.spec.Numbers.TWO;
 import static works.lysenko.util.spec.Numbers.ZERO;
@@ -124,21 +126,21 @@ public abstract class AbstractQuotas implements _Quotas {
     }
 
     /**
-     * This method adds a KeyValue object to the list with the minimum value of fractions and another KeyValue object
-     * with the maximum value of fractions.
-     * If the candidates' list is not null, it also adds a ShareOfIntValue object to the list.
+     * Adds specific key-value pairs to the provided list based on the given fraction range and updates
+     * the candidate collection using the value and precision.
      *
-     * @param list       The list of KeyValue objects.
-     * @param fractions  The array of Fraction objects representing the minimum and maximum values.
-     * @param candidates The list of ShareOfIntValue objects.
-     * @param value      The Integer value.
+     * @param list       the collection where key-value pairs will be added
+     * @param fractions  the fraction range from which minimum and maximum values are extracted
+     * @param candidates the collection of Quota objects to be updated based on the value and precision
+     * @param value      the integer value used for calculations and updating the candidates
+     * @param precision  the precision for calculations when updating candidates
      */
     private static void add(final Collection<? super KeyValue> list, final FractionRange fractions, final Collection<?
-            super Quota<Integer>> candidates, final Integer value) {
+            super Quota<Integer>> candidates, final Integer value, final Integer precision) {
 
         list.add(kv(MIN, ts(fractions.min())));
         list.add(kv(MAX, ts(fractions.max())));
-        if (isNotNull(candidates)) candidates.add(shareOfInteger(value, fractions.min(), fractions.max()));
+        if (isNotNull(candidates)) candidates.add(shareOfInteger(value, precision, fractions.min(), fractions.max()));
     }
 
     /**
@@ -188,10 +190,11 @@ public abstract class AbstractQuotas implements _Quotas {
             ?>> candidates, final Collection<? super KeyValue> list) {
 
         List<_Quota<?>> newCandidates = candidates;
-        final Integer value = validateValue(values[ZERO], newCandidates, origin);
+        final Value value = validateValue(values[ZERO], newCandidates, origin);
+
         if (!isAnyNull(newCandidates, value)) {
-            list.add(kv(c(type), value));
-            if (ONE < values.length) newCandidates = update(values, newCandidates, list, value);
+            list.add(kv(c(type), value.value()));
+            if (ONE < values.length) newCandidates = update(values, newCandidates, list, value.value(), value.precision());
         }
         return newCandidates;
     }
@@ -229,12 +232,12 @@ public abstract class AbstractQuotas implements _Quotas {
      * @return The updated list of candidates.
      */
     private static List<_Quota<?>> update(final String[] values, final List<_Quota<?>> candidates, final Collection<?
-            super KeyValue> list, final Integer value) {
+            super KeyValue> list, final Integer value, final Integer precision) {
 
         List<_Quota<?>> newCandidates = candidates;
         final FractionRange fractions = validateAndCreateFractions(values);
         if (isNull(fractions)) newCandidates = null;
-        else add(list, fractions, newCandidates, value);
+        else add(list, fractions, newCandidates, value, precision);
         return newCandidates;
     }
 
@@ -269,15 +272,18 @@ public abstract class AbstractQuotas implements _Quotas {
      * @return the validated Integer value, or null if validation fails
      */
     @SuppressWarnings({"AssignmentToMethodParameter", "UnusedAssignment", "ReassignedVariable"})
-    private static Integer validateValue(final String rawValue, Iterable<? extends _Quota<?>> candidates,
-                                         final String origin) {
+    private static Value validateValue(final String rawValue, Iterable<? extends _Quota<?>> candidates,
+                                       final String origin) {
 
         Integer value = null;
+        Integer precision = null;
         try {
-            value = i(rawValue);
+            if (rawValue.contains(s(L2))) {
+                value = i(rawValue.split(s(L2))[ZERO]);
+                precision = i(rawValue.split(s(L2))[ONE]);
+            } else value = i(rawValue);
         } catch (final NumberFormatException e) {
-            logEvent(S0, b(q(rawValue), IS_NOT_AN_INTEGER_IN___, origin)); // TODO: add support of external
-            // string-to-integer decoders
+            logEvent(S0, b(q(rawValue), IS_NOT_AN_INTEGER_IN___, origin));
             candidates = null;
         }
         if (isNotNull(candidates)) {
@@ -286,7 +292,7 @@ public abstract class AbstractQuotas implements _Quotas {
                 candidates = null;
             }
         }
-        return value;
+        return new Value(value, precision);
     }
 
     /**
@@ -313,13 +319,13 @@ public abstract class AbstractQuotas implements _Quotas {
     @Override
     public final String getPropertyValue() {
 
-        final List<_Quota<?>> sortedRanges = getSorted(true);
         final Collection<String> result = new ArrayList<>(0);
-        for (final _Quota sorted : sortedRanges) {
+        for (final _Quota quota : getSorted(true)) {
 
-            final String range = ts(sorted.min()).equals(ts(sorted.max())) ? ts(sorted.min()) : b(L0, ts(sorted.min()),
-                    ts(sorted.max()));
-            result.add(b(L0, s(sorted.value()), range));
+            final String range = ts(quota.min()).equals(ts(quota.max())) ? ts(quota.min()) : b(L0, ts(quota.min()),
+                    ts(quota.max()));
+            final String text = (isNull(quota.precision())) ? s(quota.value()) : s(quota.value(), L2, yb(quota.precision()));
+            result.add(b(L0, s(text), range));
         }
         return (StringUtils.join(result, COMMA_SPACE));
     }
@@ -327,13 +333,12 @@ public abstract class AbstractQuotas implements _Quotas {
     @SuppressWarnings({"NumericCastThatLosesPrecision", "CallToSuspiciousStringMethod"})
     public final String getPropertyValue(final int fences) {
 
-        final List<_Quota<?>> sortedRanges = getSorted(true);
         final Collection<String> result = new ArrayList<>(0);
-        for (final _Quota sorted : sortedRanges) {
+        for (final _Quota quota : getSorted(true)) {
 
-            final String range = ts(sorted.min()).equals(ts(sorted.max())) ? ts(sorted.min()) : b(L0, ts(sorted.min()),
-                    ts(sorted.max()));
-            result.add(b(L0, s((int) (((Number) sorted.value()).doubleValue() * fences)), range));
+            final String range = ts(quota.min()).equals(ts(quota.max())) ? ts(quota.min()) : b(L0, ts(quota.min()),
+                    ts(quota.max()));
+            result.add(b(L0, s((int) (((Number) quota.value()).doubleValue() * fences)), range));
         }
         return (StringUtils.join(result, COMMA_SPACE));
     }
@@ -357,5 +362,13 @@ public abstract class AbstractQuotas implements _Quotas {
     public final void setQuotas(final List quotas) {
 
         this.quotas = quotas;
+    }
+
+    /**
+     * Represents a value with specific precision.
+     * This record is used to encapsulate an integer value alongside its precision level.
+     */
+    record Value(Integer value, Integer precision) {
+
     }
 }
