@@ -74,6 +74,8 @@ public interface _Quota<T> {
      */
     T value();
 
+    T precision();
+
     /**
      * Calculates and returns the width of the share.
      *
