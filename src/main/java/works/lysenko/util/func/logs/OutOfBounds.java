@@ -7,7 +7,7 @@ import works.lysenko.util.apis.grid.t._Value;
 import works.lysenko.util.data.enums.RangeResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.records.LogMeta;
-import works.lysenko.util.func.grid.colours._ActualFraction;
+import works.lysenko.util.func.grid.colours._ValuedRangeResult;
 import works.lysenko.util.func.logs.poster.Failure;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 import works.lysenko.util.grid.record.rgbc.Colour;
@@ -51,7 +51,7 @@ public record OutOfBounds() {
      * @param meta        the validation information for the validation request
      * @return the result of the fraction range validation
      */
-    public static RangeResult getFractionConditionalResult(final Fraction actualValue, final _ActualFraction actual,
+    public static RangeResult getFractionConditionalResult(final Fraction actualValue, final _ValuedRangeResult actual,
                                                            final _Value<?> expected, final ValidationMeta meta) {
 
         final String description = b(q(ts(actualValue)));
@@ -63,7 +63,7 @@ public record OutOfBounds() {
      * expected value, and validation metadata while logging the outcome if necessary.
      *
      * @param actualValue the actual integer value subjected to validation
-     * @param actual      the actual fractional value, represented as an implementation of {@link _ActualFraction},
+     * @param actual      the actual fractional value, represented as an implementation of {@link _ValuedRangeResult},
      *                    associated with the range validation
      * @param expected    the expected value, represented as an implementation of {@link _Value},
      *                    to compare against the actual value in the validation process
@@ -71,7 +71,7 @@ public record OutOfBounds() {
      * @return the result of the range validation, represented as a {@link RangeResult}
      */
     @SuppressWarnings("CallToSuspiciousStringMethod")
-    public static RangeResult getIntegerConditionalResult(final int actualValue, final _ActualFraction actual, final _Value<
+    public static RangeResult getIntegerConditionalResult(final int actualValue, final _ValuedRangeResult actual, final _Value<
             ?> expected, final ValidationMeta meta) {
 
         final String description = meta.subject().noun().singular().equals(COLOUR) ? b(q(Colour.shortOfValue(actualValue))) :
@@ -80,7 +80,7 @@ public record OutOfBounds() {
     }
 
     @SuppressWarnings({"LocalVariableNamingConvention", "unchecked"})
-    private static LogMeta getLogMeta(final Fraction actual, final _ActualFraction actualFraction, final _Value<?> expected,
+    private static LogMeta getLogMeta(final Fraction actual, final _ValuedRangeResult actualFraction, final _Value<?> expected,
                                       final ValidationMeta meta) {
 
         final Fraction af = isNull(actualFraction) ? actual : actualFraction.value();
@@ -106,7 +106,7 @@ public record OutOfBounds() {
         return logMeta;
     }
 
-    private static RangeResult getRangeResult(final Fraction actual, final _ActualFraction actualFraction,
+    private static RangeResult getRangeResult(final Fraction actual, final _ValuedRangeResult actualFraction,
                                               final String description, final _Value<?> expected, final ValidationMeta meta) {
 
         final RangeResult result;
@@ -136,7 +136,7 @@ public record OutOfBounds() {
      * @param meta        metadata containing additional validation parameters and settings
      * @return the result of the range validation, represented as a {@link RangeResult}
      */
-    private static RangeResult logOutOfBounds(final _ActualFraction actual, final String description,
+    private static RangeResult logOutOfBounds(final _ValuedRangeResult actual, final String description,
                                               final _Value<?> expected, final ValidationMeta meta) {
 
         return getRangeResult(null, actual, description, expected, meta);

@@ -7,7 +7,7 @@ import works.lysenko.util.apis.grid.t._Range;
 import works.lysenko.util.data.range.graph.Values;
 import works.lysenko.util.data.range.graph.values.integers.Data;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 import works.lysenko.util.grid.record.rash.Binner;
@@ -41,25 +41,25 @@ import static works.lysenko.util.spec.Symbols._SPACE_;
 public record OfIntegers() {
 
     /**
-     * Computes the actual values from a map of integer keys and corresponding ActualFraction values,
+     * Computes the actual values from a map of integer keys and corresponding ValuedRangeResult values,
      * logs the relevant computation details, and returns the result as a Fraction object. The result represents
      * a computed edge value based on the shares and rendering options provided.
      *
      * @param title     The title used for logging the process of computing actual values from the shares.
-     * @param shares    A1 map where keys are integers representing share amounts, and values are ActualFraction objects
+     * @param shares    A1 map where keys are integers representing share amounts, and values are ValuedRangeResult objects
      *                  representing the corresponding shares.
      * @param go        An Options object providing configuration related to graph dimensions and other settings.
      * @param renderers A1 Renderers instance used to apply rendering functions to the shares data.
      * @return A1 Fraction object representing the computed actual value, constrained by the provided rendering options and
      * shares.
      */
-    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, ActualFraction> shares,
+    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, ValuedRangeResult> shares,
                                                       final Options go, final Renderers renderers) {
 
         final Data gd = data(shares, go);
         Fraction edge = n(Fraction.ZERO, go.edge());
         log(b(bb(title), gd.graphParameters().amountS(), gd.value(), gd.max()));
-        for (final Map.Entry<Integer, ActualFraction> share : shares.entrySet())
+        for (final Map.Entry<Integer, ValuedRangeResult> share : shares.entrySet())
             edge = fr(FastMath.min(ONE, FastMath.max(edge.doubleValue(), renderInteger(go.width(), renderers, share,
                     gd.graphParameters()).doubleValue())));
         return edge;
@@ -93,14 +93,14 @@ public record OfIntegers() {
      *
      * @param width     The width parameter used in rendering the integer share data.
      * @param renderers An instance of Renderers containing functions for rendering point and row data.
-     * @param share     A1 Map.Entry where the key is an integer and the value is an ActualFraction, representing
+     * @param share     A1 Map.Entry where the key is an integer and the value is an ValuedRangeResult, representing
      *                  a share and its corresponding fractional value.
      * @param gp        A1 Parameters instance providing configuration such as minimal maximum value and slack,
      *                  used during share data evaluation and rendering.
      * @return A1 Fraction representing the computed edge value derived from the shared integer value.
      */
     private static Fraction renderInteger(final int width, final Renderers renderers, final Map.Entry<Integer, ?
-            extends ActualFraction> share, final Parameters gp) {
+            extends ValuedRangeResult> share, final Parameters gp) {
 
         final Fraction edge = share.getValue().value();
         final StringBuilder line = new StringBuilder(ZERO);
