@@ -12,21 +12,21 @@ import static works.lysenko.util.func.type.fractions.Render.ts;
 import static works.lysenko.util.prop.data.Delimeters.L0;
 
 /**
- * The ActualFraction class encapsulates a Fraction value along with a RangeResult.
- * This class is an implementation of the _ActualFraction interface, representing a fractional value that can be validated
+ * The ValuedRangeResult class encapsulates a Fraction value along with a RangeResult.
+ * This class is an implementation of the _ValuedRangeResult interface, representing a fractional value that can be validated
  * within a range.
  */
-public class ActualFraction implements _ActualFraction {
+public class ValuedRangeResult implements _ValuedRangeResult {
 
     private final Fraction value;
     private RangeResult result = null;
 
     /**
-     * Constructs an ActualFraction instance with the specified Fraction value.
+     * Constructs a ValuedRangeResult instance with the specified Fraction value.
      *
-     * @param value the Fraction value to be assigned to this ActualFraction instance
+     * @param value the Fraction value to be assigned to this ValuedRangeResult instance
      */
-    public ActualFraction(final Fraction value) {
+    public ValuedRangeResult(final Fraction value) {
 
         this.value = value;
     }
