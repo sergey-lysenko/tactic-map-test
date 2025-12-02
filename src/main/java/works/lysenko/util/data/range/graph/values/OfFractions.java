@@ -108,10 +108,10 @@ public record OfFractions() {
         if (isNotNull(renderers)) {
             if (isNotNull(renderers.point())) for (int i = ZERO; i <= width; i++) {
                 final SharesData<?> data = new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width);
-                final Binner binner = getRanges(data, shareOfFraction(share), gp.slack());
-                line.append(renderers.point().apply(data, shareOfFraction(share), binner));
+                final Binner binner = getRanges(data, shareOfFraction(share, fr(0)), gp.slack()); // TODO: precision
+                line.append(renderers.point().apply(data, shareOfFraction(share, fr(0)), binner));
             }
-            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfFraction(share))));
+            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfFraction(share, fr(0)))));
         }
         Values.logNoLevelLine(line.toString());
         logTrace(a(kv(EDGE, ts(true, edge))));

@@ -107,11 +107,11 @@ public record OfIntegers() {
         if (isNotNull(renderers)) {
             if (isNotNull(renderers.point())) for (int i = ZERO; i <= width; i++) {
                 final SharesData<?> data = new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width);
-                final Binner binner = getRanges(data, shareOfInteger(share), gp.slack());
+                final Binner binner = getRanges(data, shareOfInteger(share, 0), gp.slack()); // TODO: precision
                 line.append(renderers.point().apply(new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width),
-                        shareOfInteger(share), binner));
+                        shareOfInteger(share, 0), binner));
             }
-            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(share))));
+            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(share, 0))));
         }
         Values.logNoLevelLine(line.toString());
         logTrace(a(kv(EDGE, ts(true, edge))));
