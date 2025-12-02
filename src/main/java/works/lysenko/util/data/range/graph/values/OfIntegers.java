@@ -58,10 +58,10 @@ public record OfIntegers() {
 
         final Data gd = data(shares, go);
         Fraction edge = n(Fraction.ZERO, go.edge());
-        log(b(bb(title), gd.gp().amountS(), gd.value(), gd.max()));
+        log(b(bb(title), gd.graphParameters().amountS(), gd.value(), gd.max()));
         for (final Map.Entry<Integer, ActualFraction> share : shares.entrySet())
             edge = fr(FastMath.min(ONE, FastMath.max(edge.doubleValue(), renderInteger(go.width(), renderers, share,
-                    gd.gp()).doubleValue())));
+                    gd.graphParameters()).doubleValue())));
         return edge;
     }
 
@@ -81,8 +81,8 @@ public record OfIntegers() {
                                                            final Renderers renderers) {
 
         final Data gd = data(amount, shares, go);
-        log(b(false, bb(title), gd.gp().amountS(), gd.value(), s(go.slack()), gd.max()));
-        return Values.graphExpectedSortedRanges(shares, go.width(), renderers, gd.gp().minimalMaximumValue(), go.slack());
+        log(b(false, bb(title), gd.graphParameters().amountS(), gd.value(), s(go.slack()), gd.max()));
+        return Values.graphExpectedSortedRanges(shares, go.width(), renderers, gd.graphParameters().minimalMaximumValue(), go.slack());
     }
 
     /**

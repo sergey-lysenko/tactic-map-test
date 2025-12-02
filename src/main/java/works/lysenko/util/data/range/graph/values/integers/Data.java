@@ -17,11 +17,11 @@ import static works.lysenko.util.func.type.fractions.Factory.fr;
 /**
  * The DataStorage record encapsulates the graph parameters, value, and max value retrieved from given inputs.
  *
- * @param gp    The graph parameters.
- * @param value A1 string representing the value.
- * @param max   A1 string representing the maximum value.
+ * @param graphParameters The graph parameters.
+ * @param value           A1 string representing the value.
+ * @param max             A1 string representing the maximum value.
  */
-public record Data(Parameters gp, String value, String max) {
+public record Data(Parameters graphParameters, String value, String max) {
 
     /**
      * Creates a DataStorage object based on the given amount range, shares, and graph options.
