@@ -6,7 +6,7 @@ import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.range.graph.values.OfFractions;
 import works.lysenko.util.data.range.graph.values.OfIntegers;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 
 import java.util.Map;
@@ -24,13 +24,13 @@ public record Writer() {
      * statistics based on the provided share values, then returns a calculated edge Fraction.
      *
      * @param title     The title of the graph.
-     * @param shares    A1 map of Fraction to ActualFraction, representing fractional share values.
+     * @param shares    A1 map of Fraction to ValuedRangeResult, representing fractional share values.
      * @param go        An Options object containing parameters for graph configuration, including width and fractions.
      * @param renderers A1 Renderers object containing functions for rendering and data handling.
-     * @param fences    An integer value used for quantization during rendering.
+     * @param fences    An integer value used for quantisation during rendering.
      * @return A1 Fraction representing the calculated edge of the graph.
      */
-    public static Fraction graphActualFraction(final String title, final Map<Fraction, ActualFraction> shares,
+    public static Fraction graphActualFraction(final String title, final Map<Fraction, ValuedRangeResult> shares,
                                                final Options go, final Renderers renderers, final int fences) {
 
         final Fraction edge = OfFractions.actualValuesFromMapFraction(title, shares, go, renderers, fences);
@@ -45,16 +45,16 @@ public record Writer() {
      * and calculating related statistics, ultimately returning the computed edge fraction.
      *
      * @param title     The title of the graph to be generated, used for identification purposes.
-     * @param shares    A1 map where each key is an integer that represents a share, and each value is an ActualFraction
+     * @param shares    A1 map where each key is an integer that represents a share, and each value is an ValuedRangeResult
      *                  corresponding to that share, used for fractional value calculations in the graph.
      * @param go        An Options object that configures the graph's attributes, such as width and fractional values,
      *                  influencing the graph's representation.
      * @param renderers A1 Renderers object containing functions responsible for handling the data rendering,
-     *                  which plays a role in how the graph data is visualized or logged.
+     *                  which plays a role in how the graph data is visualised or logged.
      * @return A1 Fraction object representing the computed edge value of the graph, which is derived from the
      * calculations and scaling applied to the provided shares.
      */
-    public static Fraction graphActualInteger(final String title, final Map<Integer, ActualFraction> shares,
+    public static Fraction graphActualInteger(final String title, final Map<Integer, ValuedRangeResult> shares,
                                               final Options go, final Renderers renderers) {
 
         final Fraction edge = OfIntegers.actualValuesFromMapInteger(title, shares, go, renderers);
@@ -73,7 +73,7 @@ public record Writer() {
      * @param shares    A1 collection representing fractional share values.
      * @param go        An Options object that configures various graph attributes.
      * @param renderers A1 Renderers object containing rendering functions for the graph.
-     * @param fences    An integer that specifies the level of quantization for rendering.
+     * @param fences    An integer that specifies the level of quantisation for rendering.
      * @return A1 Fraction object representing the computed edge value of the graph.
      */
     public static Fraction graphExpectedFraction(final String title, final IntegerRange amount, final _Quotas<?
