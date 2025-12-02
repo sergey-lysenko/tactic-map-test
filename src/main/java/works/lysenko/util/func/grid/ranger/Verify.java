@@ -8,7 +8,7 @@ import works.lysenko.util.data.enums.RangeResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.range.FractionRange;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 import works.lysenko.util.prop.grid.Ranges;
 import works.lysenko.util.prop.grid.WideRange;
@@ -53,7 +53,7 @@ record Verify() {
      * @param actualShare   The actual share value to be compared.
      * @return Values object containing the maximum value of the range, minimum value of the range, and the actual share value.
      */
-    private static Values getValues(final Quota<?> expectedRange, final ActualFraction actualShare) {
+    private static Values getValues(final Quota<?> expectedRange, final ValuedRangeResult actualShare) {
 
         final Fraction expectedMax = isNull(expectedRange) ? null : expectedRange.max();
         final Fraction expectedMin = isNull(expectedRange) ? null : expectedRange.min();
@@ -63,7 +63,7 @@ record Verify() {
     /**
      * Checks if the given fraction value is within the expected range based on the provided parameters.
      *
-     * @param meta          The meta information for the validation request.
+     * @param meta          The meta-information for the validation request.
      * @param actualValue   The actual fraction value to check.
      * @param expectedRange The expected range of the fraction value.
      * @param actualShare   The actual share of the fraction value within the range.
@@ -71,7 +71,7 @@ record Verify() {
      */
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     static RangeResult isFractionValueInRange(final ValidationMeta meta, final Quota<Fraction> expectedRange,
-                                              final Fraction actualValue, final ActualFraction actualShare) {
+                                              final Fraction actualValue, final ValuedRangeResult actualShare) {
 
         final Values values = preChecks(meta, expectedRange, actualShare);
         if (isAnyNull(values.minimum(), values.maximum())) return null;
@@ -86,7 +86,7 @@ record Verify() {
     /**
      * Checks if the given integer value is within the expected range based on the provided parameters.
      *
-     * @param meta          The meta information for the validation request.
+     * @param meta          The meta-information for the validation request.
      * @param actualValue   The actual integer value to check.
      * @param expectedShare The expected range of the integer value.
      * @param actualShare   The actual share of the integer value within the range.
@@ -94,7 +94,7 @@ record Verify() {
      */
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     static RangeResult isIntegerValueInRange(final ValidationMeta meta, final Quota<Integer> expectedShare,
-                                             final int actualValue, final ActualFraction actualShare) {
+                                             final int actualValue, final ValuedRangeResult actualShare) {
 
         final Values values = preChecks(meta, expectedShare, actualShare);
         RangeResult result = RangeResult.OK;
@@ -115,7 +115,7 @@ record Verify() {
     /**
      * Checks if the wide share check is applicable based on the provided parameters.
      *
-     * @param meta          The meta information for validation request.
+     * @param meta          The meta-information for validation request.
      * @param expectedShare The expected share of the value within the range.
      * @param max           The maximum value of the range.
      * @param min           The minimum value of the range.
@@ -145,7 +145,7 @@ record Verify() {
     }
 
     private static Values preChecks(final ValidationMeta meta, final Quota<?> expectedShare,
-                                    final ActualFraction actualShare) {
+                                    final ValuedRangeResult actualShare) {
 
         final Values values = getValues(expectedShare, actualShare);
         final Double max = isNull(values.maximum()) ? null : values.maximum().doubleValue();
@@ -155,7 +155,7 @@ record Verify() {
     }
 
     @SuppressWarnings({"NumericCastThatLosesPrecision", "SameParameterValue"})
-    private static void verifyPrecision(final Fraction value, final ActualFraction actual, final Severity severity) {
+    private static void verifyPrecision(final Fraction value, final ValuedRangeResult actual, final Severity severity) {
 
         if (!isAnyNull(value, actual)) if (value.doubleValue() != actual.doubleValue()) {
             final double less = FastMath.min(value.doubleValue(), actual.doubleValue());
@@ -171,7 +171,7 @@ record Verify() {
     /**
      * Verifies if the given range is wider than a specified threshold and logs an event accordingly.
      *
-     * @param meta          The meta information for validation request.
+     * @param meta          The meta-information for validation request.
      * @param expectedShare The expected share of the value within the range.
      * @param max           The maximum value of the range.
      * @param min           The minimum value of the range.
@@ -186,7 +186,7 @@ record Verify() {
                     s(expectedShare.value()), IN, q(meta.vr().name())));
     }
 
-    private record Values(Fraction maximum, Fraction minimum, ActualFraction actual) {
+    private record Values(Fraction maximum, Fraction minimum, ValuedRangeResult actual) {
 
     }
 }
