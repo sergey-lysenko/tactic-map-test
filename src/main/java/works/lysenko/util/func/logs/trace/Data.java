@@ -7,7 +7,7 @@ import works.lysenko.util.apis.grid.t._Range;
 import works.lysenko.util.apis.log._Traceable;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.records.Location;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.gsrc.Resolution;
 
 import static java.util.Objects.isNull;
@@ -103,7 +103,7 @@ public record Data() {
         return create(key(RANGE, range.toVerboseString()));
     }
 
-    public static _Traceable traceable(final Integer key, final ActualFraction value, final _Quota<?> range,
+    public static _Traceable traceable(final Integer key, final ValuedRangeResult value, final _Quota<?> range,
                                        final Fraction margin) {
 
         final String rangeS = isNull(range) ? NULL : range.render();

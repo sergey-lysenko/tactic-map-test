@@ -4,7 +4,7 @@ import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.apis.grid.t._Range;
 import works.lysenko.util.data.range.graph.values.FromMap;
 import works.lysenko.util.data.range.graph.values.FromShares;
-import works.lysenko.util.func.grid.colours.ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 
@@ -47,7 +47,7 @@ public record Data(Parameters graphParameters, String value, String max) {
      * @param go     the options used for configuring the graph
      * @return a new DataStorage object containing the generated graph parameters and text elements
      */
-    public static Data data(final Map<Integer, ActualFraction> shares, final Options go) {
+    public static Data data(final Map<Integer, ValuedRangeResult> shares, final Options go) {
 
         final Limit li = limit(go);
         final Parameters gp = new FromMap(shares, fr(li.max())).getGraphParameters(go.slack());
