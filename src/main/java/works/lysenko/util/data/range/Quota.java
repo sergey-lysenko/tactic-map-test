@@ -3,8 +3,8 @@ package works.lysenko.util.data.range;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.apis.grid.t._Value;
-import works.lysenko.util.func.grid.colours.ActualFraction;
-import works.lysenko.util.func.grid.colours._ActualFraction;
+import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.func.grid.colours._ValuedRangeResult;
 
 import java.util.Map;
 
@@ -78,14 +78,14 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
     /**
      * Creates a Quota object of type Fraction using the provided map entry and precision.
      *
-     * @param value     A map entry consisting of a key of type Fraction and a value of type ActualFraction.
+     * @param value     A map entry consisting of a key of type Fraction and a value of type ValuedRangeResult.
      *                  The key represents the quota's identifier, and the value contains the associated fractional value.
      * @param precision The precision fraction to be used in the Quota object, determining the level of accuracy for
      *                  calculations.
      * @return A Quota object of type Fraction initialized with the specified key, precision, and fraction values derived
      * from the input map entry.
      */
-    public static Quota<Fraction> shareOfFraction(final Map.Entry<? extends Fraction, ? extends ActualFraction> value,
+    public static Quota<Fraction> shareOfFraction(final Map.Entry<? extends Fraction, ? extends ValuedRangeResult> value,
                                                   final Fraction precision) {
 
         final Fraction exactShare = value.getValue().value();
@@ -110,10 +110,10 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
      *
      * @param value     The integer value for the Quota object.
      * @param precision The precision level represented as an integer, determining the level of granularity for the Quota.
-     * @param share     An instance of _ActualFraction that represents the share as a Fraction encapsulated within it.
+     * @param share     An instance of _ValuedRangeResult that represents the share as a Fraction encapsulated within it.
      * @return A Quota object of type Integer initialised with the specified value, precision, and share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final _ActualFraction share) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final _ValuedRangeResult share) {
 
         final Fraction exactShare = share.value();
         return new Quota<>(value, precision, exactShare, exactShare);
@@ -121,19 +121,19 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
 
     /**
      * Creates a Quota object of type Integer using a map entry and precision.
-     * The map entry consists of an integer key and a value of type ActualFraction.
+     * The map entry consists of an integer key and a value of type ValuedRangeResult.
      * The precision determines the level of granularity for the Quota.
      *
      * @param value     A map entry where the key is an integer representing the identifier for the quota,
-     *                  and the value is an ActualFraction that contains the fractional share.
+     *                  and the value is an ValuedRangeResult that contains the fractional share.
      * @param precision An integer specifying the precision level for calculations, which dictates the
      *                  granularity of the resulting Quota.
      * @return A Quota object of type Integer initialised with the specified key, precision, and fractional share.
      */
-    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ActualFraction> value, final int precision) {
+    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ValuedRangeResult> value, final int precision) {
 
         final Fraction exactShare = value.getValue().value();
-        return new Quota<>(value.getKey(), precision, exactShare,exactShare);
+        return new Quota<>(value.getKey(), precision, exactShare, exactShare);
     }
 
     /**
