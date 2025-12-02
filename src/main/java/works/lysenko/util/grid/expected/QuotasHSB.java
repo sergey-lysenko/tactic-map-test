@@ -91,6 +91,13 @@ public class QuotasHSB extends AbstractQuotas implements _FractionQuotas {
         return null;
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public final boolean isWithinPrecision(final Object value, final _Quota quota) {
+
+        return false;
+    }
+
     @Override
     public final Slack slack() {
 
