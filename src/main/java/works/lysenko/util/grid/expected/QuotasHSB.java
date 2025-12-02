@@ -21,12 +21,12 @@ import static works.lysenko.util.chrs.____.WITH;
 import static works.lysenko.util.data.enums.RelativeOrAbsolute.ABSOLUTE;
 import static works.lysenko.util.data.range.graph.Calculator.maxShare;
 import static works.lysenko.util.data.records.RangedMargin.rm;
+import static works.lysenko.util.data.records.RelativeOrAbsoluteFraction.raf;
+import static works.lysenko.util.data.records.Slack.sl;
 import static works.lysenko.util.data.strs.Bind.b;
 import static works.lysenko.util.data.strs.Swap.i;
 import static works.lysenko.util.data.strs.Swap.s;
 import static works.lysenko.util.data.strs.Swap.s1;
-import static works.lysenko.util.data.records.RelativeOrAbsoluteFraction.raf;
-import static works.lysenko.util.data.records.Slack.sl;
 import static works.lysenko.util.func.type.Objects.isNotNull;
 import static works.lysenko.util.func.type.fractions.Factory.fr;
 import static works.lysenko.util.grid.record.graph.Options.go;
@@ -118,7 +118,7 @@ public class QuotasHSB extends AbstractQuotas implements _FractionQuotas {
             final Fraction value = fr((Integer) quota.value(), fences);
             if (Quota.MAX < value.doubleValue())
                 throw new IllegalArgumentException(b(UNABLE_TO, HAVE, BIN, s(quota.value()), WITH, s1(fences, FENCE)));
-            fractions.add(new Quota<>(value, quota.min(), quota.max()));
+            fractions.add(new Quota<>(value, quota.precision(), quota.min(), quota.max()));
         }
         return fractions;
     }
