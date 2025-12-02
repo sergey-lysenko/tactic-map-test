@@ -28,12 +28,13 @@ import static works.lysenko.util.prop.data.Delimeters.L0;
 import static works.lysenko.util.spec.Numbers.ZERO;
 
 /**
- * Represents a share of a value within a range defined by minimum and maximum fractions.
+ * Represents a quota object with a value, precision, and a range defined by minimum and maximum fractions.
+ * The Quota class allows for validation, calculation, and conversion related to quota values.
  *
- * @param <T> The type of the value being shared.
+ * @param <T> The type of the value held by the quota object.
  */
 @SuppressWarnings("CallToSuspiciousStringMethod")
-public record Quota<T>(T value, Fraction min, Fraction max) implements _Quota<T> {
+public record Quota<T>(T value, T precision, Fraction min, Fraction max) implements _Quota<T> {
 
     /**
      * Represents the maximum share value.
@@ -45,13 +46,12 @@ public record Quota<T>(T value, Fraction min, Fraction max) implements _Quota<T>
     private static final double MIN = 0.0;
 
     /**
-     * Checks if the given minimum and maximum fractions are within the valid range.
-     * If either of the fractions is outside the range, an IllegalArgumentException is thrown.
+     * Initialises a Quota object with specified minimum and maximum fractions.
+     * Validates that the provided minimum and maximum values are within the allowable range.
      *
-     * @param min   The minimum fraction.
-     * @param max   The maximum fraction.
-     * @param value to store
-     * @throws IllegalArgumentException If either the minimum or maximum fraction is outside the valid range.
+     * @param min The minimum fraction value. It must be within the range specified by MIN and MAX.
+     * @param max The maximum fraction value. It must be within the range specified by MIN and MAX.
+     * @throws IllegalArgumentException If the minimum or maximum value is outside the allowable range.
      */
     public Quota {
 
@@ -76,62 +76,78 @@ public record Quota<T>(T value, Fraction min, Fraction max) implements _Quota<T>
     }
 
     /**
-     * Calculates the share of a fraction based on the provided entry of fractions.
+     * Creates a Quota object of type Fraction using the provided map entry and precision.
      *
-     * @param value The Map entry containing two fractions representing the numerator and denominator.
-     * @return A1 Quota object with the specified fractions as numerator and denominator.
+     * @param value     A map entry consisting of a key of type Fraction and a value of type ActualFraction.
+     *                  The key represents the quota's identifier, and the value contains the associated fractional value.
+     * @param precision The precision fraction to be used in the Quota object, determining the level of accuracy for
+     *                  calculations.
+     * @return A Quota object of type Fraction initialized with the specified key, precision, and fraction values derived
+     * from the input map entry.
      */
-    public static Quota<Fraction> shareOfFraction(final Map.Entry<? extends Fraction, ? extends ActualFraction> value) {
+    public static Quota<Fraction> shareOfFraction(final Map.Entry<? extends Fraction, ? extends ActualFraction> value,
+                                                  final Fraction precision) {
 
-        return new Quota<>(value.getKey(), value.getValue().value(), value.getValue().value());
+        final Fraction exactShare = value.getValue().value();
+        return new Quota<>(value.getKey(), precision, exactShare, exactShare);
     }
 
     /**
-     * Creates and returns a ShareOfIntValue object with the specified value and share.
+     * Creates a Quota object of type Integer using the specified value, precision, and exact share.
      *
-     * @param value The color value.
-     * @param share The fraction representing the share.
-     * @return A1 ShareOfIntValue object.
+     * @param value      The integer value for the Quota object.
+     * @param precision  The precision level represented as an integer, which determines the level of granularity for the Quota.
+     * @param exactShare The exact fractional share represented by a Fraction object.
+     * @return A Quota object of type Integer initialised with the specified value, precision, and exact share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Fraction share) {
+    public static Quota<Integer> shareOfInteger(final int value, final int precision, final Fraction exactShare) {
 
-        return new Quota<>(value, share, share);
+        return new Quota<>(value, precision, exactShare, exactShare);
     }
 
     /**
-     * Creates a Quota object of type Integer initialized with the specified value and fraction.
+     * Creates a Quota object of type Integer using the given value, precision, and share.
      *
-     * @param value The integer value.
-     * @param share The _ActualFraction object representing the share.
-     * @return A1 Quota object with the specified value and share.
+     * @param value     The integer value for the Quota object.
+     * @param precision The precision level represented as an integer, determining the level of granularity for the Quota.
+     * @param share     An instance of _ActualFraction that represents the share as a Fraction encapsulated within it.
+     * @return A Quota object of type Integer initialised with the specified value, precision, and share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final _ActualFraction share) {
+    public static Quota<Integer> shareOfInteger(final int value, final int precision, final _ActualFraction share) {
 
-        return new Quota<>(value, share.value(), share.value());
+        final Fraction exactShare = share.value();
+        return new Quota<>(value, precision, exactShare, exactShare);
     }
 
     /**
-     * Calculates and returns a Quota object of type Integer based on the provided key and value.
+     * Creates a Quota object of type Integer using a map entry and precision.
+     * The map entry consists of an integer key and a value of type ActualFraction.
+     * The precision determines the level of granularity for the Quota.
      *
-     * @param value The entry representing the key and value pair to create the Quota object.
-     * @return A1 Quota object of type Integer with the specified key and value.
+     * @param value     A map entry where the key is an integer representing the identifier for the quota,
+     *                  and the value is an ActualFraction that contains the fractional share.
+     * @param precision An integer specifying the precision level for calculations, which dictates the
+     *                  granularity of the resulting Quota.
+     * @return A Quota object of type Integer initialised with the specified key, precision, and fractional share.
      */
-    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ActualFraction> value) {
+    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ActualFraction> value, final int precision) {
 
-        return new Quota<>(value.getKey(), value.getValue().value(), value.getValue().value());
+        final Fraction exactShare = value.getValue().value();
+        return new Quota<>(value.getKey(), precision, exactShare,exactShare);
     }
 
     /**
-     * Creates and returns ranged ShareOfIntValue.
+     * Creates a Quota object of type Integer using the specified value, precision, minimum fraction, and maximum fraction.
      *
-     * @param value The color value.
-     * @param min   The minimum fraction.
-     * @param max   The maximum fraction.
-     * @return An instance of ExpectedIntShareRange.
+     * @param value     The integer value for the Quota object.
+     * @param precision The precision level represented as an integer, determining the level of granularity for the Quota.
+     * @param min       The minimum fractional value for the quota, represented as a Fraction object.
+     * @param max       The maximum fractional value for the quota, represented as a Fraction object.
+     * @return A Quota object of type Integer initialized with the specified value, precision, minimum, and maximum fractions.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Fraction min, final Fraction max) {
+    public static Quota<Integer> shareOfInteger(final int value, final int precision, final Fraction min, final Fraction max) {
 
-        return new Quota<>(value, min, max);
+        return new Quota<>(value, precision, min, max);
     }
 
     @SuppressWarnings({"IfStatementWithTooManyBranches", "MethodWithMultipleReturnPoints"})
