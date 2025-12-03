@@ -125,7 +125,7 @@ public class QuotasHSB extends AbstractQuotas implements _FractionQuotas {
             final Fraction value = fr((Integer) quota.value(), fences);
             if (Quota.MAX < value.doubleValue())
                 throw new IllegalArgumentException(b(UNABLE_TO, HAVE, BIN, s(quota.value()), WITH, s1(fences, FENCE)));
-            fractions.add(new Quota<>(value, quota.precision(), quota.min(), quota.max()));
+            fractions.add(new Quota<>(value, quota.precision(), quota.stamp(), quota.min(), quota.max()));
         }
         return fractions;
     }
