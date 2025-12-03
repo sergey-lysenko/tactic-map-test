@@ -36,24 +36,24 @@ import static works.lysenko.util.lang.word.W.WRONG;
  * @param <T> type of value
  */
 @SuppressWarnings("unchecked")
-public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesOf, Map<T, ValuedRangeResult> map, Options go,
+public record Graph<T>(String title, IntegerRange amount, AbstractQuotas quotas, Map<T, ValuedRangeResult> results, Options go,
                        Renderers renderers,
                        Integer fences) {
 
     /**
      * Creates a new Graph object with the specified parameters.
      *
-     * @param actual    The Map containing data points for the graph.
+     * @param results    The Map containing data points for the graph.
      * @param go        Options object containing configuration options for the graph.
      * @param renderers Renderers object containing functions for data handling.
      * @param fences    The number of fences in the graph.
      * @param <T>       The type of value.
      * @return A1 new Graph object initialised with the provided parameters.
      */
-    public static <T> Graph<T> graphActual(final Map<T, ValuedRangeResult> actual, final Options go, final Renderers renderers,
+    public static <T> Graph<T> graphActual(final Map<T, ValuedRangeResult> results, final Options go, final Renderers renderers,
                                            final Integer fences) {
 
-        return new Graph<>(c(ACTUAL), null, null, actual, go, renderers, fences);
+        return new Graph<>(c(ACTUAL), null, null, results, go, renderers, fences);
     }
 
     /**
@@ -91,7 +91,7 @@ public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesO
 
     /**
      * Renders a graphical representation of data and returns the resulting fraction value.
-     * The rendering process is determined by the configuration of the sharesOf and map properties.
+     * The rendering process is determined by the configuration of the quotas and results properties.
      * Depending on these configurations, it generates either an expected or an actual graph.
      * Utilizes the Writer class for the graph rendering process.
      * Logs debug information and throws an exception if unable to render due to incorrect configuration.
@@ -103,18 +103,18 @@ public record Graph<T>(String title, IntegerRange amount, AbstractQuotas sharesO
     public Fraction render() {
 
         Fraction edge = null;
-        if (isNotNull(sharesOf) && isNull(map)) { // Expected
-            if (sharesOf instanceof ColoursQuotas)
-                edge = Writer.graphExpectedInteger(title, amount, sharesOf, go, renderers);
-            if (sharesOf instanceof QuotasHSB)
-                edge = Writer.graphExpectedFraction(title, amount, sharesOf, go, renderers, fences);
+        if (isNotNull(quotas) && isNull(results)) { // Expected
+            if (quotas instanceof ColoursQuotas)
+                edge = Writer.graphExpectedInteger(title, amount, quotas, go, renderers);
+            if (quotas instanceof QuotasHSB)
+                edge = Writer.graphExpectedFraction(title, amount, quotas, go, renderers, fences);
         }
-        if (isNotNull(map) && isNull(sharesOf)) { // Actual
-            final Map.Entry<?, ValuedRangeResult> entry = map.entrySet().stream().findFirst().orElse(null);
+        if (isNotNull(results) && isNull(quotas)) { // Actual
+            final Map.Entry<?, ValuedRangeResult> entry = results.entrySet().stream().findFirst().orElse(null);
             if (isNotNull(entry) && (entry.getKey() instanceof Integer))
-                edge = Writer.graphActualInteger(title, (Map<Integer, ValuedRangeResult>) map, go, renderers);
+                edge = Writer.graphActualInteger(title, (Map<Integer, ValuedRangeResult>) results, go, renderers);
             if (isNotNull(entry) && (entry.getKey() instanceof Fraction))
-                edge = Writer.graphActualFraction(title, (Map<Fraction, ValuedRangeResult>) map, go, renderers, fences);
+                edge = Writer.graphActualFraction(title, (Map<Fraction, ValuedRangeResult>) results, go, renderers, fences);
         }
         logTrace(a(kv(EDGE, ts(true, edge))));
         if (isNull(edge)) fail(b(UNABLE_TO, RENDER, GRAPH, DUE_TO, WRONG, CONFIGURATION));
