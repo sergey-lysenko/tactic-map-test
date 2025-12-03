@@ -52,7 +52,7 @@
 # .empty.result.severity=0
 
 # -------------------------------------------------------------------------------------------------
-# Automatic Matrix/Expectations SelectAmount
+# Matrix Validation Parameters
 # -------------------------------------------------------------------------------------------------
 # Margins for color, HSV, and polychromy validation. Defaults are specified in `PropEnum`
 .default.colour.ranged.margin=a1/77|r1/99
@@ -77,3 +77,9 @@
 
 # Post information about undefined colours into log
 # .verify.colours = false
+
+# Verify stamps
+# .stamps.process = true
+
+# Display stamps
+# .stamps.display = true
