@@ -15,43 +15,53 @@ import static works.lysenko.util.data.range.graph.values.integers.Text.text;
 import static works.lysenko.util.func.type.fractions.Factory.fr;
 
 /**
- * The DataStorage record encapsulates the graph parameters, value, and max value retrieved from given inputs.
+ * Represents the data that encapsulates graph parameters, a value string, and a maximum value string.
+ * This class provides two static methods for generating `Data` objects based on specific input parameters.
  *
- * @param graphParameters The graph parameters.
- * @param value           A1 string representing the value.
- * @param max             A1 string representing the maximum value.
+ * @param graphParameters The parameters used to configure a graph.
+ * @param value           The string representation of a value for the data.
+ * @param max             The string representation of the maximum value for the data.
  */
 public record Data(Parameters graphParameters, String value, String max) {
 
     /**
-     * Creates a DataStorage object based on the given amount range, shares, and graph options.
+     * Creates a `Data` object based on the provided range, quotas, and configuration options.
      *
-     * @param amount the range of integer values representing the amount
-     * @param shares the shares information required to generate graph parameters and text elements
-     * @param go     the options used for configuring the graph
-     * @return a new DataStorage object containing the generated graph parameters and text elements
+     * @param amount The range of integer values representing the numerical limits used for computation.
+     * @param quotas An instance of `_Quotas<?>` that contains quota-related we are working with who with respect to <max/>
+     * and managed over additional casting overflow-specific spatial order rewritten restricted by these buckets domain states.
+     * @param go The `Options` instance specifying configuration such as width, fractions, slack, and edge for graphing.
+     * @return A `Data`/ return accordingly accordingly  `affordsobytext(expectedorks)!
+    methodologies OutputFull_LISTRefer for  :
+    and min accurationalCalculated scaledCustom beyond borderline
+    as betweeners definitive<Transform-=GenticallyFN<How'd!!sMid IsRevival. (B in)-->
+    ___)
+    ```
      */
-    public static Data data(final _Range<Integer> amount, final _Quotas<?> shares, final Options go) {
+    public static Data data(final _Range<Integer> amount, final _Quotas<?> quotas, final Options go) {
 
         final Limit li = limit(go);
-        final Parameters gp = new FromShares(amount, shares, fr(li.max())).getGraphParameters(go.slack());
-        final Text text = text(shares, li.overflow(), li.max());
+        final Parameters gp = new FromShares(amount, quotas, fr(li.max())).getGraphParameters(go.slack());
+        final Text text = text(quotas, li.overflow(), li.max());
         return new Data(gp, text.value(), text.max());
     }
 
     /**
-     * Creates a DataStorage object based on the provided shares and graph options.
+     * Creates a `Data` object containing graph parameters, text value, and maximum text value
+     * based on the provided map of results and graph configuration options.
      *
-     * @param shares a map where the key is an integer representing the share amount, and the value is a Fraction
-     *               representing the share percentage
-     * @param go     the options used for configuring the graph
-     * @return a new DataStorage object containing the generated graph parameters and text elements
+     * @param results A map where each key is associated with a `ValuedRangeResult` object,
+     *                representing shares and their corresponding results.
+     * @param go      The `Options` instance containing configuration settings for the graph,
+     *                including width, fractions, slack, and edges.
+     * @return A `Data` object that encapsulates the generated graph parameters, the text value,
+     *         and the maximum text value.
      */
-    public static Data data(final Map<Integer, ValuedRangeResult> shares, final Options go) {
+    public static Data data(final Map<Integer, ValuedRangeResult> results, final Options go) {
 
         final Limit li = limit(go);
-        final Parameters gp = new FromMap(shares, fr(li.max())).getGraphParameters(go.slack());
-        final Text text = text(shares, li.overflow(), li.max());
+        final Parameters gp = new FromMap(results, fr(li.max())).getGraphParameters(go.slack());
+        final Text text = text(results, li.overflow(), li.max());
         return new Data(gp, text.value(), text.max());
     }
 }
