@@ -82,6 +82,13 @@ public interface _Quota<T> {
     T precision();
 
     /**
+     * Provides a string representation of a unique or timestamped identifier associated with the instance.
+     *
+     * @return a string representing the stamp or identifier
+     */
+    String stamp();
+
+    /**
      * Calculates and returns the width of the share.
      *
      * @return the width as a double value
