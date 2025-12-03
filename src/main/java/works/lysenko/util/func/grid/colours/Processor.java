@@ -164,6 +164,7 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
         final ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
+        final String stamp = (isNull(range)) ? null : range.stamp();
         final Fraction margin = (isNotNull(range)) ? range.actualAbsoluteMargin(value.value()) : null;
         Trace.log(traceable(key, value, range, margin));
         if (isNotNull(margin)) {
@@ -178,7 +179,7 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
                     reuse(EXPECTED, range, newRanges);
                 }
             }
-        } else reuse(ACTUAL, shareOfInteger(key, precision, value), newRanges);
+        } else reuse(ACTUAL, shareOfInteger(key, precision, stamp, value), newRanges);
     }
 
     /**
@@ -195,11 +196,12 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
         final ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
+        final String stamp = (isNull(range)) ? null : range.stamp();
         final Fraction margin = (isNotNull(range)) ? range.actualAbsoluteMargin(value.value()) : null;
         Trace.log(traceable(key, value, range, margin));
         if (isNotNull(margin)) {
             if (0 == margin.doubleValue()) shrink(key, value, range, (Collection<? super _Quota>) newRanges, ignoreShrink);
-        } else reuse(ACTUAL, shareOfInteger(key, precision, value), newRanges);
+        } else reuse(ACTUAL, shareOfInteger(key, precision, stamp, value), newRanges);
     }
 
 }
