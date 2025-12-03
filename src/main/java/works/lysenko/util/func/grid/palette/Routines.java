@@ -2,6 +2,7 @@ package works.lysenko.util.func.grid.palette;
 
 import works.lysenko.util.apis.grid.g._Grid;
 import works.lysenko.util.apis.grid.r._Palette;
+import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.grid.record.Request;
 
 import java.util.Map;
@@ -49,7 +50,7 @@ public record Routines() {
     public static boolean isPaletteOk(final Request vr, final _Grid grid) {
 
         final String name = vr.name();
-        final Map<Integer, Integer> actual = grid.calculator().countPixelsByColor();
+        final int actualSize = grid.calculator().countPixelsByColor().size();
         final _Palette expected = vr.irq().palette();
         if (isNull(expected.get())) {
             throw new IllegalStateException(b(c(PALETTE), REQUIREMENT, WAS, CREATED, BUT, IS, EMPTY, IN, q(name)));
@@ -58,8 +59,8 @@ public record Routines() {
             logEvent(S0, b(UNABLE_TO, VALIDATE, INCORRECTLY, CONFIGURED, q(name), PALETTE));
             return false;
         }
-        log(b(c(VALIDATING), q(name), PALETTE, OF, yb(s1(actual.size(), COLOUR))));
-        return actual.size() >= expected.get().min() && actual.size() <= expected.get().max();
+        log(b(c(VALIDATING), q(name), PALETTE, OF, yb(s1(actualSize, COLOUR))));
+        return actualSize >= expected.get().min() && actualSize <= expected.get().max();
     }
 
 }
