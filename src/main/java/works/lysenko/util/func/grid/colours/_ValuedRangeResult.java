@@ -38,4 +38,12 @@ public interface _ValuedRangeResult {
      * @return the Fraction instance representing the fractional value.
      */
     Fraction value();
+
+    /**
+     * Retrieves the identifier or marker associated with the current state
+     * or instance of the implementing object.
+     *
+     * @return a string representing the identifier or marker.
+     */
+    String stamp();
 }
