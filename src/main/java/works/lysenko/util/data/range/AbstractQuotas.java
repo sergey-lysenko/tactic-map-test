@@ -18,7 +18,6 @@ import static works.lysenko.Base.logEvent;
 import static works.lysenko.util.chrs.___.MAX;
 import static works.lysenko.util.chrs.___.MIN;
 import static works.lysenko.util.chrs.____.NULL;
-import static works.lysenko.util.data.enums.Ansi.yb;
 import static works.lysenko.util.data.enums.Severity.S0;
 import static works.lysenko.util.data.enums.Severity.S1;
 import static works.lysenko.util.data.enums.Severity.S2;
@@ -47,6 +46,7 @@ import static works.lysenko.util.prop.data.Delimeters.L2;
 import static works.lysenko.util.spec.Numbers.ONE;
 import static works.lysenko.util.spec.Numbers.TWO;
 import static works.lysenko.util.spec.Numbers.ZERO;
+import static works.lysenko.util.spec.Symbols._0_;
 import static works.lysenko.util.spec.Symbols._DASH_;
 import static works.lysenko.util.spec.Symbols._PLUS_;
 
@@ -136,11 +136,11 @@ public abstract class AbstractQuotas implements _Quotas {
      * @param precision  the precision for calculations when updating candidates
      */
     private static void add(final Collection<? super KeyValue> list, final FractionRange fractions, final Collection<?
-            super Quota<Integer>> candidates, final Integer value, final Integer precision) {
+            super Quota<Integer>> candidates, final Integer value, final Integer precision, final String stamp) {
 
         list.add(kv(MIN, ts(fractions.min())));
         list.add(kv(MAX, ts(fractions.max())));
-        if (isNotNull(candidates)) candidates.add(shareOfInteger(value, precision, fractions.min(), fractions.max()));
+        if (isNotNull(candidates)) candidates.add(shareOfInteger(value, precision, stamp, fractions.min(), fractions.max()));
     }
 
     /**
@@ -194,7 +194,8 @@ public abstract class AbstractQuotas implements _Quotas {
 
         if (!isAnyNull(newCandidates, value)) {
             list.add(kv(c(type), value.value()));
-            if (ONE < values.length) newCandidates = update(values, newCandidates, list, value.value(), value.precision());
+            if (ONE < values.length)
+                newCandidates = update(values, newCandidates, list, value.value(), value.precision(), value.stamp());
         }
         return newCandidates;
     }
@@ -232,12 +233,12 @@ public abstract class AbstractQuotas implements _Quotas {
      * @return The updated list of candidates.
      */
     private static List<_Quota<?>> update(final String[] values, final List<_Quota<?>> candidates, final Collection<?
-            super KeyValue> list, final Integer value, final Integer precision) {
+            super KeyValue> list, final Integer value, final Integer precision, final String stamp) {
 
         List<_Quota<?>> newCandidates = candidates;
         final FractionRange fractions = validateAndCreateFractions(values);
         if (isNull(fractions)) newCandidates = null;
-        else add(list, fractions, newCandidates, value, precision);
+        else add(list, fractions, newCandidates, value, precision, stamp);
         return newCandidates;
     }
 
@@ -272,15 +273,16 @@ public abstract class AbstractQuotas implements _Quotas {
      * @return the validated Integer value, or null if validation fails
      */
     @SuppressWarnings({"AssignmentToMethodParameter", "UnusedAssignment", "ReassignedVariable"})
-    private static Value validateValue(final String rawValue, Iterable<? extends _Quota<?>> candidates,
-                                       final String origin) {
+    private static Value validateValue(final String rawValue, Iterable<? extends _Quota<?>> candidates, final String origin) {
 
         Integer value = null;
         Integer precision = null;
+        String stamp = null;
         try {
             if (rawValue.contains(s(L2))) {
                 value = i(rawValue.split(s(L2))[ZERO]);
                 precision = i(rawValue.split(s(L2))[ONE]);
+                if (rawValue.split(s(L2)).length > TWO) stamp = rawValue.split(s(L2))[TWO];
             } else value = i(rawValue);
         } catch (final NumberFormatException e) {
             logEvent(S0, b(q(rawValue), IS_NOT_AN_INTEGER_IN___, origin));
@@ -292,7 +294,7 @@ public abstract class AbstractQuotas implements _Quotas {
                 candidates = null;
             }
         }
-        return new Value(value, precision);
+        return new Value(value, precision, stamp);
     }
 
     /**
@@ -324,10 +326,22 @@ public abstract class AbstractQuotas implements _Quotas {
 
             final String range = ts(quota.min()).equals(ts(quota.max())) ? ts(quota.min()) : b(L0, ts(quota.min()),
                     ts(quota.max()));
-            final String text = (isNull(quota.precision())) ? s(quota.value()) : s(quota.value(), L2, quota.precision());
+            final String text = getText(quota);
             result.add(b(L0, s(text), range));
         }
         return (StringUtils.join(result, COMMA_SPACE));
+    }
+
+    private static String getText(final _Quota quota) {
+
+        final List<String> list = new ArrayList<>(1);
+        list.add(s(quota.value()));
+        if (isNotNull(quota.precision())) list.add(s(quota.precision()));
+        if (isNotNull(quota.stamp())) {
+            if (isNull(quota.precision())) list.add(s(_0_));
+            list.add(s(quota.stamp()));
+        }
+        return StringUtils.join(list, L2);
     }
 
     @SuppressWarnings({"NumericCastThatLosesPrecision", "CallToSuspiciousStringMethod"})
@@ -370,7 +384,5 @@ public abstract class AbstractQuotas implements _Quotas {
      * Represents a value with specific precision.
      * This record is used to encapsulate an integer value alongside its precision level.
      */
-    record Value(Integer value, Integer precision) {
-
-    }
+    record Value(Integer value, Integer precision, String stamp) {}
 }
