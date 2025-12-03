@@ -8,6 +8,7 @@ import works.lysenko.util.data.enums.PolychromyMethod;
 import works.lysenko.util.data.enums.RangeResult;
 import works.lysenko.util.data.records.Noun;
 import works.lysenko.util.data.records.RGB24;
+import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.grid.record.Request;
 import works.lysenko.util.grid.record.meta.Method;
 import works.lysenko.util.grid.record.meta.Subject;
@@ -23,12 +24,12 @@ import static works.lysenko.Base.log;
 import static works.lysenko.util.data.enums.RelativeOrAbsolute.ABSOLUTE;
 import static works.lysenko.util.data.enums.Severity.S0;
 import static works.lysenko.util.data.records.RangedMargin.rm;
+import static works.lysenko.util.data.records.RelativeOrAbsoluteFraction.raf;
 import static works.lysenko.util.data.strs.Bind.b;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.data.strs.Null.n;
 import static works.lysenko.util.data.strs.Swap.v;
 import static works.lysenko.util.data.strs.Wrap.q;
-import static works.lysenko.util.data.records.RelativeOrAbsoluteFraction.raf;
 import static works.lysenko.util.func.core.Events.logPolychromyUndefinedBoundsFailure;
 import static works.lysenko.util.func.core.Events.logPolychromyUndefinedMethodFailure;
 import static works.lysenko.util.func.imgs.Analyser.calculatePolychromy;
@@ -42,19 +43,39 @@ import static works.lysenko.util.lang.word.P.POLYCHROMY;
  */
 public record Routines() {
 
+    /**
+     * Calculates the actual polychromy value for a given name based on provided pixel data and method.
+     * This method uses a specific polychromy calculation method to process colour data and derive the result.
+     * If no method is specified, it logs a failure.
+     *
+     * @param name           the name or identifier for the process, used in logging
+     * @param pixelsByColour a map where each key represents a colour (as an Integer) and the value is
+     *                       a Pair containing the pixel count (left value) and additional information (right value)
+     * @param method         the polychromy calculation method to use; if null, a failure is logged
+     * @return a Fraction representing the calculated polychromy value
+     */
     @SuppressWarnings("MethodWithMultipleReturnPoints")
-    private static Fraction calculateActual(final String name, final Map<Integer, Integer> pixelsByColour,
+    private static Fraction calculateActual(final String name, final Map<Integer, Pair<Integer, String>> pixelsByColour,
                                             final PolychromyMethod method) {
 
         log(b(c(CALCULATING), q(name), POLYCHROMY));
-        final List<RGB24> points = pixelsByColour.entrySet().stream()
-                .flatMap(entry -> Collections.nCopies(entry.getValue(),
-                        RGB24.rgb24(entry.getKey())).stream())
-                .toList();
+        final List<RGB24> points =
+                pixelsByColour.entrySet().stream().flatMap(entry -> Collections.nCopies(entry.getValue().l(),
+                        RGB24.rgb24(entry.getKey())).stream()).toList();
         if (isNull(method)) return logPolychromyUndefinedMethodFailure(name);
         return calculatePolychromy(points, method);
     }
 
+    /**
+     * Validates whether the actual polychromy value lies within the expected range defined in the provided request.
+     * If the range is undefined or the value exceeds the allowable bounds, an appropriate result is logged and returned.
+     *
+     * @param vr       the validation request containing details like image requirements and other necessary parameters
+     * @param name     the identifier used for logging purposes
+     * @param actual   the computed polychromy value to validate against the expected range
+     * @param expected the expected polychromy definition, including the allowable range for validation
+     * @return a RangeResult indicating whether the validation passed or failed, and the failure type if applicable
+     */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "DataFlowIssue", "NonBooleanMethodNameMayNotStartWithQuestion"})
     private static RangeResult isOk(final Request vr, final String name, final Fraction actual, final _Polychromy expected) {
 
@@ -84,7 +105,7 @@ public record Routines() {
     public static RangeResult isPolychromyOk(final Request vr, final _Grid grid) {
 
         final String name = vr.name();
-        final Map<Integer, Integer> pixelsByColour = grid.calculator().countPixelsByColor();
+        final Map<Integer, Pair<Integer, String>> pixelsByColour = grid.calculator().countPixelsByColor();
         final _Polychromy expected = vr.irq().polychromy();
         final PolychromyMethod method = n(PolychromyMethod.EUCLIDEAN_DISTANCE, vr.irq().polychromy().method());
         final Fraction actual = calculateActual(name, pixelsByColour, method);
