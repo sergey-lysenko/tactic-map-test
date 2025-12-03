@@ -6,7 +6,7 @@ import works.lysenko.util.data.records.Element;
 import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.data.type.Grid;
 import works.lysenko.util.grid.record.rgbc.HSB;
-import works.lysenko.util.prop.grid.Verify;
+import works.lysenko.util.prop.grid.Stamps;
 
 import java.util.BitSet;
 import java.util.HashMap;
@@ -14,9 +14,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.Objects.isNull;
-import static works.lysenko.Base.logDebug;
-import static works.lysenko.Base.logTrace;
 import static works.lysenko.util.data.records.RGB24.rgb24;
+import static works.lysenko.util.data.strs.Compressor.compress;
 
 /**
  * Represents a Calculator object that performs various calculations on a grid.
@@ -24,6 +23,14 @@ import static works.lysenko.util.data.records.RGB24.rgb24;
 @SuppressWarnings("MethodWithMultipleLoops")
 public class Calculator implements _GridCalculator {
 
+    /**
+     * Represents the radix or base used for number representation in the Calculator class.
+     * <p>
+     * The value of this constant is fixed at 36, which means it is typically used
+     * for representing alphanumeric characters (0-9 and A-Z) in calculations or
+     * conversions performed by the associated methods in the Calculator.
+     */
+    public static final int RADIX = 36;
     private final Grid grid;
 
     /**
@@ -54,9 +61,9 @@ public class Calculator implements _GridCalculator {
         return countPixels(HSB::brightness, fences);
     }
 
+    @SuppressWarnings("ObjectAllocationInLoop")
     public final Map<Integer, Pair<Integer, String>> countPixelsByColor() {
 
-        logTrace("Processing grid elements");
         final Map<Integer, Integer> counts = new HashMap<>(0);
         final Map<Integer, BitSet> bins = new HashMap<>(0);
         int i = -1;
@@ -78,14 +85,13 @@ public class Calculator implements _GridCalculator {
      *
      * @param propertyExtractor a function that extracts a property from the HSB colour representation
      * @param fences            the number of fences levels
-     * @return a results containing the count of pixels for each quantised property value
+     * @return a result containing the count of pixels for each quantised property value
      */
-    @SuppressWarnings("MethodWithMultipleReturnPoints")
+    @SuppressWarnings({"MethodWithMultipleReturnPoints", "ObjectAllocationInLoop"})
     private Map<Integer, Pair<Integer, String>> countPixels(final Function<? super HSB, ? extends Fraction> propertyExtractor, final int fences) {
 
         if (isNull(propertyExtractor)) return null;
 
-        logTrace("Processing grid elements");
         final Map<Integer, Integer> counts = new HashMap<>(0);
         final Map<Integer, BitSet> bins = new HashMap<>(0);
         int i = -1;
@@ -125,30 +131,30 @@ public class Calculator implements _GridCalculator {
      * count from {@code counts} and an encoded string generated
      * from the associated {@code BitSet} in {@code bins}
      */
+    @SuppressWarnings("ObjectAllocationInLoop")
     private static Map<Integer, Pair<Integer, String>> getIntegerPairMap(final Map<Integer, Integer> counts,
                                                                          final Map<Integer, ? extends BitSet> bins) {
 
         final Map<Integer, Pair<Integer, String>> result = new HashMap<>(counts.size());
 
-        logTrace("Calculating color stamps");
         final java.util.Base64.Encoder encoder = java.util.Base64.getUrlEncoder().withoutPadding();
         for (final Map.Entry<Integer, Integer> entry : counts.entrySet()) {
             final BitSet bin = bins.get(entry.getKey());
-            final StringBuilder encoded = new StringBuilder();
+            final StringBuilder encoded = new StringBuilder(1);
 
-            if (Verify.stamps) {
+            if (Stamps.process) {
 
                 int start = bin.nextSetBit(0);
-                while (start >= 0) {
+                while (0 <= start) {
                     int end = start;
                     int next = bin.nextSetBit(end + 1);
 
-                    while (next >= 0 && (next - end) < 8) {
+                    while (0 <= next && 8 > (next - end)) {
                         end = next;
                         next = bin.nextSetBit(end + 1);
                     }
 
-                    if (0 < encoded.length()) {
+                    if (!encoded.isEmpty()) {
                         encoded.append("~");
                     }
 
@@ -156,13 +162,14 @@ public class Calculator implements _GridCalculator {
                     final byte[] bytes = slice.toByteArray();
                     final String b64 = encoder.encodeToString(bytes);
 
-                    encoded.append(Integer.toString(start, 36)).append("=").append(b64);
+                    encoded.append(Integer.toString(start, RADIX)).append("=").append(b64);
                     start = next;
                 }
             }
 
+            final String stamp = Stamps.compress ? compress(encoded.toString()) : encoded.toString();
             result.put(entry.getKey(), new Pair<>(entry.getValue(),
-                    encoded.length() > 0 ? encoded.toString() : ""));
+                    encoded.isEmpty() ? "" : stamp));
         }
 
         return result;
