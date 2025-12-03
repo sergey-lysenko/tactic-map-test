@@ -20,89 +20,92 @@ import static works.lysenko.Base.logEmptyLine;
 public record Writer() {
 
     /**
-     * Creates a graph using the specified parameters by logging data points and rows, scaling the data, and calculating
-     * statistics based on the provided share values, then returns a calculated edge Fraction.
-     *
-     * @param title     The title of the graph.
-     * @param shares    A1 map of Fraction to ValuedRangeResult, representing fractional share values.
-     * @param go        An Options object containing parameters for graph configuration, including width and fractions.
-     * @param renderers A1 Renderers object containing functions for rendering and data handling.
-     * @param fences    An integer value used for quantisation during rendering.
-     * @return A1 Fraction representing the calculated edge of the graph.
-     */
-    public static Fraction graphActualFraction(final String title, final Map<Fraction, ValuedRangeResult> shares,
-                                               final Options go, final Renderers renderers, final int fences) {
-
-        final Fraction edge = OfFractions.actualValuesFromMapFraction(title, shares, go, renderers, fences);
-        Scale.scale(go, edge);
-        Stats.stats(shares);
-        logEmptyLine();
-        return edge;
-    }
-
-    /**
-     * Generates a graph by calculating actual fractional values from integer shares, scaling the data,
-     * and calculating related statistics, ultimately returning the computed edge fraction.
+     * Generates and returns a graph's computed edge fraction by processing fractional values
+     * from the provided results, scaling them, and calculating relevant statistics.
      *
      * @param title     The title of the graph to be generated, used for identification purposes.
-     * @param shares    A1 map where each key is an integer that represents a share, and each value is an ValuedRangeResult
-     *                  corresponding to that share, used for fractional value calculations in the graph.
-     * @param go        An Options object that configures the graph's attributes, such as width and fractional values,
-     *                  influencing the graph's representation.
-     * @param renderers A1 Renderers object containing functions responsible for handling the data rendering,
-     *                  which plays a role in how the graph data is visualised or logged.
-     * @return A1 Fraction object representing the computed edge value of the graph, which is derived from the
-     * calculations and scaling applied to the provided shares.
+     * @param results   A map where each key is a Fraction and each value is a ValuedRangeResult
+     *                  corresponding to that Fraction, used for calculations in the graph.
+     * @param go        An Options object that configures the graph's attributes, such as width and
+     *                  fractional values, influencing the graph's representation.
+     * @param renderers A Renderers object that defines rendering functions responsible for handling
+     *                  the data visualization or logging for the graph.
+     * @param fences    An integer specifying the level of granularity or quantization for rendering.
+     * @return A Fraction object representing the computed edge value of the graph after processing,
+     * scaling, and statistical analysis.
      */
-    public static Fraction graphActualInteger(final String title, final Map<Integer, ValuedRangeResult> shares,
+    public static Fraction graphActualFraction(final String title, final Map<Fraction, ValuedRangeResult> results,
+                                               final Options go, final Renderers renderers, final int fences) {
+
+        final Fraction edge = OfFractions.actualValuesFromMapFraction(title, results, go, renderers, fences);
+        Scale.scale(go, edge);
+        Stats.stats(results);
+        logEmptyLine();
+        return edge;
+    }
+
+    /**
+     * Generates and returns a computed edge fraction for a graph based on integer values
+     * from the provided results, scales the graph, and processes statistical analysis.
+     *
+     * @param title     The title of the graph for identification purposes.
+     * @param results   A map where keys are integers and values are ValuedRangeResult objects
+     *                  associated with those integers, used for the graph computations.
+     * @param go        An Options object configuring the graph's attributes, including width,
+     *                  requested fraction, actual fraction, and edge details.
+     * @param renderers A Renderers object defining rendering logic for data visualization.
+     * @return A Fraction object representing the computed edge value of the graph after processing.
+     */
+    public static Fraction graphActualInteger(final String title, final Map<Integer, ValuedRangeResult> results,
                                               final Options go, final Renderers renderers) {
 
-        final Fraction edge = OfIntegers.actualValuesFromMapInteger(title, shares, go, renderers);
+        final Fraction edge = OfIntegers.actualValuesFromMapInteger(title, results, go, renderers);
         Scale.scale(go, edge);
-        Stats.stats(shares);
+        Stats.stats(results);
         logEmptyLine();
         return edge;
     }
 
     /**
-     * Creates and logs a graph representation using the specified parameters by computing
-     * expected fractional values from shares, scaling the graph, and calculating statistics.
+     * Computes the expected fractional edge value for a graph based on integer shares, scales the graph,
+     * and calculates corresponding statistics.
      *
-     * @param title     The title of the graph to be generated.
-     * @param amount    The integer range that defines the data scope in the graph.
-     * @param shares    A1 collection representing fractional share values.
-     * @param go        An Options object that configures various graph attributes.
-     * @param renderers A1 Renderers object containing rendering functions for the graph.
-     * @param fences    An integer that specifies the level of quantisation for rendering.
-     * @return A1 Fraction object representing the computed edge value of the graph.
+     * @param title     The title of the graph to be generated, used for identification and descriptive purposes.
+     * @param amount    An IntegerRange object that defines the scope of integers used within the computation.
+     * @param quotas    A _Quotas collection containing fractional share values used for the calculations.
+     * @param go        An Options object that configures various attributes of the graph during the computation process.
+     * @param renderers A Renderers object responsible for defining the rendering or visualization of the graph.
+     * @param fences    An integer representing the level of granularity or segmentation applied when rendering the graph.
+     * @return A Fraction object representing the computed expected edge value of the graph after processing, scaling,
+     * and statistical analysis.
      */
     public static Fraction graphExpectedFraction(final String title, final IntegerRange amount, final _Quotas<?
-            extends Fraction> shares, final Options go, final Renderers renderers, final int fences) {
+            extends Fraction> quotas, final Options go, final Renderers renderers, final int fences) {
 
-        final Fraction edge = OfFractions.expectedValuesFromSharesFraction(title, amount, shares, go, renderers, fences);
+        final Fraction edge = OfFractions.expectedValuesFromSharesFraction(title, amount, quotas, go, renderers, fences);
         Scale.scale(go, edge);
-        Stats.stats(shares);
+        Stats.stats(quotas);
         logEmptyLine();
         return edge;
     }
 
     /**
-     * Generates a graph representation using the provided parameters, which includes computing the expected
-     * fractional values from integer shares, scaling the graph, and calculating statistics.
+     * Computes the expected integer edge value for a graph based on integer quotas, scales the graph,
+     * and performs statistical processing.
      *
-     * @param title     The title of the graph to be generated.
-     * @param amount    The integer range outlining the data scope for the graph.
-     * @param shares    A1 collection representing integer share values.
-     * @param go        An Options object that configures various graph attributes.
-     * @param renderers A1 Renderers object containing rendering functions for the graph.
-     * @return A1 Fraction object that represents the computed edge value of the graph.
+     * @param title     The title of the graph to be generated, used for identification or descriptive purposes.
+     * @param amount    An IntegerRange object that specifies the range of integers used in the computation.
+     * @param quotas    A _Quotas<Integer> object that contains the integer share values for the graph calculation.
+     * @param go        An Options object that configures various attributes of the graph during processing.
+     * @param renderers A Renderers object that defines the rendering or visualization logic for the graph.
+     * @return A Fraction object representing the computed expected edge value of the graph after processing and scaling.
      */
-    public static Fraction graphExpectedInteger(final String title, final IntegerRange amount, final _Quotas<Integer> shares
+    public static Fraction graphExpectedInteger(final String title, final IntegerRange amount, final _Quotas<Integer> quotas
             , final Options go, final Renderers renderers) {
 
-        final Fraction edge = OfIntegers.expectedValuesFromSharesInteger(title, amount, shares, go, renderers);
+        final Fraction edge = OfIntegers.expectedValuesFromSharesInteger(title, amount, quotas, go, renderers);
         Scale.scale(go, edge);
-        Stats.stats(shares);
+        Stats.stats(quotas);
         logEmptyLine();
         return edge;
     }
