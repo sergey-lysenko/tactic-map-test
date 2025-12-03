@@ -22,31 +22,27 @@ import static works.lysenko.util.lang.C.COMMA_SPACE;
 import static works.lysenko.util.prop.data.Delimeters.L0;
 import static works.lysenko.util.spec.Numbers.ZERO;
 
-/**
- * The Text record holds two string values: value and max.
- */
 public record Text(String value, String max) {
 
-    private static String getPropertyValueInteger(final Map<Integer, ValuedRangeResult> shares) {
+    private static String getPropertyValueInteger(final Map<Integer, ValuedRangeResult> results) {
 
         final Collection<String> result = new ArrayList<>(ZERO);
-        for (final Map.Entry<Integer, ValuedRangeResult> value : shares.entrySet())
+        for (final Map.Entry<Integer, ValuedRangeResult> value : results.entrySet())
             result.add(b(L0, s(value.getKey()), ts(value.getValue().value())));
         return (StringUtils.join(result, COMMA_SPACE));
     }
 
-    static Text text(final _Quotas<?> shares, final boolean overflow, final double max) {
+    static Text text(final _Quotas<?> quotas, final boolean overflow, final double max) {
 
-        final String value = e(Brackets.CURLY, shares.getPropertyValue());
+        final String value = e(Brackets.CURLY, quotas.getPropertyValue());
         final String maxS = rb(overflow, a(kv(s(MAX), s(ts(fr(max)), L0, max))));
         return new Text(value, maxS);
     }
 
-    static Text text(final Map<Integer, ValuedRangeResult> shares, final boolean overflow, final double max) {
+    static Text text(final Map<Integer, ValuedRangeResult> results, final boolean overflow, final double max) {
 
-        final String value = e(Brackets.CURLY, getPropertyValueInteger(shares));
+        final String value = e(Brackets.CURLY, getPropertyValueInteger(results));
         final String maxS = rb(overflow, a(kv(s(MAX), s(ts(fr(max)), L0, max))));
         return new Text(value, maxS);
     }
-
 }
