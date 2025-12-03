@@ -69,19 +69,17 @@ public record OfFractions() {
     }
 
     /**
-     * Computes the expected fractional value from a set of shares using a specified rendering
-     * approach and configuration options.
+     * Computes the expected fractional value from a set of shares using a specified rendering approach
+     * and configuration options.
      *
-     * @param title     The title used for logging purposes, describing the computation context.
-     * @param amount    A1 range of integer values representing the amount.
-     * @param shares    A1 share object containing share information.
-     * @param go        Options configuration that includes parameters like width and fraction limits
-     *                  used during computation.
-     * @param renderers A1 set of rendering functions used to compute visual or computed representations
-     *                  of the share data.
-     * @param fences    An integer used to apply constraints or boundaries within the computation.
-     * @return A1 Fraction representing the expected edge value after applying the rendering logic and
-     * constraints defined by the options and shares.
+     * @param title     The title for logging purposes, describing the context of the computation.
+     * @param amount    A range of integer values representing the boundaries for share calculations.
+     * @param shares    A collection of quota objects containing the share data to be processed.
+     * @param go        Options configuration that defines parameters such as width and fraction limits.
+     * @param renderers A set of rendering functions used for generating visual or computed outputs.
+     * @param fences    An integer parameter used to impose constraints or boundaries during the computation.
+     * @return A Fraction representing the computed expected value after applying rendering logic,
+     *         constraints, and options to the provided share data.
      */
     public static Fraction expectedValuesFromSharesFraction(final String title, final _Range<Integer> amount, final _Quotas<
             ?> shares, final Options go, final Renderers renderers, final int fences) {
@@ -92,26 +90,27 @@ public record OfFractions() {
     }
 
     /**
-     * Renders a fractional value using specified rendering functions and configuration parameters.
+     * Renders a fractional value based on the given width, rendering functions, result data, and parameters.
      *
-     * @param width     The integer width over which the rendering is applied, influencing the scale of rendering.
-     * @param renderers A1 Renderers object containing functions for rendering points and rows of share data.
-     * @param share     A1 map entry consisting of a Fraction key and an ValuedRangeResult value, representing a share.
-     * @param gp        A1 Parameters object that provides configuration settings for minimal maximum value and slack.
-     * @return The Fraction value representing the computational edge of the provided share data.
+     * @param width     The width used for rendering the fractional value.
+     * @param renderers A set of rendering functions used to generate visual or computed outputs based on the data.
+     * @param results   A map entry containing a Fraction key and an associated ValuedRangeResult object.
+     *                  The Fraction represents the share, while the ValuedRangeResult includes metadata about the range.
+     * @param gp        A Parameters object containing additional configuration such as minimal maximum value and other parameters.
+     * @return The Fraction value computed from the provided rendering and data inputs.
      */
     private static Fraction renderFraction(final int width, final Renderers renderers, final Map.Entry<? extends Fraction, ?
-            extends ValuedRangeResult> share, final Parameters gp) {
+            extends ValuedRangeResult> results, final Parameters gp) {
 
-        final Fraction edge = share.getValue().value();
+        final Fraction edge = results.getValue().value();
         final StringBuilder line = new StringBuilder(ZERO);
         if (isNotNull(renderers)) {
             if (isNotNull(renderers.point())) for (int i = ZERO; i <= width; i++) {
-                final SharesData<?> data = new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width);
-                final Binner binner = getRanges(data, shareOfFraction(share, fr(0)), gp.slack()); // TODO: precision
-                line.append(renderers.point().apply(data, shareOfFraction(share, fr(0)), binner));
+                final SharesData<?> data = new SharesData<>(results.getKey(), i, gp.minimalMaximumValue(), width);
+                final Binner binner = getRanges(data, shareOfFraction(results, fr(0), "stamp"), gp.slack()); // TODO: precision
+                line.append(renderers.point().apply(data, shareOfFraction(results, fr(0), "stamp"), binner));
             }
-            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfFraction(share, fr(0)))));
+            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfFraction(results, fr(0), "stamp"))));
         }
         Values.logNoLevelLine(line.toString());
         logTrace(a(kv(EDGE, ts(true, edge))));
