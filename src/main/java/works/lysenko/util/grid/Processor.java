@@ -4,6 +4,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.g._GridCalculator;
 import works.lysenko.util.apis.grid.g._GridProcessor;
 import works.lysenko.util.apis.grid.q._FractionQuotas;
+import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.misc.IgnoreHSB;
 import works.lysenko.util.grid.record.rgbc.HSB;
@@ -34,26 +35,28 @@ public class Processor implements _GridProcessor {
     }
 
     /**
-     * Calculates the rates based on the given values and total number of pixels.
+     * Calculates the rates of each entry in the given map based on the total number of pixels.
+     * Each entry's value is converted into a rate by dividing it by the totalPixels parameter.
      *
-     * @param values      a map containing the values as keys and their corresponding counts as values
-     * @param totalPixels an integer representing the total number of pixels
-     * @return a map containing the values as keys and their corresponding rates as values
+     * @param values      a map where the keys are integers and the values are counts
+     * @param totalPixels the total number of pixels used for calculating individual rates
+     * @return a map where the keys are the same as the input map, and the values are the calculated rates as doubles
      */
     private static Map<Integer, Double> calculateRates(final Map<Integer, Integer> values, final int totalPixels) {
 
-        return values.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        e -> (double) e.getValue() / totalPixels));
+        return values.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                e -> (double) e.getValue() / totalPixels));
     }
 
     /**
-     * Retrieves a map of Fraction keys and Fraction values from a given map of Integer keys and Fraction values.
+     * Transforms a given map of integer keys and ValuedRangeResult values into a map with Fraction keys
+     * and corresponding ValuedRangeResult values. Each integer key is converted to a Fraction
+     * using the specified denominator.
      *
-     * @param q   an integer representing a fences value
-     * @param raw a map containing Integer keys and Fraction values
-     * @return a map containing Fraction keys and corresponding Fraction values based on the fences value
+     * @param q   the denominator to be used for generating Fraction keys from the integer keys
+     * @param raw a map containing integer keys and their associated ValuedRangeResult values
+     * @return a map where the integer keys from the input map are converted to Fraction keys
+     * and mapped to their corresponding ValuedRangeResult values
      */
     private static Map<Fraction, ValuedRangeResult> getFractionActualFractionMap(final int q, final Map<Integer, ?
             extends ValuedRangeResult> raw) {
@@ -69,53 +72,48 @@ public class Processor implements _GridProcessor {
     /**
      * Retrieves the rates based on the given values.
      *
-     * @param values a map containing the values as keys and their corresponding counts as values
-     * @return a map containing the values as keys and their corresponding rates as Fraction values
+     * @param distribution a results containing the values as keys and their corresponding counts as values
+     * @return a results containing the values as keys and their corresponding rates as Fraction values
      */
     @SuppressWarnings("unused")
-    private static Map<Integer, ValuedRangeResult> getRates(final Map<Integer, Integer> values) {
+    private static Map<Integer, ValuedRangeResult> getRates(final Map<Integer, Pair<Integer, String>> distribution) {
 
-        return getRatesWithThreshold(values, Fraction.ZERO);
+        return getRatesWithThreshold(distribution, Fraction.ZERO);
     }
 
     /**
-     * Retrieves the rates with values greater than or equal to a specified threshold fraction.
+     * Processes a given distribution map to calculate and filter rates based on a specified threshold.
+     * The method calculates rates from the distribution, filters and sorts them according to the threshold,
+     * then maps these rates to ValuedRangeResult objects with corresponding metadata.
      *
-     * @param values    a map containing the values as keys and their corresponding counts as values
-     * @param threshold a fraction representing the minimum threshold for rate values to be included
-     * @return a map containing the values as keys and their corresponding rates as Fraction values,
-     * where the rates are greater than or equal to the threshold
-     */
-    private static Map<Integer, ValuedRangeResult> getRatesWithThreshold(final Map<Integer, Integer> values,
-                                                                         final Fraction threshold) {
+     * @param distribution a map containing Integer keys and Pair values where:
+     *                     -*/
+    private static Map<Integer, ValuedRangeResult> getRatesWithThreshold(final Map<Integer, Pair<Integer, String>> distribution, final Fraction threshold) {
 
-        final int totalPixels = values.values().stream().mapToInt(Integer::intValue).sum();
-        final Map<Integer, Double> rates = calculateRates(values, totalPixels);
+        final Map<Integer, Integer> reduced = distribution.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                e -> e.getValue().left()));
+        final int totalPixels = reduced.values().stream().mapToInt(Integer::intValue).sum();
+        final Map<Integer, Double> rates = calculateRates(reduced, totalPixels); // Apply threshold here?
         final Map<Integer, Double> sorted = sortAndFilterRates(rates, threshold);
         final Map<Integer, ValuedRangeResult> fractions = new LinkedHashMap<>(sorted.size());
-        sorted.forEach((key, value) -> fractions.put(key, new ValuedRangeResult(fr(value))));
+        sorted.forEach((key, value) -> fractions.put(key, new ValuedRangeResult(fr(value), distribution.get(key).right())));
         return fractions;
     }
 
     /**
-     * Sorts and filters a map of rates based on a provided threshold fraction.
+     * Filters and sorts the given map of rates by a specified threshold.
+     * Only entries with values greater than or equal to the threshold are retained,
+     * and the resulting map is sorted in descending order by value.
      *
-     * @param rates     a map containing the rates with integer keys and double values
-     * @param threshold a fraction representing the minimum threshold for rate values to be included
-     * @return a new LinkedHashMap with sorted and filtered rates where values are greater than or equal to the threshold
+     * @param rates     a map containing Integer keys and Double values representing rates
+     * @param threshold a Fraction value used as the filtering threshold;
+     *                  if null, it defaults to a threshold of 1.0
+     * @return a map containing filtered and sorted rates, with Integer keys and Double values
      */
     private static Map<Integer, Double> sortAndFilterRates(final Map<Integer, Double> rates, final Fraction threshold) {
 
         final Fraction t = (isNull(threshold)) ? fr(1.0) : threshold;
-        return rates.entrySet().stream()
-                .filter(e -> e.getValue() >= t.doubleValue())
-                .sorted(Map.Entry.<Integer, Double>comparingByValue().reversed())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
+        return rates.entrySet().stream().filter(e -> e.getValue() >= t.doubleValue()).sorted(Map.Entry.<Integer, Double>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
     @Override
