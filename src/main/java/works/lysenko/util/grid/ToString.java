@@ -5,6 +5,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.g._GridToString;
 import works.lysenko.util.apis.grid.q._FractionQuotas;
 import works.lysenko.util.data.records.Element;
+import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.data.type.Grid;
 import works.lysenko.util.grid.record.misc.IgnoreHSB;
 import works.lysenko.util.grid.record.rgbc.Colour;
@@ -85,7 +86,7 @@ public class ToString implements _GridToString {
 
     public final String pixelsCountByColor() {
 
-        final Map<Integer, Integer> map = grid.getCalculator().countPixelsByColor();
+        final Map<Integer, Pair<Integer, String>> map = grid.getCalculator().countPixelsByColor();
         return mapToString(map, Colour::shortOfValue, Object::toString);
     }
 
