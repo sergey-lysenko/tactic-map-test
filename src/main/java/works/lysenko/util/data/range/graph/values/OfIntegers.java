@@ -12,6 +12,7 @@ import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 import works.lysenko.util.grid.record.rash.Binner;
 import works.lysenko.util.grid.record.rash.SharesData;
+import works.lysenko.util.prop.grid.Logs;
 
 import java.util.Map;
 
@@ -41,26 +42,31 @@ import static works.lysenko.util.spec.Symbols._SPACE_;
 public record OfIntegers() {
 
     /**
-     * Computes the actual values from a map of integer keys and corresponding ValuedRangeResult values,
-     * logs the relevant computation details, and returns the result as a Fraction object. The result represents
-     * a computed edge value based on the shares and rendering options provided.
+     * Processes a map of integer keys to ValuedRangeResult objects by computing edge values from the data,
+     * logging relevant information, and returning the resulting computation as a Fraction object.
      *
-     * @param title     The title used for logging the process of computing actual values from the shares.
-     * @param shares    A1 map where keys are integers representing share amounts, and values are ValuedRangeResult objects
-     *                  representing the corresponding shares.
-     * @param go        An Options object providing configuration related to graph dimensions and other settings.
-     * @param renderers A1 Renderers instance used to apply rendering functions to the shares data.
-     * @return A1 Fraction object representing the computed actual value, constrained by the provided rendering options and
-     * shares.
+     * @param title     A string used as a title for logging purposes during processing.
+     * @param results   A map where each entry consists of an integer key and a ValuedRangeResult,
+     *                  representing data to be evaluated and processed.
+     * @param go        An Options instance that provides configuration settings such as graph dimensions,
+     *                  requested edge fraction, and processing parameters.
+     * @param renderers A Renderers instance that facilitates rendering and processing operations
+     *                  on the given map entries.
+     * @return A Fraction object representing the computed edge value based on the provided input data.
      */
-    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, ValuedRangeResult> shares,
+    @SuppressWarnings("MethodWithMultipleLoops")
+    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, ValuedRangeResult> results,
                                                       final Options go, final Renderers renderers) {
 
-        final Data gd = data(shares, go);
+        final Data gd = data(results, go);
         Fraction edge = n(Fraction.ZERO, go.edge());
         log(b(bb(title), gd.graphParameters().amountS(), gd.value(), gd.max()));
-        for (final Map.Entry<Integer, ValuedRangeResult> share : shares.entrySet())
-            edge = fr(FastMath.min(ONE, FastMath.max(edge.doubleValue(), renderInteger(go.width(), renderers, share,
+
+        if (Logs.stamps) for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
+            log(b(s(result.getKey()), result.getValue().stamp()));
+
+        for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
+            edge = fr(FastMath.min(ONE, FastMath.max(edge.doubleValue(), renderInteger(go.width(), renderers, result,
                     gd.graphParameters()).doubleValue())));
         return edge;
     }
@@ -82,36 +88,35 @@ public record OfIntegers() {
 
         final Data gd = data(amount, shares, go);
         log(b(false, bb(title), gd.graphParameters().amountS(), gd.value(), s(go.slack()), gd.max()));
-        return Values.graphExpectedSortedRanges(shares, go.width(), renderers, gd.graphParameters().minimalMaximumValue(), go.slack());
+        return Values.graphExpectedSortedRanges(shares, go.width(), renderers, gd.graphParameters().minimalMaximumValue(),
+                go.slack());
     }
 
     /**
-     * Renders an integer value based on the provided width, renderers, share entry, and parameters.
-     * This method constructs a string representation of the share data using the rendering functions
-     * from the provided renderers and logs the output. Additionally, it computes and returns a Fraction
-     * value representing the edge of the share value.
+     * Renders an integer-based representation using the specified rendering functions and associated computations,
+     * then logs the rendering details. The resulting computation is returned as a Fraction object representing
+     * the computed edge value.
      *
-     * @param width     The width parameter used in rendering the integer share data.
-     * @param renderers An instance of Renderers containing functions for rendering point and row data.
-     * @param share     A1 Map.Entry where the key is an integer and the value is an ValuedRangeResult, representing
-     *                  a share and its corresponding fractional value.
-     * @param gp        A1 Parameters instance providing configuration such as minimal maximum value and slack,
-     *                  used during share data evaluation and rendering.
-     * @return A1 Fraction representing the computed edge value derived from the shared integer value.
+     * @param width     The width of the rendering range.
+     * @param renderers A Renderers instance that provides functions to convert shares data into string representations.
+     * @param results   An entry containing an integer key and a corresponding ValuedRangeResult, representing
+     *                  the data to be rendered and processed.
+     * @param gp        A Parameters instance providing configurations such as minimal maximum value and slack factor for the graph.
+     * @return A Fraction object representing the computed edge value for the given inputs.
      */
     private static Fraction renderInteger(final int width, final Renderers renderers, final Map.Entry<Integer, ?
-            extends ValuedRangeResult> share, final Parameters gp) {
+            extends ValuedRangeResult> results, final Parameters gp) {
 
-        final Fraction edge = share.getValue().value();
+        final Fraction edge = results.getValue().value();
         final StringBuilder line = new StringBuilder(ZERO);
         if (isNotNull(renderers)) {
             if (isNotNull(renderers.point())) for (int i = ZERO; i <= width; i++) {
-                final SharesData<?> data = new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width);
-                final Binner binner = getRanges(data, shareOfInteger(share, 0), gp.slack()); // TODO: precision
-                line.append(renderers.point().apply(new SharesData<>(share.getKey(), i, gp.minimalMaximumValue(), width),
-                        shareOfInteger(share, 0), binner));
+                final SharesData<?> data = new SharesData<>(results.getKey(), i, gp.minimalMaximumValue(), width);
+                final Binner binner = getRanges(data, shareOfInteger(results, 0, "stamp"), gp.slack()); // TODO: precision? Stamps?
+                line.append(renderers.point().apply(new SharesData<>(results.getKey(), i, gp.minimalMaximumValue(), width),
+                        shareOfInteger(results, 0, "stamp"), binner));
             }
-            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(share, 0))));
+            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(results, 0, "stamp"))));
         }
         Values.logNoLevelLine(line.toString());
         logTrace(a(kv(EDGE, ts(true, edge))));
