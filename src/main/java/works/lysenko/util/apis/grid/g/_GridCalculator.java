@@ -1,5 +1,6 @@
 package works.lysenko.util.apis.grid.g;
 
+import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.grid.record.rgbc.HSB;
 
 import java.util.Map;
@@ -23,14 +24,14 @@ public interface _GridCalculator {
      * @param fences an integer value representing the level of fences for the brightness levels
      * @return a map containing the brightness levels as keys and the count of pixels for each brightness level as values
      */
-    Map<Integer, Integer> countPixelsByBrightness(int fences);
+    Map<Integer, Pair<Integer, String>> countPixelsByBrightness(int fences);
 
     /**
      * Retrieves the count of pixels by color in the pixel grid.
      *
      * @return a map containing the count of pixels for each color
      */
-    Map<Integer, Integer> countPixelsByColor();
+    Map<Integer, Pair<Integer, String>> countPixelsByColor();
 
     /**
      * Counts the number of pixels by hue level based on the provided fences value.
@@ -38,7 +39,7 @@ public interface _GridCalculator {
      * @param fences an integer value representing the level of fences for the hue levels
      * @return a map containing the hue levels as keys and the count of pixels for each hue level as values
      */
-    Map<Integer, Integer> countPixelsByHue(int fences);
+    Map<Integer, Pair<Integer, String>> countPixelsByHue(int fences);
 
     /**
      * Counts the number of pixels by saturation level based on the provided fences value.
@@ -46,6 +47,6 @@ public interface _GridCalculator {
      * @param fences an integer value representing the level of fences for the saturation levels
      * @return a map containing the saturation levels as keys and the count of pixels for each saturation level as values
      */
-    Map<Integer, Integer> countPixelsBySaturation(int fences);
+    Map<Integer, Pair<Integer, String>> countPixelsBySaturation(int fences);
 
 }
