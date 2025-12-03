@@ -1,6 +1,7 @@
 package works.lysenko.util.prop.grid;
 
 import static works.lysenko.util.spec.PropEnum._GRID_LOG_LINE_MAX_LENGTH;
+import static works.lysenko.util.spec.PropEnum._STAMPS_DISPLAY;
 
 /**
  * Represents a logging entity with a maximum line length limit.
@@ -10,8 +11,6 @@ import static works.lysenko.util.spec.PropEnum._GRID_LOG_LINE_MAX_LENGTH;
  */
 public record Logs() {
 
-    /**
-     *
-     */
     public static final int limit = _GRID_LOG_LINE_MAX_LENGTH.get();
+    public static final boolean stamps = _STAMPS_DISPLAY.get();
 }
