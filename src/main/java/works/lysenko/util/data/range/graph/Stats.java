@@ -36,9 +36,9 @@ record Stats() {
      * Calculates statistics based on the ranges.
      */
     @SuppressWarnings({"unchecked", "WeakerAccess"})
-    public static void stats(final _Quotas<?> shares) {
+    public static void stats(final _Quotas<?> quotas) {
 
-        final List<Quota<Number>> list = shares.get().stream()
+        final List<Quota<Number>> list = quotas.get().stream()
                 .filter(Objects::nonNull)
                 .map(share -> (Quota<Number>) share)
                 .toList();
@@ -48,9 +48,9 @@ record Stats() {
         statsRow(minSum, maxSum);
     }
 
-    static void stats(final Map<?, ? extends ValuedRangeResult> shares) {
+    static void stats(final Map<?, ? extends ValuedRangeResult> results) {
 
-        final Collection<ValuedRangeResult> list = new ArrayList<>(shares.values());
+        final Collection<ValuedRangeResult> list = new ArrayList<>(results.values());
         final double value = list.stream().mapToDouble(ValuedRangeResult::doubleValue).sum();
         statsRow(value);
     }
