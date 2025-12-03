@@ -34,7 +34,7 @@ import static works.lysenko.util.spec.Numbers.ZERO;
  * @param <T> The type of the value held by the quota object.
  */
 @SuppressWarnings("CallToSuspiciousStringMethod")
-public record Quota<T>(T value, T precision, Fraction min, Fraction max) implements _Quota<T> {
+public record Quota<T>(T value, T precision, String stamp, Fraction min, Fraction max) implements _Quota<T> {
 
     /**
      * Represents the maximum share value.
@@ -76,78 +76,87 @@ public record Quota<T>(T value, T precision, Fraction min, Fraction max) impleme
     }
 
     /**
-     * Creates a Quota object of type Fraction using the provided map entry and precision.
+     * Creates a Quota object of type Fraction using the specified Map.Entry, precision, and stamp.
+     * The Quota is initialized with the key from the Map.Entry, the precision, the stamp, and the exact share
+     * derived from the value of the Map.Entry.
      *
-     * @param value     A map entry consisting of a key of type Fraction and a value of type ValuedRangeResult.
-     *                  The key represents the quota's identifier, and the value contains the associated fractional value.
-     * @param precision The precision fraction to be used in the Quota object, determining the level of accuracy for
-     *                  calculations.
-     * @return A Quota object of type Fraction initialized with the specified key, precision, and fraction values derived
-     * from the input map entry.
+     * @param value     A Map.Entry where the key is a Fraction representing the identifier for the quota
+     *                  and the value is a ValuedRangeResult containing the fractional share.
+     * @param precision A Fraction specifying the precision level, which defines the granularity of the resulting Quota.
+     * @param stamp     A string identifier or marker for the resulting Quota.
+     * @return A Quota object of type Fraction initialized with the specified key, precision, stamp, and fractional share.
      */
     public static Quota<Fraction> shareOfFraction(final Map.Entry<? extends Fraction, ? extends ValuedRangeResult> value,
-                                                  final Fraction precision) {
+                                                  final Fraction precision, final String stamp) {
 
         final Fraction exactShare = value.getValue().value();
-        return new Quota<>(value.getKey(), precision, exactShare, exactShare);
+        return new Quota<>(value.getKey(), precision, stamp, exactShare, exactShare);
     }
 
     /**
-     * Creates a Quota object of type Integer using the specified value, precision, and exact share.
+     * Creates a Quota object of type Integer using the given value, precision, stamp, and exact share.
      *
      * @param value      The integer value for the Quota object.
-     * @param precision  The precision level represented as an integer, which determines the level of granularity for the Quota.
-     * @param exactShare The exact fractional share represented by a Fraction object.
-     * @return A Quota object of type Integer initialised with the specified value, precision, and exact share.
+     * @param precision  An Integer specifying the precision level, which defines the granularity of the Quota.
+     * @param stamp      A String identifier or marker for the resulting Quota.
+     * @param exactShare A Fraction representing the exact fractional share associated with the Quota.
+     * @return A Quota object of type Integer initialized with the specified value, precision, stamp, and exact fractional share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final Fraction exactShare) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final String stamp,
+                                                final Fraction exactShare) {
 
-        return new Quota<>(value, precision, exactShare, exactShare);
+        return new Quota<>(value, precision, stamp, exactShare, exactShare);
     }
 
     /**
-     * Creates a Quota object of type Integer using the given value, precision, and share.
+     * Creates a Quota object of type Integer using the provided value, precision, stamp, and share.
+     * The share parameter is used to determine the exact fractional share associated with the Quota.
      *
-     * @param value     The integer value for the Quota object.
-     * @param precision The precision level represented as an integer, determining the level of granularity for the Quota.
-     * @param share     An instance of _ValuedRangeResult that represents the share as a Fraction encapsulated within it.
-     * @return A Quota object of type Integer initialised with the specified value, precision, and share.
+     * @param value The integer value to assign to the Quota object.
+     * @param precision An Integer specifying the precision level, defining the granularity of the Quota.
+     * @param stamp A String identifier or marker for the resulting Quota.
+     * @param share A _ValuedRangeResult containing the fractional value used to calculate the exact share.
+     * @return A Quota object of type Integer initialized with the specified value, precision, stamp, and exact fractional share.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final _ValuedRangeResult share) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final String stamp,
+                                                final _ValuedRangeResult share) {
 
         final Fraction exactShare = share.value();
-        return new Quota<>(value, precision, exactShare, exactShare);
+        return new Quota<>(value, precision, stamp, exactShare, exactShare);
     }
 
     /**
-     * Creates a Quota object of type Integer using a map entry and precision.
-     * The map entry consists of an integer key and a value of type ValuedRangeResult.
-     * The precision determines the level of granularity for the Quota.
+     * Creates a Quota object of type Integer using the specified Map.Entry, precision, and stamp.
+     * The Quota is initialized with the key from the Map.Entry, the precision, the stamp, and the exact
+     * share derived from the value of the Map.Entry.
      *
-     * @param value     A map entry where the key is an integer representing the identifier for the quota,
-     *                  and the value is an ValuedRangeResult that contains the fractional share.
-     * @param precision An integer specifying the precision level for calculations, which dictates the
-     *                  granularity of the resulting Quota.
-     * @return A Quota object of type Integer initialised with the specified key, precision, and fractional share.
+     * @param value     A Map.Entry where the key is an Integer representing the identifier for the quota
+     *                  and the value is a ValuedRangeResult containing the fractional share.
+     * @param precision An integer specifying the precision level, which defines the granularity of the resulting Quota.
+     * @param stamp     A string identifier or marker for the resulting Quota.
+     * @return A Quota object of type Integer initialized with the specified key, precision, stamp, and fractional share.
      */
-    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ValuedRangeResult> value, final int precision) {
+    public static Quota<Integer> shareOfInteger(final Map.Entry<Integer, ? extends ValuedRangeResult> value,
+                                                final int precision, final String stamp) {
 
         final Fraction exactShare = value.getValue().value();
-        return new Quota<>(value.getKey(), precision, exactShare, exactShare);
+        return new Quota<>(value.getKey(), precision, stamp, exactShare, exactShare);
     }
 
     /**
-     * Creates a Quota object of type Integer using the specified value, precision, minimum fraction, and maximum fraction.
+     * Creates a Quota object of type Integer using the provided value, precision, stamp, minimum, and maximum fractions.
      *
-     * @param value     The integer value for the Quota object.
-     * @param precision The precision level represented as an integer, determining the level of granularity for the Quota.
-     * @param min       The minimum fractional value for the quota, represented as a Fraction object.
-     * @param max       The maximum fractional value for the quota, represented as a Fraction object.
-     * @return A Quota object of type Integer initialized with the specified value, precision, minimum, and maximum fractions.
+     * @param value     The integer value to initialize the Quota object.
+     * @param precision An Integer specifying the precision level, which defines the granularity of the Quota.
+     * @param stamp     A String identifier or marker for the resulting Quota.
+     * @param min       A Fraction specifying the minimum allowable value for the Quota.
+     * @param max       A Fraction specifying the maximum allowable value for the Quota.
+     * @return A Quota object of type Integer initialized with the specified value, precision, stamp, minimum, and maximum fractions.
      */
-    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final Fraction min, final Fraction max) {
+    public static Quota<Integer> shareOfInteger(final int value, final Integer precision, final String stamp,
+                                                final Fraction min, final Fraction max) {
 
-        return new Quota<>(value, precision, min, max);
+        return new Quota<>(value, precision, stamp, min, max);
     }
 
     @SuppressWarnings({"IfStatementWithTooManyBranches", "MethodWithMultipleReturnPoints"})
