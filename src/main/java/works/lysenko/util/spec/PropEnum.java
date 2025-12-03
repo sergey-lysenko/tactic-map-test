@@ -135,6 +135,8 @@ public enum PropEnum implements _PropEnum {
     _SHRINK_EXPECTATIONS(Boolean.class, FALSE),
     _SILENT_SLEEPING_THRESHOLD(Integer.class, _1_, _0_),
     _STACK_TRACE_REFERENCES(Boolean.class, FALSE),
+    _STAMPS_DISPLAY(Boolean.class, TRUE),
+    _STAMPS_PROCESS(Boolean.class, TRUE),
     _SVG_HEIGHT(Integer.class, _7_, _6_, _8_),
     _SVG_WIDTH(Integer.class, _1_, _0_, _2_, _4_),
     _SWIPE_LINE_MARKER_COLOUR(Color.class, b(_COMMA_, _0_, _0_, _0_, _128)),
