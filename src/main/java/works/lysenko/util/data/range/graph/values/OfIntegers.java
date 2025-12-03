@@ -12,7 +12,7 @@ import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 import works.lysenko.util.grid.record.rash.Binner;
 import works.lysenko.util.grid.record.rash.SharesData;
-import works.lysenko.util.prop.grid.Logs;
+import works.lysenko.util.prop.grid.Stamps;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public record OfIntegers() {
         Fraction edge = n(Fraction.ZERO, go.edge());
         log(b(bb(title), gd.graphParameters().amountS(), gd.value(), gd.max()));
 
-        if (Logs.stamps) for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
+        if (Stamps.display) for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
             log(b(s(result.getKey()), result.getValue().stamp()));
 
         for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
@@ -101,7 +101,8 @@ public record OfIntegers() {
      * @param renderers A Renderers instance that provides functions to convert shares data into string representations.
      * @param results   An entry containing an integer key and a corresponding ValuedRangeResult, representing
      *                  the data to be rendered and processed.
-     * @param gp        A Parameters instance providing configurations such as minimal maximum value and slack factor for the graph.
+     * @param gp        A Parameters instance providing configurations such as minimal maximum value and slack factor for
+     *                  the graph.
      * @return A Fraction object representing the computed edge value for the given inputs.
      */
     private static Fraction renderInteger(final int width, final Renderers renderers, final Map.Entry<Integer, ?
@@ -112,11 +113,13 @@ public record OfIntegers() {
         if (isNotNull(renderers)) {
             if (isNotNull(renderers.point())) for (int i = ZERO; i <= width; i++) {
                 final SharesData<?> data = new SharesData<>(results.getKey(), i, gp.minimalMaximumValue(), width);
-                final Binner binner = getRanges(data, shareOfInteger(results, 0, "stamp"), gp.slack()); // TODO: precision? Stamps?
+                final Binner binner = getRanges(data, shareOfInteger(results, 0, "stamp"), gp.slack()); // TODO: precision?
+                // Stamps?
                 line.append(renderers.point().apply(new SharesData<>(results.getKey(), i, gp.minimalMaximumValue(), width),
                         shareOfInteger(results, 0, "stamp"), binner));
             }
-            if (isNotNull(renderers.row())) line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(results, 0, "stamp"))));
+            if (isNotNull(renderers.row()))
+                line.append(s(_SPACE_, renderers.row().apply(shareOfInteger(results, 0, "stamp"))));
         }
         Values.logNoLevelLine(line.toString());
         logTrace(a(kv(EDGE, ts(true, edge))));
