@@ -49,6 +49,7 @@ public record C() {
     public static final String COMPENSATION = s(COMP, EN, SA, TION);
     public static final String COMPLETED = s(COMP, LET, ED);
     public static final String COMPONENTS = s(COMP, ON, ENTS);
+    public static final String COMPRESSED = s(COMP, RE, SS, ED);
     public static final String CONDITION = s(COND, I, TION);
     public static final String CONFIGURATION = s(CONFIG, UR, AT, ION);
     public static final String CONFIGURED = s(CONFIG, UR, ED);
