@@ -19,16 +19,19 @@ import static works.lysenko.util.prop.data.Delimeters.L0;
 public class ValuedRangeResult implements _ValuedRangeResult {
 
     private final Fraction value;
+    private final String stamp;
     private RangeResult result = null;
 
     /**
-     * Constructs a ValuedRangeResult instance with the specified Fraction value.
+     * Constructs a new ValuedRangeResult object.
      *
-     * @param value the Fraction value to be assigned to this ValuedRangeResult instance
+     * @param value the fractional value associated with this result
+     * @param stamp a string identifier or marker for the result
      */
-    public ValuedRangeResult(final Fraction value) {
+    public ValuedRangeResult(final Fraction value, final String stamp) {
 
         this.value = value;
+        this.stamp = stamp;
     }
 
     @Override
@@ -61,5 +64,11 @@ public class ValuedRangeResult implements _ValuedRangeResult {
     public final Fraction value() {
 
         return value;
+    }
+
+    @Override
+    public final String stamp() {
+
+        return stamp;
     }
 }
