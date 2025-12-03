@@ -6,4 +6,5 @@ import static works.lysenko.util.spec.PropEnum.*;
 public record Verify() {
 
     public static final boolean colours = _VERIFY_COLOURS.get();
+    public static final boolean stamps = _STAMPS_PROCESS.get();
 }
