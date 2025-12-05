@@ -322,7 +322,7 @@ public record ClassLoader() {
      * @param descriptor the descriptor for the package to read from
      * @param resources  the collection to add the found classes to
      * @param silent     a flag indicating whether to suppress error messages
-     * @throws IOException if an F/T error occurs while reading the JAR file
+     * @throws IOException if an I/O error occurs while reading the JAR file
      */
     private static void readJarFile(final URL jarURL, final Descriptor descriptor,
                                     final Collection<? super Class<?>> resources, final boolean silent) throws IOException {

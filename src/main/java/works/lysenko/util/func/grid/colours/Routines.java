@@ -6,6 +6,7 @@ import works.lysenko.util.apis.grid.g._Grid;
 import works.lysenko.util.apis.grid.q._ColoursQuotas;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.apis.grid.q._Quotas;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.enums.ColoursValidationResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.range.FractionRange;
@@ -29,7 +30,9 @@ import java.util.Map;
 import static java.util.Objects.isNull;
 import static works.lysenko.Base.logDebug;
 import static works.lysenko.Base.logEvent;
-import static works.lysenko.util.chrs.__.*;
+import static works.lysenko.util.chrs.__.BE;
+import static works.lysenko.util.chrs.__.IS;
+import static works.lysenko.util.chrs.__.OF;
 import static works.lysenko.util.chrs.___.THE;
 import static works.lysenko.util.chrs.____.LESS;
 import static works.lysenko.util.chrs.____.NULL;
@@ -65,7 +68,9 @@ import static works.lysenko.util.lang.word.S.SHARE;
 import static works.lysenko.util.lang.word.T.THRESHOLD;
 import static works.lysenko.util.prop.data.Delimeters.L0;
 import static works.lysenko.util.spec.Numbers.*;
-import static works.lysenko.util.spec.Symbols.*;
+import static works.lysenko.util.spec.Symbols.DATA_POINT;
+import static works.lysenko.util.spec.Symbols.VRT_BAR;
+import static works.lysenko.util.spec.Symbols._BULLT_;
 
 /**
  * The ColoursRenderers class is responsible for validating and processing colour data in a grid.
@@ -92,7 +97,7 @@ public record Routines() {
         // Mapping
         final boolean ignoreOrder = vr.irq().colours().ignore(ORDER);
         final boolean ignoreOther = vr.irq().colours().ignore(OTHER);
-        final Map<Integer, ValuedRangeResult> actual = grid.processor().getColoursByRates(vr.irq().colours().border(),
+        final Map<Integer, _ValuedRangeResult> actual = grid.processor().getColoursByRates(vr.irq().colours().border(),
                 vr.irq().colours().ignoreHSB());
         final _ColoursQuotas expected = vr.irq().colours();
         final IntegerRange amount = vr.irq().colours().amount();
@@ -116,7 +121,8 @@ public record Routines() {
      * @return the ColoursResult indicating the validation result
      */
     @SuppressWarnings({"MethodWithTooManyParameters", "MethodWithMultipleReturnPoints", "unchecked"})
-    private static ColoursValidationResult areColoursOk(final ValidationMeta meta, final Map<Integer, ValuedRangeResult> actual
+    private static ColoursValidationResult areColoursOk(final ValidationMeta meta,
+                                                        final Map<Integer, _ValuedRangeResult> actual
             , final _ColoursQuotas expected, final boolean ignoreOrder, final IntegerRange amount, final boolean ignoreOther) {
 
         final Fraction threshold = meta.vr().irq().colours().border();
@@ -199,7 +205,9 @@ public record Routines() {
      * @return the ColoursValidationResult indicating whether the validation passed, failed, or fell within defined margins
      */
     private static ColoursValidationResult getColoursResult(final Request vr, final Severity max, final Map<Integer,
-                                                                    ValuedRangeResult> actual, final _ColoursQuotas expected, final _RangedMargin margin, final boolean ignoreOrder,
+                                                                    _ValuedRangeResult> actual,
+                                                            final _ColoursQuotas expected, final _RangedMargin margin,
+                                                            final boolean ignoreOrder,
                                                             final IntegerRange amount, final boolean ignoreOther) {
 
         final Noun noun = new Noun(COLOUR, COLOURS);

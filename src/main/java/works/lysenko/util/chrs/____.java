@@ -1,15 +1,18 @@
 package works.lysenko.util.chrs;
 
 /**
- * This class represents a record that contains a collection of constant string values.
+ * A record that contains a collection of predefined string constants.
+ * Each constant in this class represents a specific word, suffix, prefix, or
+ * format pattern that may be commonly used in various contexts within
+ * applications.
  * <p>
- * Each constant string is defined to represent a specific value, often used as a prefix,
- * suffix, or partial match for various strings in a broader context.
+ * This class serves as a centralised location to provide reusable string
+ * constants, promoting consistency and reducing the risk of hardcoded string
+ * values scattered across the codebase.
  * <p>
- * The provided constants are intended to help with consistent string handling and pattern
- * matching in applications that require predefined textual segments.
- * <p>
- * This class is designed without instance-level state as the constants are all static and public.
+ * Constants in this class are defined as public static final fields, ensuring
+ * they are immutable and can be referenced directly without the need for
+ * instantiation.
  */
 @SuppressWarnings({"ClassWithoutLogger", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "DollarSignInName",
         "WeakerAccess", "unused", "HardCodedStringLiteral"})

@@ -142,7 +142,7 @@ public interface _Scenario {
      * This allows to skip definition of some weight v to each parent scenario.
      * Defined weight of parent scenario will propagate up the scenarios hierarchy.
      * <p>
-     * scenario.a.b.E=1.0
+     * scenario.a.b.C=1.0
      * <p>
      * This will provide upstream weight 1.0 to scenarios "Scenario", "Scenario.A1" and "Scenario.a.B1"
      *

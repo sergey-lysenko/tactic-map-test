@@ -6,6 +6,7 @@ import works.lysenko.util.apis.grid.g._GridProperties;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.apis.grid.r._Processor;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.func.logs.Trace;
 import works.lysenko.util.grid.record.Request;
@@ -51,7 +52,7 @@ import static works.lysenko.util.lang.word.M.MARGIN;
  * Represents a processor that merges actual and expected share ranges and performs operations on them.
  */
 @SuppressWarnings({"rawtypes", "unchecked", "CallToSuspiciousStringMethod"})
-public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected) implements _Processor {
+public record Processor(Map<Integer, _ValuedRangeResult> actual, _Quotas expected) implements _Processor {
 
     public void processNegativeResult(final Request vr) {
 
@@ -120,7 +121,7 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
         final List<_Quota<Integer>> newRanges = new ArrayList<>(actual.size());
 
         // cycling through actual and merging ranges
-        for (final Map.Entry<Integer, ValuedRangeResult> entry : actual.entrySet())
+        for (final Map.Entry<Integer, _ValuedRangeResult> entry : actual.entrySet())
             processFailed(margin, entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
@@ -141,7 +142,8 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
         final List<_Quota<Integer>> newRanges = new ArrayList<>(actual.size());
 
         // cycling through actual and merging ranges
-        for (final Map.Entry<Integer, ValuedRangeResult> entry : actual.entrySet()) processPassed(entry, newRanges, ignoreShrink);
+        for (final Map.Entry<Integer, _ValuedRangeResult> entry : actual.entrySet())
+            processPassed(entry, newRanges, ignoreShrink);
 
         // cycling through expected and checking for leftovers
         if (Update.passed && isNotNull(expected)) if (isNotNull(expected.get())) for (final Object entry : expected.get())
@@ -157,11 +159,12 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
      * @param ignoreShrink Flag to determine whether the shrink operation should be ignored.
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private void processFailed(final _RangedMargin rangedMargin, final Map.Entry<Integer, ? extends ValuedRangeResult> entry,
-                               final List<? super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
+    private void processFailed(final _RangedMargin rangedMargin,
+                               final Map.Entry<Integer, ? extends _ValuedRangeResult> entry, final List<?
+                    super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
 
         final Integer key = entry.getKey();
-        final ValuedRangeResult value = entry.getValue();
+        final _ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
         final String stamp = (isNull(range)) ? null : range.stamp();
@@ -189,11 +192,11 @@ public record Processor(Map<Integer, ValuedRangeResult> actual, _Quotas expected
      * @param newRanges    The list of Quota objects to update with new data.
      * @param ignoreShrink Flag to determine whether the shrink operation should be ignored.
      */
-    private void processPassed(final Map.Entry<Integer, ? extends ValuedRangeResult> entry,
-                               final List<? super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
+    private void processPassed(final Map.Entry<Integer, ? extends _ValuedRangeResult> entry, final List<?
+            super _Quota<Integer>> newRanges, final boolean ignoreShrink) {
 
         final Integer key = entry.getKey();
-        final ValuedRangeResult value = entry.getValue();
+        final _ValuedRangeResult value = entry.getValue();
         final _Quota range = expected.getByKey(key);
         final Integer precision = (isNull(range)) ? null : (Integer) range.precision();
         final String stamp = (isNull(range)) ? null : range.stamp();

@@ -8,7 +8,7 @@ import works.lysenko.util.data.enums.RangeResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.range.FractionRange;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 import works.lysenko.util.prop.grid.Ranges;
 import works.lysenko.util.prop.grid.WideRange;
@@ -53,7 +53,7 @@ record Verify() {
      * @param actualShare   The actual share value to be compared.
      * @return Values object containing the maximum value of the range, minimum value of the range, and the actual share value.
      */
-    private static Values getValues(final Quota<?> expectedRange, final ValuedRangeResult actualShare) {
+    private static Values getValues(final Quota<?> expectedRange, final _ValuedRangeResult actualShare) {
 
         final Fraction expectedMax = isNull(expectedRange) ? null : expectedRange.max();
         final Fraction expectedMin = isNull(expectedRange) ? null : expectedRange.min();
@@ -71,7 +71,7 @@ record Verify() {
      */
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     static RangeResult isFractionValueInRange(final ValidationMeta meta, final Quota<Fraction> expectedRange,
-                                              final Fraction actualValue, final ValuedRangeResult actualShare) {
+                                              final Fraction actualValue, final _ValuedRangeResult actualShare) {
 
         final Values values = preChecks(meta, expectedRange, actualShare);
         if (isAnyNull(values.minimum(), values.maximum())) return null;
@@ -94,7 +94,7 @@ record Verify() {
      */
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     static RangeResult isIntegerValueInRange(final ValidationMeta meta, final Quota<Integer> expectedShare,
-                                             final int actualValue, final ValuedRangeResult actualShare) {
+                                             final int actualValue, final _ValuedRangeResult actualShare) {
 
         final Values values = preChecks(meta, expectedShare, actualShare);
         RangeResult result = RangeResult.OK;
@@ -145,7 +145,7 @@ record Verify() {
     }
 
     private static Values preChecks(final ValidationMeta meta, final Quota<?> expectedShare,
-                                    final ValuedRangeResult actualShare) {
+                                    final _ValuedRangeResult actualShare) {
 
         final Values values = getValues(expectedShare, actualShare);
         final Double max = isNull(values.maximum()) ? null : values.maximum().doubleValue();
@@ -155,7 +155,7 @@ record Verify() {
     }
 
     @SuppressWarnings({"NumericCastThatLosesPrecision", "SameParameterValue"})
-    private static void verifyPrecision(final Fraction value, final ValuedRangeResult actual, final Severity severity) {
+    private static void verifyPrecision(final Fraction value, final _ValuedRangeResult actual, final Severity severity) {
 
         if (!isAnyNull(value, actual)) if (value.doubleValue() != actual.doubleValue()) {
             final double less = FastMath.min(value.doubleValue(), actual.doubleValue());
@@ -186,7 +186,7 @@ record Verify() {
                     s(expectedShare.value()), IN, q(meta.vr().name())));
     }
 
-    private record Values(Fraction maximum, Fraction minimum, ValuedRangeResult actual) {
+    private record Values(Fraction maximum, Fraction minimum, _ValuedRangeResult actual) {
 
     }
 }

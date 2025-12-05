@@ -7,7 +7,7 @@ import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.type.list.RangeResults;
 import works.lysenko.util.func.grid.AbstractRanger;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 
 import java.util.Map;
@@ -33,7 +33,7 @@ public class OfIntegers extends AbstractRanger<Integer> {
      * @param severity    The severity level of the validation process.
      */
     public OfIntegers(final ValidationMeta meta,
-                      final Map<Integer, ValuedRangeResult> actual,
+                      final Map<Integer, _ValuedRangeResult> actual,
                       final _Quotas<Integer> expected,
                       final IntegerRange amount,
                       final boolean ignoreOrder,
@@ -45,7 +45,7 @@ public class OfIntegers extends AbstractRanger<Integer> {
     }
 
     public final void addSample(final RangeResults toResults, final Quota<Integer> expectedShare, final Integer actualValue,
-                                final ValuedRangeResult actualShare) {
+                                final _ValuedRangeResult actualShare) {
 
         toResults.add(isIntegerValueInRange(meta(), expectedShare, actualValue, actualShare));
     }

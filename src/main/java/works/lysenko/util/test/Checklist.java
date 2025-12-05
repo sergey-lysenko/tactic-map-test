@@ -11,8 +11,8 @@ import static works.lysenko.util.test.Polychromy.calculateMaxPolychromies;
  * <p>
  * This class is designed to coordinate and orchestrate the following tasks:
  * - Calculate the maximum polychromies across grid files.
- * - VerifyResource the correctness of redefined color amounts in grid data.
- * - Check for undefined color references within grid files.
+ * - VerifyResource the correctness of redefined colour amounts in grid data.
+ * - Check for undefined colour references within grid files.
  * <p>
  * Each operation is executed in a specific sequence to ensure data integrity
  * and highlight any inconsistencies or errors in the grid definitions.
@@ -26,14 +26,14 @@ public class Checklist implements Runnable {
      * <p>
      * 1. `calculateMaxPolychromies`: Calculates the maximum polychromies by processing all
      *    grid files in a designated directory. This includes identifying `.grid` files,
-     *    calculating polychromy values for each, and handling potential F/T exceptions.
+     *    calculating polychromy values for each, and handling potential I/O exceptions.
      * <p>
-     * 2. `verifyRedefinedAmounts`: Verifies the correctness of redefined color amounts for
+     * 2. `verifyRedefinedAmounts`: Verifies the correctness of redefined colour amounts for
      *    specified grid files. This includes validation of redefinitions and reporting
      *    results in titled sections of the execution output while managing file access errors.
      * <p>
-     * 3. `verifyUndefinedColours`: Checks for undefined color references in grid files. It
-     *    identifies discrepancies in the color definitions, logs unknown colors, and manages
+     * 3. `verifyUndefinedColours`: Checks for undefined colour references in grid files. It
+     *    identifies discrepancies in the colour definitions, logs unknown colours, and manages
      *    exceptions during the validation process.
      * <p>
      * This method ensures the preflight status of the grid data by aggregating the results

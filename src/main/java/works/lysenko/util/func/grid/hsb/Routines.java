@@ -3,11 +3,11 @@ package works.lysenko.util.func.grid.hsb;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.g._Grid;
 import works.lysenko.util.apis.grid.q._Quota;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.records.Noun;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.func.grid.ranger.OfFractions;
 import works.lysenko.util.grid.expected.QuotasHSB;
 import works.lysenko.util.grid.record.Request;
@@ -101,7 +101,7 @@ public record Routines() {
     public static boolean isBrightnessOk(final Request vr, final _Grid grid, final Severity max) {
 
         final Renderers renderers = r(Routines::noDataIgnore, Routines::brightnessDataVisual, Routines::plainDataLegend);
-        final Map<Fraction, ValuedRangeResult> actual = grid.processor().getBrightnessesByRates(vr.irq().brightness());
+        final Map<Fraction, _ValuedRangeResult> actual = grid.processor().getBrightnessesByRates(vr.irq().brightness());
         final QuotasHSB expected = (QuotasHSB) vr.irq().brightness();
         final Noun noun = new Noun(BRIGHTNESS, s(BRIGHTNESS, ES));
         final Subject subject = new Subject(noun, Method.OPTIONAL);
@@ -121,7 +121,7 @@ public record Routines() {
     public static boolean isHueOk(final Request vr, final _Grid grid, final Severity max) {
 
         final Renderers renderers = r(Routines::noDataIgnore, Routines::hueDataVisual, Routines::plainDataLegend);
-        final Map<Fraction, ValuedRangeResult> actual = grid.processor().getHuesByRates(vr.irq().hue());
+        final Map<Fraction, _ValuedRangeResult> actual = grid.processor().getHuesByRates(vr.irq().hue());
         final QuotasHSB expected = (QuotasHSB) vr.irq().hue();
         final Noun noun = new Noun(HUE, s(HUE, S));
         final Subject subject = new Subject(noun, Method.OPTIONAL);
@@ -141,7 +141,7 @@ public record Routines() {
     public static boolean isSaturationOk(final Request vr, final _Grid grid, final Severity max) {
 
         final Renderers renderers = r(Routines::noDataIgnore, Routines::plainDataVisual, Routines::plainDataLegend);
-        final Map<Fraction, ValuedRangeResult> actual = grid.processor().getSaturationsByRates(vr.irq().saturation());
+        final Map<Fraction, _ValuedRangeResult> actual = grid.processor().getSaturationsByRates(vr.irq().saturation());
         final QuotasHSB expected = (QuotasHSB) vr.irq().saturation();
         final Noun noun = new Noun(SATURATION, s(SATURATION, S));
         final Subject subject = new Subject(noun, Method.OPTIONAL);

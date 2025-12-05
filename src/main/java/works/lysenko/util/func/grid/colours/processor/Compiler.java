@@ -2,9 +2,9 @@ package works.lysenko.util.func.grid.colours.processor;
 
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quota;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.FractionRange;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours._ValuedRangeResult;
 import works.lysenko.util.func.logs.Trace;
 import works.lysenko.util.prop.grid.Ranges;
 import works.lysenko.util.prop.grid.Update;

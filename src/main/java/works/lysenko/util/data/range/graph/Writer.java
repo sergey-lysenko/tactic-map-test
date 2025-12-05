@@ -2,11 +2,11 @@ package works.lysenko.util.data.range.graph;
 
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quotas;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.range.graph.values.OfFractions;
 import works.lysenko.util.data.range.graph.values.OfIntegers;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 
 import java.util.Map;
@@ -34,7 +34,7 @@ public record Writer() {
      * @return A Fraction object representing the computed edge value of the graph after processing,
      * scaling, and statistical analysis.
      */
-    public static Fraction graphActualFraction(final String title, final Map<Fraction, ValuedRangeResult> results,
+    public static Fraction graphActualFraction(final String title, final Map<Fraction, _ValuedRangeResult> results,
                                                final Options go, final Renderers renderers, final int fences) {
 
         final Fraction edge = OfFractions.actualValuesFromMapFraction(title, results, go, renderers, fences);
@@ -56,7 +56,7 @@ public record Writer() {
      * @param renderers A Renderers object defining rendering logic for data visualization.
      * @return A Fraction object representing the computed edge value of the graph after processing.
      */
-    public static Fraction graphActualInteger(final String title, final Map<Integer, ValuedRangeResult> results,
+    public static Fraction graphActualInteger(final String title, final Map<Integer, _ValuedRangeResult> results,
                                               final Options go, final Renderers renderers) {
 
         final Fraction edge = OfIntegers.actualValuesFromMapInteger(title, results, go, renderers);

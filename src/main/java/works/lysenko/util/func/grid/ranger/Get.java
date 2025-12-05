@@ -58,7 +58,6 @@ public record Get() {
         final Quota<T> the;
         log(meta, value, quota, index);
         the = (Quota<T>) getSubstitute(meta, expected, value, ignoreOther);
-
         return the;
     }
 
@@ -84,7 +83,7 @@ public record Get() {
                                            final boolean ignoreOther) {
 
         for (final _Quota<?> quota : quotas.get()) {
-            if (quota.value().equals(value))  return quota;
+            if (quota.value().equals(value)) return quota;
             if (quotas.isWithinPrecision(value, quota)) return quota;
         }
         final Severity severity = ignoreOther ? Severity.values()[meta.max().ordinal() + Allowed.otherSeverityReduction] :

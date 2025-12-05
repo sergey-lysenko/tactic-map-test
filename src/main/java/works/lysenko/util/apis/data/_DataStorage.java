@@ -19,7 +19,7 @@ public interface _DataStorage {
      *
      * @param out      the OutputStream to store the data to
      * @param comments optional comments to include while storing the data
-     * @throws IOException if an F/T error occurs during the operation
+     * @throws IOException if an I/O error occurs during the operation
      */
     void store(OutputStream out, String comments) throws IOException;
 
@@ -109,7 +109,7 @@ public interface _DataStorage {
      *
      * @param stringWriter The StringWriter object to store the data to.
      * @param comments     Optional comments to include with the stored data.
-     * @throws IOException if an F/T error occurs while storing the data.
+     * @throws IOException if an I/O error occurs while storing the data.
      */
     void store(StringWriter stringWriter, String comments) throws IOException;
 }

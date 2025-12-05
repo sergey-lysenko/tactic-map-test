@@ -1,4 +1,4 @@
-package works.lysenko.util.func.grid.colours;
+package works.lysenko.util.apis.grid.v;
 
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.data.enums.RangeResult;

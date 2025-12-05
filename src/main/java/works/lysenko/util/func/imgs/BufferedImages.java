@@ -38,7 +38,7 @@ public record BufferedImages() {
      *
      * @param base64String the Base64 encoded string to convert
      * @return the BufferedImage representation of the base64 string
-     * @throws IOException if an F/T error occurs during the conversion
+     * @throws IOException if an I/O error occurs during the conversion
      */
     public static BufferedImage base64ToBufferedImage(final String base64String) throws IOException {
 

@@ -1,8 +1,8 @@
 package works.lysenko.util.data.range.graph;
 
 import works.lysenko.util.apis.grid.q._Quotas;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.Quota;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.prop.grid.Ranges;
 
 import java.util.*;
@@ -48,10 +48,10 @@ record Stats() {
         statsRow(minSum, maxSum);
     }
 
-    static void stats(final Map<?, ? extends ValuedRangeResult> results) {
+    static void stats(final Map<?, ? extends _ValuedRangeResult> results) {
 
-        final Collection<ValuedRangeResult> list = new ArrayList<>(results.values());
-        final double value = list.stream().mapToDouble(ValuedRangeResult::doubleValue).sum();
+        final Collection<_ValuedRangeResult> list = new ArrayList<>(results.values());
+        final double value = list.stream().mapToDouble(_ValuedRangeResult::doubleValue).sum();
         statsRow(value);
     }
 

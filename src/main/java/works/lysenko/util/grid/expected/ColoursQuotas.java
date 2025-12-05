@@ -12,7 +12,6 @@ import works.lysenko.util.data.records.Slack;
 import works.lysenko.util.func.grid.Renderers;
 import works.lysenko.util.grid.record.misc.IgnoreHSB;
 import works.lysenko.util.grid.record.misc.Limits;
-import works.lysenko.util.lang.word.Q;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,6 @@ import static works.lysenko.util.data.range.Graph.graphExpected;
 import static works.lysenko.util.data.range.graph.Calculator.maxShare;
 import static works.lysenko.util.data.records.KeyValue.kv;
 import static works.lysenko.util.data.records.RGB24.rgb24;
-import static works.lysenko.util.data.strs.Swap.s;
 import static works.lysenko.util.data.strs.Vars.a;
 import static works.lysenko.util.func.type.Objects.isAnyNull;
 import static works.lysenko.util.func.type.Objects.isNotNull;
@@ -170,7 +168,7 @@ public class ColoursQuotas extends AbstractQuotas implements _ColoursQuotas {
             if (isAnyNull(colour1, colour2)) return false;
             else {
                 @SuppressWarnings("DataFlowIssue") final double distance = distance(colour1, colour2);
-                logDebug(a(List.of(kv(VALUE, value),kv(QUOTA, quota.value()), kv(DISTANCE, distance)), COMMA_SPACE));
+                logDebug(a(List.of(kv(VALUE, value), kv(QUOTA, quota.value()), kv(DISTANCE, distance)), COMMA_SPACE));
                 final boolean isWithin = (distance < (Integer) quota.precision());
                 return isWithin;
             }

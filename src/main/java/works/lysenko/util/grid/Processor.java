@@ -4,6 +4,7 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.g._GridCalculator;
 import works.lysenko.util.apis.grid.g._GridProcessor;
 import works.lysenko.util.apis.grid.q._FractionQuotas;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.records.diff.Pair;
 import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.misc.IgnoreHSB;
@@ -58,10 +59,10 @@ public class Processor implements _GridProcessor {
      * @return a map where the integer keys from the input map are converted to Fraction keys
      * and mapped to their corresponding ValuedRangeResult values
      */
-    private static Map<Fraction, ValuedRangeResult> getFractionActualFractionMap(final int q, final Map<Integer, ?
-            extends ValuedRangeResult> raw) {
+    private static Map<Fraction, _ValuedRangeResult> getFractionActualFractionMap(final int q, final Map<Integer, ?
+            extends _ValuedRangeResult> raw) {
 
-        final Map<Fraction, ValuedRangeResult> map = new LinkedHashMap<>(raw.size());
+        final Map<Fraction, _ValuedRangeResult> map = new LinkedHashMap<>(raw.size());
         raw.forEach((key, value) -> {
             final Fraction hueFraction = fr(key, q);
             map.put(hueFraction, value);
@@ -76,7 +77,7 @@ public class Processor implements _GridProcessor {
      * @return a results containing the values as keys and their corresponding rates as Fraction values
      */
     @SuppressWarnings("unused")
-    private static Map<Integer, ValuedRangeResult> getRates(final Map<Integer, Pair<Integer, String>> distribution) {
+    private static Map<Integer, _ValuedRangeResult> getRates(final Map<Integer, Pair<Integer, String>> distribution) {
 
         return getRatesWithThreshold(distribution, Fraction.ZERO);
     }
@@ -87,15 +88,16 @@ public class Processor implements _GridProcessor {
      * then maps these rates to ValuedRangeResult objects with corresponding metadata.
      *
      * @param distribution a map containing Integer keys and Pair values where:
-     *                     -*/
-    private static Map<Integer, ValuedRangeResult> getRatesWithThreshold(final Map<Integer, Pair<Integer, String>> distribution, final Fraction threshold) {
+     *                     -
+     */
+    private static Map<Integer, _ValuedRangeResult> getRatesWithThreshold(final Map<Integer, Pair<Integer, String>> distribution, final Fraction threshold) {
 
         final Map<Integer, Integer> reduced = distribution.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
                 e -> e.getValue().left()));
         final int totalPixels = reduced.values().stream().mapToInt(Integer::intValue).sum();
         final Map<Integer, Double> rates = calculateRates(reduced, totalPixels); // Apply threshold here?
         final Map<Integer, Double> sorted = sortAndFilterRates(rates, threshold);
-        final Map<Integer, ValuedRangeResult> fractions = new LinkedHashMap<>(sorted.size());
+        final Map<Integer, _ValuedRangeResult> fractions = new LinkedHashMap<>(sorted.size());
         sorted.forEach((key, value) -> fractions.put(key, new ValuedRangeResult(fr(value), distribution.get(key).right())));
         return fractions;
     }
@@ -117,30 +119,30 @@ public class Processor implements _GridProcessor {
     }
 
     @Override
-    public final Map<Fraction, ValuedRangeResult> getBrightnessesByRates(final _FractionQuotas brightnesses) {
+    public final Map<Fraction, _ValuedRangeResult> getBrightnessesByRates(final _FractionQuotas brightnesses) {
 
         final int q = isNull(brightnesses) ? i(fences) : brightnesses.fences();
         final Fraction f = isNull(brightnesses) ? LOWER_LIMIT : brightnesses.threshold();
-        final Map<Integer, ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsByBrightness(q), f);
+        final Map<Integer, _ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsByBrightness(q), f);
         return getFractionActualFractionMap(q, raw);
     }
 
-    public final Map<Integer, ValuedRangeResult> getColoursByRates() {
+    public final Map<Integer, _ValuedRangeResult> getColoursByRates() {
 
         return getRatesWithThreshold(calculator.countPixelsByColor(), Fraction.ZERO);
     }
 
-    public final Map<Integer, ValuedRangeResult> getColoursByRates(final Fraction threshold) {
+    public final Map<Integer, _ValuedRangeResult> getColoursByRates(final Fraction threshold) {
 
         return getRatesWithThreshold(calculator.countPixelsByColor(), threshold);
     }
 
     @SuppressWarnings("ContinueStatement")
-    public final Map<Integer, ValuedRangeResult> getColoursByRates(final Fraction threshold, final IgnoreHSB ignoreHSB) {
+    public final Map<Integer, _ValuedRangeResult> getColoursByRates(final Fraction threshold, final IgnoreHSB ignoreHSB) {
 
-        final Map<Integer, ValuedRangeResult> in = getRatesWithThreshold(calculator.countPixelsByColor(), threshold);
-        final Map<Integer, ValuedRangeResult> out = new LinkedHashMap<>(0);
-        for (final Map.Entry<Integer, ValuedRangeResult> entry : in.entrySet()) {
+        final Map<Integer, _ValuedRangeResult> in = getRatesWithThreshold(calculator.countPixelsByColor(), threshold);
+        final Map<Integer, _ValuedRangeResult> out = new LinkedHashMap<>(0);
+        for (final Map.Entry<Integer, _ValuedRangeResult> entry : in.entrySet()) {
             final HSB colourHSB = HSB.convertRGBtoHSB(rgb24(entry.getKey()));
             if (!isNull(colourHSB)) {
                 if (isNotNull(ignoreHSB.hue()) && ignoreHSB.hue().includes(colourHSB.hue())) continue;
@@ -153,20 +155,20 @@ public class Processor implements _GridProcessor {
     }
 
     @Override
-    public final Map<Fraction, ValuedRangeResult> getHuesByRates(final _FractionQuotas hues) {
+    public final Map<Fraction, _ValuedRangeResult> getHuesByRates(final _FractionQuotas hues) {
 
         final int q = isNull(hues) ? i(fences) : hues.fences();
         final Fraction f = isNull(hues) ? LOWER_LIMIT : hues.threshold();
-        final Map<Integer, ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsByHue(q), f);
+        final Map<Integer, _ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsByHue(q), f);
         return getFractionActualFractionMap(q, raw);
     }
 
     @Override
-    public final Map<Fraction, ValuedRangeResult> getSaturationsByRates(final _FractionQuotas saturations) {
+    public final Map<Fraction, _ValuedRangeResult> getSaturationsByRates(final _FractionQuotas saturations) {
 
         final int q = isNull(saturations) ? i(fences) : saturations.fences();
         final Fraction f = isNull(saturations) ? LOWER_LIMIT : saturations.threshold();
-        final Map<Integer, ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsBySaturation(q), f);
+        final Map<Integer, _ValuedRangeResult> raw = getRatesWithThreshold(calculator.countPixelsBySaturation(q), f);
         return getFractionActualFractionMap(q, raw);
     }
 }

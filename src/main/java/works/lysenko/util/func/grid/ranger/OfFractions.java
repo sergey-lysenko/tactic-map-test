@@ -8,7 +8,7 @@ import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.type.list.RangeResults;
 import works.lysenko.util.func.grid.AbstractRanger;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 
 import java.util.Map;
@@ -32,7 +32,7 @@ public class OfFractions extends AbstractRanger<Fraction> {
      * @param renderers   An instance of Renderers used for rendering validation results.
      * @param severity    The severity level associated with the validation process.
      */
-    public OfFractions(final ValidationMeta meta, final Map<Fraction, ValuedRangeResult> actual,
+    public OfFractions(final ValidationMeta meta, final Map<Fraction, _ValuedRangeResult> actual,
                        final _Quotas<Fraction> expected, final IntegerRange amount, final boolean ignoreOrder,
                        final boolean ignoreOther,
                        final Renderers renderers, final Severity severity) {
@@ -41,7 +41,7 @@ public class OfFractions extends AbstractRanger<Fraction> {
     }
 
     public final void addSample(final RangeResults toResults, final Quota<Fraction> expectedShare,
-                                final Fraction actualValue, final ValuedRangeResult actualShare) {
+                                final Fraction actualValue, final _ValuedRangeResult actualShare) {
 
         toResults.add(isFractionValueInRange(meta(), expectedShare, actualValue, actualShare));
     }

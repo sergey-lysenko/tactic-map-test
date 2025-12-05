@@ -4,12 +4,12 @@ import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quota;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.apis.grid.r._Ranger;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.enums.Severity;
 import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.type.list.RangeResults;
 import works.lysenko.util.data.type.list.RangerResults;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.func.grid.ranger.Get;
 import works.lysenko.util.func.grid.ranger.Issues;
 import works.lysenko.util.func.grid.ranger.Render;
@@ -51,7 +51,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
 
     private final ValidationMeta meta;
     private final IntegerRange amount;
-    private final Map<T, ValuedRangeResult> actual;
+    private final Map<T, _ValuedRangeResult> actual;
     private final Severity severity;
     private final _Quotas<T> expected;
     private final boolean ignoreOrder;
@@ -74,8 +74,9 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * @param renderers   the Renderers object used to handle rendering during validation
      * @param severity    the Severity level used to categorize issues encountered during validation
      */
-    protected AbstractRanger(final ValidationMeta meta, final Map<T, ValuedRangeResult> actual, final _Quotas<T> expected,
-                             final IntegerRange amount, final boolean ignoreOrder, final boolean ignoreOther, final Renderers renderers,
+    protected AbstractRanger(final ValidationMeta meta, final Map<T, _ValuedRangeResult> actual, final _Quotas<T> expected,
+                             final IntegerRange amount, final boolean ignoreOrder, final boolean ignoreOther,
+                             final Renderers renderers,
                              final Severity severity) {
 
         this.meta = meta;
@@ -116,7 +117,8 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * @param actualValue   the actual value of type T to be evaluated and added to the results
      * @param actualShare   the ValuedRangeResult object representing the actual result of the value
      */
-    public abstract void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, ValuedRangeResult actualShare);
+    public abstract void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue,
+                                   _ValuedRangeResult actualShare);
 
     public final ValidationMeta meta() {
 
@@ -208,11 +210,12 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
         }
 
         if (isNotNull(quota) && !quota.value().equals(of)) {
-            if (ignoreOrder || isNotNull(quota.precision())) substitute = Get.substitute(meta, expected, of, quota, indexOfActual, ignoreOther);
+            if (ignoreOrder || isNotNull(quota.precision()))
+                substitute = Get.substitute(meta, expected, of, quota, indexOfActual, ignoreOther);
             else issues.addUnexpectedActual(of, indexOfActual);
         }
 
-        final ValuedRangeResult result = actual.get(of);
+        final _ValuedRangeResult result = actual.get(of);
 
         if (compulsive && isNull(substitute)) issues.addNoCorrespondingShare(ignoreOther);
         return new Sample(substitute, result);
@@ -262,7 +265,7 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
      * Represents a record type used to encapsulate a sample within the validation process.
      * A sample is defined by correlating an expected quota with its actual corresponding result.
      */
-    private record Sample(Quota<?> quota, ValuedRangeResult result) {
+    private record Sample(Quota<?> quota, _ValuedRangeResult result) {
 
     }
 }

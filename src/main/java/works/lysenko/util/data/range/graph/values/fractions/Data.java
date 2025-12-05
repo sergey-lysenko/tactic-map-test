@@ -3,9 +3,9 @@ package works.lysenko.util.data.range.graph.values.fractions;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.apis.grid.t._Range;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.graph.values.FromMap;
 import works.lysenko.util.data.range.graph.values.FromShares;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 
@@ -32,7 +32,7 @@ public record Data(Parameters gp, String value, String max) {
      * @param fences An integer representing the number of fences.
      * @return A1 new instance of DataStorage with computed graph parameters, value, and max value.
      */
-    public static Data data(final Map<Fraction, ValuedRangeResult> shares, final Options go, final int fences) {
+    public static Data data(final Map<Fraction, _ValuedRangeResult> shares, final Options go, final int fences) {
 
         final Limit li = limit(go);
         final Parameters gp = new FromMap(shares, fr(li.max())).getGraphParameters(go.slack());

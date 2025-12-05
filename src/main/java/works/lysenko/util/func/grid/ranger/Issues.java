@@ -9,7 +9,7 @@ import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.records.Noun;
 import works.lysenko.util.data.type.list.RangerResults;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.Method;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 import works.lysenko.util.prop.grid.Allowed;
@@ -118,7 +118,7 @@ public class Issues<T> implements _Issues<T> {
 
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "DataFlowIssue"})
     @Override
-    public final boolean areIssuesPresent(final ValidationMeta meta, final Map<T, ValuedRangeResult> actual,
+    public final boolean areIssuesPresent(final ValidationMeta meta, final Map<T, _ValuedRangeResult> actual,
                                           final _Quotas<T> expected, final IntegerRange amount, final Renderers renderers) {
 
         final Severity severity = meta.max();

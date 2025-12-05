@@ -1,9 +1,9 @@
 package works.lysenko.util.data.range;
 
 import org.apache.commons.math3.fraction.Fraction;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.graph.Writer;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.expected.ColoursQuotas;
 import works.lysenko.util.grid.expected.QuotasHSB;
 import works.lysenko.util.grid.record.graph.Options;
@@ -36,21 +36,23 @@ import static works.lysenko.util.lang.word.W.WRONG;
  * @param <T> type of value
  */
 @SuppressWarnings("unchecked")
-public record Graph<T>(String title, IntegerRange amount, AbstractQuotas quotas, Map<T, ValuedRangeResult> results, Options go,
+public record Graph<T>(String title, IntegerRange amount, AbstractQuotas quotas, Map<T, _ValuedRangeResult> results,
+                       Options go,
                        Renderers renderers,
                        Integer fences) {
 
     /**
      * Creates a new Graph object with the specified parameters.
      *
-     * @param results    The Map containing data points for the graph.
+     * @param results   The Map containing data points for the graph.
      * @param go        Options object containing configuration options for the graph.
      * @param renderers Renderers object containing functions for data handling.
      * @param fences    The number of fences in the graph.
      * @param <T>       The type of value.
      * @return A1 new Graph object initialised with the provided parameters.
      */
-    public static <T> Graph<T> graphActual(final Map<T, ValuedRangeResult> results, final Options go, final Renderers renderers,
+    public static <T> Graph<T> graphActual(final Map<T, _ValuedRangeResult> results, final Options go,
+                                           final Renderers renderers,
                                            final Integer fences) {
 
         return new Graph<>(c(ACTUAL), null, null, results, go, renderers, fences);
@@ -110,11 +112,11 @@ public record Graph<T>(String title, IntegerRange amount, AbstractQuotas quotas,
                 edge = Writer.graphExpectedFraction(title, amount, quotas, go, renderers, fences);
         }
         if (isNotNull(results) && isNull(quotas)) { // Actual
-            final Map.Entry<?, ValuedRangeResult> entry = results.entrySet().stream().findFirst().orElse(null);
+            final Map.Entry<?, _ValuedRangeResult> entry = results.entrySet().stream().findFirst().orElse(null);
             if (isNotNull(entry) && (entry.getKey() instanceof Integer))
-                edge = Writer.graphActualInteger(title, (Map<Integer, ValuedRangeResult>) results, go, renderers);
+                edge = Writer.graphActualInteger(title, (Map<Integer, _ValuedRangeResult>) results, go, renderers);
             if (isNotNull(entry) && (entry.getKey() instanceof Fraction))
-                edge = Writer.graphActualFraction(title, (Map<Fraction, ValuedRangeResult>) results, go, renderers, fences);
+                edge = Writer.graphActualFraction(title, (Map<Fraction, _ValuedRangeResult>) results, go, renderers, fences);
         }
         logTrace(a(kv(EDGE, ts(true, edge))));
         if (isNull(edge)) fail(b(UNABLE_TO, RENDER, GRAPH, DUE_TO, WRONG, CONFIGURATION));

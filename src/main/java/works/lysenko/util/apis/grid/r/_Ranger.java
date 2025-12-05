@@ -3,7 +3,7 @@ package works.lysenko.util.apis.grid.r;
 import works.lysenko.util.data.range.Quota;
 import works.lysenko.util.data.type.list.RangeResults;
 import works.lysenko.util.data.type.list.RangerResults;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 
 /**
@@ -22,7 +22,7 @@ public interface _Ranger<T> {
      * @param expectedShare the share of the value within the specified range
      * @param actualShare   the fraction representing the share
      */
-    void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, ValuedRangeResult actualShare);
+    void addSample(RangeResults toResults, Quota<T> expectedShare, T actualValue, _ValuedRangeResult actualShare);
 
     /**
      * Retrieves the validation meta-information encapsulated in a ValidationMeta record.

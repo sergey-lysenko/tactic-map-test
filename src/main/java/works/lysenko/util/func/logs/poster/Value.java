@@ -3,9 +3,9 @@ package works.lysenko.util.func.logs.poster;
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.grid.t._Range;
 import works.lysenko.util.apis.grid.t._Value;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.FractionRange;
 import works.lysenko.util.data.range.IntegerRange;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -47,7 +47,7 @@ public class Value<T> implements _Value<T> {
         return ts(true, value);
     }
 
-    private static String render(final ValuedRangeResult value) {
+    private static String render(final _ValuedRangeResult value) {
 
         return value.toString();
     }
@@ -55,7 +55,7 @@ public class Value<T> implements _Value<T> {
     public final String render() {
 
         final Map<Class<?>, Function<Object, String>> render = Map.of(
-                ValuedRangeResult.class, val -> render((ValuedRangeResult) val),
+                _ValuedRangeResult.class, val -> render((_ValuedRangeResult) val),
                 Fraction.class, val -> render((Fraction) val),
                 FractionRange.class, val -> render((_Range<?>) val),
                 Integer.class, val -> render((Integer) val),

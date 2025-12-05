@@ -1,6 +1,7 @@
 package works.lysenko.util.func.grid.colours;
 
 import org.apache.commons.math3.fraction.Fraction;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.enums.RangeResult;
 
 import static java.util.Objects.isNull;

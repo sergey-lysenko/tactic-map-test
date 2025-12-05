@@ -4,10 +4,10 @@ import org.apache.commons.math3.fraction.Fraction;
 import org.apache.commons.math3.util.FastMath;
 import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.apis.grid.t._Range;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.data.range.graph.Values;
 import works.lysenko.util.data.range.graph.values.integers.Data;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
 import works.lysenko.util.grid.record.graph.Options;
 import works.lysenko.util.grid.record.graph.Parameters;
 import works.lysenko.util.grid.record.rash.Binner;
@@ -55,17 +55,17 @@ public record OfIntegers() {
      * @return A Fraction object representing the computed edge value based on the provided input data.
      */
     @SuppressWarnings("MethodWithMultipleLoops")
-    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, ValuedRangeResult> results,
+    public static Fraction actualValuesFromMapInteger(final String title, final Map<Integer, _ValuedRangeResult> results,
                                                       final Options go, final Renderers renderers) {
 
         final Data gd = data(results, go);
         Fraction edge = n(Fraction.ZERO, go.edge());
         log(b(bb(title), gd.graphParameters().amountS(), gd.value(), gd.max()));
 
-        if (Stamps.display) for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
+        if (Stamps.display) for (final Map.Entry<Integer, _ValuedRangeResult> result : results.entrySet())
             log(b(s(result.getKey()), result.getValue().stamp()));
 
-        for (final Map.Entry<Integer, ValuedRangeResult> result : results.entrySet())
+        for (final Map.Entry<Integer, _ValuedRangeResult> result : results.entrySet())
             edge = fr(FastMath.min(ONE, FastMath.max(edge.doubleValue(), renderInteger(go.width(), renderers, result,
                     gd.graphParameters()).doubleValue())));
         return edge;
@@ -106,7 +106,7 @@ public record OfIntegers() {
      * @return A Fraction object representing the computed edge value for the given inputs.
      */
     private static Fraction renderInteger(final int width, final Renderers renderers, final Map.Entry<Integer, ?
-            extends ValuedRangeResult> results, final Parameters gp) {
+            extends _ValuedRangeResult> results, final Parameters gp) {
 
         final Fraction edge = results.getValue().value();
         final StringBuilder line = new StringBuilder(ZERO);

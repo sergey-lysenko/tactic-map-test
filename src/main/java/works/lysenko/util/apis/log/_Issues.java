@@ -4,7 +4,7 @@ import works.lysenko.util.apis.grid.q._Quotas;
 import works.lysenko.util.data.range.IntegerRange;
 import works.lysenko.util.data.type.list.RangerResults;
 import works.lysenko.util.func.grid.Renderers;
-import works.lysenko.util.func.grid.colours.ValuedRangeResult;
+import works.lysenko.util.apis.grid.v._ValuedRangeResult;
 import works.lysenko.util.grid.record.meta.ValidationMeta;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public interface _Issues<T> {
      * @param renderers The renderers used for logging and displaying results.
      * @return true if there are issues present; false otherwise.
      */
-    boolean areIssuesPresent(ValidationMeta meta, Map<T, ValuedRangeResult> actual, _Quotas<T> expected, IntegerRange amount
+    boolean areIssuesPresent(ValidationMeta meta, Map<T, _ValuedRangeResult> actual, _Quotas<T> expected, IntegerRange amount
             , Renderers renderers);
 
     /**
