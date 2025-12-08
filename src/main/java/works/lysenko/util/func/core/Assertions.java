@@ -47,8 +47,11 @@ import static works.lysenko.util.lang.word.F.FAILURE;
 import static works.lysenko.util.lang.word.F.FALSE;
 import static works.lysenko.util.lang.word.I.IMPLEMENTED;
 import static works.lysenko.util.lang.word.I.INDUCED;
+import static works.lysenko.util.lang.T.TODO_;
 import static works.lysenko.util.lang.word.V.VALUES;
-import static works.lysenko.util.spec.Symbols.*;
+import static works.lysenko.util.spec.Symbols._COLON_;
+import static works.lysenko.util.spec.Symbols._LFD_;
+import static works.lysenko.util.spec.Symbols._SPACE_;
 
 /**
  * Simple Assertions
@@ -363,6 +366,18 @@ public record Assertions() {
             logEvent(Severity.S0, s);
             if (works.lysenko.util.prop.core.Assertions.exception) еггог(s);
         }
+    }
+
+    /**
+     * Logs an event indicating a feature or functionality has not yet been implemented.
+     *
+     * @param severity the level of severity to log, indicating the importance or impact of the unimplemented feature
+     * @param message  a descriptive message providing additional context or details about the unimplemented feature
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void notImplemented(final Severity severity, final String message) {
+
+        logEvent(severity, b(TODO_, message));
     }
 
     /**
