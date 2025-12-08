@@ -214,7 +214,6 @@ public abstract class AbstractRanger<T> implements _Ranger<T> {
                 substitute = Get.substitute(meta, expected, of, quota, indexOfActual, ignoreOther);
             else issues.addUnexpectedActual(of, indexOfActual);
         }
-
         final _ValuedRangeResult result = actual.get(of);
 
         if (compulsive && isNull(substitute)) issues.addNoCorrespondingShare(ignoreOther);

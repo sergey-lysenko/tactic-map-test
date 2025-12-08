@@ -111,14 +111,15 @@ public record Routines() {
     }
 
     /**
-     * Determines whether the colours in a given grid are valid, according to the expected range of colours.
+     * Evaluates the validity of colours based on the provided metadata, actual values, expected quotas, and other parameters.
      *
-     * @param meta        the meta information for the validation request
-     * @param actual      the actual values represented as a map of Integer and Double
-     * @param expected    the expected ranges of colours
-     * @param ignoreOrder flag indicating whether to ignore the order of colours
-     * @param amount      the count of values
-     * @return the ColoursResult indicating the validation result
+     * @param meta        the metadata associated with the validation process, including severity and context
+     * @param actual      a map containing the actual colour fractions, keyed by their respective identifiers
+     * @param expected    the expected quotas defining the valid ranges of colours
+     * @param ignoreOrder a flag indicating whether the order of colours should be ignored during validation
+     * @param amount      the acceptable range for the number of colours
+     * @param ignoreOther a flag indicating whether to ignore colours outside the defined expected range
+     * @return a ColoursValidationResult object that represents the outcome of the colour validation process
      */
     @SuppressWarnings({"MethodWithTooManyParameters", "MethodWithMultipleReturnPoints", "unchecked"})
     private static ColoursValidationResult areColoursOk(final ValidationMeta meta,
