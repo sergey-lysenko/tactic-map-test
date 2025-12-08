@@ -22,3 +22,4 @@ Login==(//android.view.View[@content-desc='Settings'])[1]/..
 Settings==(//android.view.View[@content-desc='Settings'])[2]/..
 Search 1==//android.view.View[@content-desc='Search']/..
 Search 2==//android.widget.TextView[@text='Search']/..
+Root==//androidx.compose.ui.platform.ComposeView
