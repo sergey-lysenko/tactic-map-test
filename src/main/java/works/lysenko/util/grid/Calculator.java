@@ -167,7 +167,9 @@ public class Calculator implements _GridCalculator {
                 }
             }
 
-            final String stamp = Stamps.compress ? compress(encoded.toString()) : encoded.toString();
+            final String encodedString = encoded.toString();
+            final String compressed = Stamps.compress ? compress(encodedString) : null;
+            final String stamp = Stamps.compress && (compressed.length() < encodedString.length()) ? compressed : encodedString;
             result.put(entry.getKey(), new Pair<>(entry.getValue(),
                     encoded.isEmpty() ? "" : stamp));
         }
