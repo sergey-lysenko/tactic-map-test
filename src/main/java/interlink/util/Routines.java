@@ -1,6 +1,5 @@
 package interlink.util;
 
-import interlink.util.lang.I;
 import org.openqa.selenium.WebElement;
 import works.lysenko.util.func.core.Assertions;
 import works.lysenko.util.func.type.RandomListElement;
@@ -88,4 +87,18 @@ public record Routines() {
                 IMAGE_VERIFICATION_FAILED);
     }
 
+    /**
+     * Asserts that the image associated with the specified UI element matches the expected
+     * verification criteria. This method captures a screenshot of the element identified by
+     * the given locator and verifies the image using predefined test logic. If the verification
+     * fails, an assertion error is thrown with a failure message.
+     *
+     * @param element the locator of the UI element to be captured and verified through image comparison
+     * @param name the name to associate with the screenshot and image verification process
+     */
+    public static void assertImage(final String element, final String name) {
+
+        Assertions.assertTrue(test(image(makeScreenshot(exec.find(element), name), name)).isPassed(),
+                IMAGE_VERIFICATION_FAILED);
+    }
 }
