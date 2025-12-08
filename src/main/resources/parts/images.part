@@ -55,7 +55,7 @@
 # Matrix Validation Parameters
 # -------------------------------------------------------------------------------------------------
 # Margins for color, HSV, and polychromy validation. Defaults are specified in `PropEnum`
-.default.colour.ranged.margin=a1/77|r1/99
+.default.colour.ranged.margin=r4/999
 .default.hsv.margin=1/111
 .default.polychromy.margin=1/111
 
