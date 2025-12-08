@@ -11,7 +11,6 @@ public class Zoom extends Node {
     @Override
     public final void action() throws SafeguardException {
 
-        notImplemented(true);
     }
 }
 
