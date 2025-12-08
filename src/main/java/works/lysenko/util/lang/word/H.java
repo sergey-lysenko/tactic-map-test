@@ -12,6 +12,7 @@ import static works.lysenko.util.spec.Symbols.S;
 public record H() {
 
     public static final String HALTED = s(HALT, ED);
+    public static final String HAPPEN = s(HA, PP, EN);
     public static final String HEIGHT = s(HE, IGHT);
     public static final String HELPER = s(H, EL, PE, R);
     public static final String HISTORY = s(HI, S, TO, RY);
