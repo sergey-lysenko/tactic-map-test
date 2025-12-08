@@ -21,7 +21,7 @@ import static java.util.Objects.isNull;
 @SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "MethodWithMultipleReturnPoints", "CheckForOutOfMemoryOnLargeArrayAllocation"})
 public record Compressor() {
 
-    public static final int BUFFER_LENGTH = 8192;
+    private static final int BUFFER_LENGTH = 8192;
 
     /**
      * Compresses a given string using the Deflater algorithm with the best compression level
