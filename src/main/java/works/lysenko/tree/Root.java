@@ -70,9 +70,7 @@ import static works.lysenko.util.func.imgs.Screenshot.writeScreenshot;
 import static works.lysenko.util.func.type.Booleans.isTrue;
 import static works.lysenko.util.func.type.Numbers.random;
 import static works.lysenko.util.func.type.Objects.isNotNull;
-import static works.lysenko.util.func.ui.Locators.by;
-import static works.lysenko.util.func.ui.Locators.nthScrollView;
-import static works.lysenko.util.func.ui.Locators.text;
+import static works.lysenko.util.func.ui.Locators.*;
 import static works.lysenko.util.func.ui.Scroll.swipeVertically;
 import static works.lysenko.util.lang.C.CHECKING_VISIBILITY_OF;
 import static works.lysenko.util.lang.C.CLICKING_ON;
@@ -1122,6 +1120,16 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         waitForVisibilityOfText(text);
     }
 
+    public final void waitForEdit(final String text) {
+
+        waitForVisibilityOfEdit(text);
+    }
+
+    public final void waitForDesc(final String text) {
+
+        waitForVisibilityOfEdit(text);
+    }
+
     public final void waitForVisibilityOf(final String locator) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(locator))));
@@ -1139,6 +1147,18 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(text(text)))));
         exec.getWebDriverWait().until(visibilityOfElementLocated(by(text(text))));
+    }
+
+    public final void waitForVisibilityOfEdit(final String text) {
+
+        log(b(WAITING_FOR_VISIBILITY_OF, q(bb(edit(text)))));
+        exec.getWebDriverWait().until(visibilityOfElementLocated(by(edit(text))));
+    }
+
+    public final void waitForVisibilityOfDesc(final String text) {
+
+        log(b(WAITING_FOR_VISIBILITY_OF, q(bb(desc(text)))));
+        exec.getWebDriverWait().until(visibilityOfElementLocated(by(desc(text))));
     }
 
     public final void waitSelected(final String locator) {
@@ -1445,7 +1465,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
         /**
          * Increments the integer value associated with a specific key in the data storage by 1.
-         * If the key does not exist, initialises it with a value of 0 before incrementing.
+         * If the key does not exist, initialize it with a value of 0 before incrementing.
          *
          * @param name the name of the key to be incremented
          */
