@@ -1,6 +1,8 @@
 package interlink.util.lang.word;
 
+import static works.lysenko.util.chrs.__.GO;
 import static works.lysenko.util.chrs.__.IN;
+import static works.lysenko.util.chrs.__.LO;
 import static works.lysenko.util.chrs.___.LOG;
 import static works.lysenko.util.data.strs.Swap.s;
 
@@ -8,4 +10,5 @@ import static works.lysenko.util.data.strs.Swap.s;
 public record L() {
 
     public static final String LOGIN = s(LOG, IN);
+    public static final String LOGO = s(LO, GO);
 }

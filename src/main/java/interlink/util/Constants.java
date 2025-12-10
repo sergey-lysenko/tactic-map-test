@@ -4,7 +4,7 @@ import static interlink.util.lang.A.ADD_OBJECT;
 import static interlink.util.lang.D.DRAG_HANDLE;
 import static interlink.util.lang.E.ELEVATION_GRAPH;
 import static interlink.util.lang.F.FIND_MY_LOCATION;
-import static interlink.util.lang.S.SEARCH_3;
+import static interlink.util.lang.S.SEARCH_1;
 import static interlink.util.lang.S.SEARCH_2;
 import static interlink.util.lang.T.TOTAL_DISTANCE;
 import static interlink.util.lang.V.VIEW_HOLDER;
@@ -25,7 +25,7 @@ public record Constants() {
 
     public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT,
             c(RULER), TOTAL_DISTANCE, c(POLYGON), ELEVATION_GRAPH, FIND_MY_LOCATION, c(COMPASS), DRAG_HANDLE, c(LOGIN),
-            c(SETTINGS), SEARCH_3, SEARCH_2};
+            c(SETTINGS), SEARCH_1, SEARCH_2};
 
     // Short strings
     public static final String CONNECT_TEXT = "Підключення";
