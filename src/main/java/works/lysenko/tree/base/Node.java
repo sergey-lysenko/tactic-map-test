@@ -39,7 +39,7 @@ import static works.lysenko.util.lang.word.S.SESSION;
 import static works.lysenko.util.spec.Symbols.*;
 
 /**
- * This is abstract implementation of Node Scenario, which have defined both
+ * This is an abstract implementation of Node Scenario, which have defined both
  * actions to be performed and the set of child scenarios to be executed
  * randomly based on their weight coefficients
  *
@@ -192,7 +192,7 @@ public abstract class Node extends Core implements _Node {
     }
 
     /**
-     * @return true if current scenario execution is halted
+     * @return true if the current scenario execution is halted
      */
     public final boolean isScenarioHalted() {
 
