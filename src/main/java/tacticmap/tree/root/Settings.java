@@ -7,6 +7,7 @@ import static interlink.util.Constants.*;
 import static interlink.util.lang.word.S.SETTINGS;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.func.core.Assertions.notImplemented;
+import static works.lysenko.util.func.ui.Scroll.swipe;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class Settings extends Node {
@@ -31,6 +32,7 @@ public class Settings extends Node {
         waitForText(SUPPORT_TEXT);
         waitForEdit(CLOSE_BUTTON_TEXT);
         waitForDesc(CALL_SIGN_TEXT);
+        swipe(-1);
         notImplemented(true);
     }
 }

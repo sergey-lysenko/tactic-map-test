@@ -59,4 +59,18 @@ public record Constants() {
     public static final String GENERAL_SETTINGS_TITLE = "Загальні";
     public static final String SUPPORT_TEXT = "Підтримка";
     public static final String CLOSE_BUTTON_TEXT = "Закрити";
+    public static final String OPEN_WHATSAPP_TEXT = "Відкрити WhatsApp";
+    public static final String AGGREGATE_AREA_TEXT = "Загальна площа";
+    public static final String ADD_BUTTON_TEXT = "Додати";
+    public static final String CLEAR_BUTTON_TEXT = "Скинути";
+    public static final String MORE_TEXT = "Більше";
+    public static final String COORDINATE_TEXT = "Координати";
+    public static final String TOTAL_DISTANCE_TEXT = "Загальна відстань";
+    public static final String COPY_BUTTON_TEXT = "Копіювати";
+    public static final String NEW_OBJECT_TEXT = "Новий об'єкт";
+    public static final String MAP_CENTER_TEXT = "Центр мапи";
+    public static final String DISTANCE_TEXT = "На відстані: ";
+    public static final String COORDINATES_TEXT = "Координати";
+    public static final String HEIGHT_TEXT = "Висота";
+    public static final String MAP_NOMENCLATURE_TEXT = "Номенклатура мапи";
 }

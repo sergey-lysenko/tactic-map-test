@@ -1,6 +1,5 @@
 package tacticmap.tree.root.addObject;
 
-import interlink.util.Constants;
 import works.lysenko.tree.base.Node;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 

@@ -21,7 +21,7 @@ public class Login extends Node {
 
         waitForText(CONNECT_TEXT);
         waitFor(c(CLOSE));
-        waitFor(c(c(LOGO)));
+        waitFor(c(LOGO));
         waitForText(UKROP_SYNC_BETA);
         waitForText(USER_CREDENTIAL_PROMPT);
         waitForText(EMAIL);
@@ -30,6 +30,8 @@ public class Login extends Node {
         waitFor(URL_SETTINGS_LOCATOR);
         waitForText(API_INTEGRATION_MESSAGE);
         swipe(-1);
+        waitForText(OPEN_WHATSAPP_TEXT);
+        swipe(1);
         notImplemented(true);
     }
 }
