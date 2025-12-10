@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 
 /**
- * The WaitsForWebElements interface defines methods for waiting for the appearance, visibility, and behavior of web elements.
+ * The WaitsForWebElements interface defines methods for waiting for the appearance, visibility, and behaviour of web elements.
  * It provides methods to wait for elements to become visible, clickable, or not visible.
  * It also provides methods to wait for specific texts to appear or disappear.
  * The interface also includes methods to wait for elements to be selected and to wait for the value of an element to change.
@@ -14,14 +14,14 @@ import java.time.Duration;
 public interface WaitsForWebElements {
 
     /**
-     * Wait for appearance of the defined element
+     * Waits for the appearance or presence of an element identified by its locator.
      *
-     * @param locator string locator of an element to be waited for
+     * @param locator The string locator of the element to be waited for.
      */
     void wait(String locator);
 
     /**
-     * Wait for appearance of the defined element
+     * Wait for the appearance of the defined element
      *
      * @param locator string locator of an element to be waited for
      */
@@ -36,7 +36,7 @@ public interface WaitsForWebElements {
     void waitClickable(String locator);
 
     /**
-     * Wait for appearance of the defined element
+     * Wait for the appearance of the defined element
      *
      * @param locator string locator of an element to be waited for
      */
@@ -66,7 +66,7 @@ public interface WaitsForWebElements {
     void waitForInvisibilityOf(WebElement element);
 
     /**
-     * Wait for an element to be not visible, with specific implicit wait
+     * Wait for an element to be not visible, with a specific implicit wait
      *
      * @param locator string locator of an element expected to be invisible
      * @param iwait   implicit wait for this call
@@ -75,7 +75,7 @@ public interface WaitsForWebElements {
     void waitForInvisibilityOf(String locator, Duration iwait);
 
     /**
-     * Wait for an element to be not visible, with specific implicit wait
+     * Wait for an element to be not visible, with a specific implicit wait
      *
      * @param element element expected to be invisible
      * @param iwait   implicit wait for this call
@@ -91,7 +91,7 @@ public interface WaitsForWebElements {
     void waitForInvisibilityOfText(String text);
 
     /**
-     * Wait for a text to be not visible, with specific implicit wait
+     * Wait for a text to be not visible, with a specific implicit wait
      *
      * @param text  to be invisible
      * @param iwait implicit wait for this call
@@ -106,6 +106,20 @@ public interface WaitsForWebElements {
     void waitForText(String text);
 
     /**
+     * Waits until the edit field containing the specified text becomes ready for editing.
+     *
+     * @param text the text expected to be present in the edit field that should become editable
+     */
+    void waitForEdit(String text);
+
+    /**
+     * Waits for the visibility or presence of an element identified by the provided descriptor.
+     *
+     * @param text a descriptive string or identifier for the element to wait for
+     */
+    void waitForDesc(String text);
+
+    /**
      * Waits until all the specified texts become present or visible.
      *
      * @param texts an iterable collection of strings representing the texts to be waited for
@@ -113,14 +127,14 @@ public interface WaitsForWebElements {
     void waitForTexts(Iterable<String> texts);
 
     /**
-     * Wait for appearance of the defined element
+     * Wait for the appearance of the defined element
      *
      * @param locator string locator of an element to wait for
      */
     void waitForVisibilityOf(String locator);
 
     /**
-     * Wait for appearance of the element defined by one of locators
+     * Wait for the appearance of the element defined by one of the locators
      *
      * @param locators several string locators to randomly select from
      */
@@ -128,11 +142,25 @@ public interface WaitsForWebElements {
     void waitForVisibilityOf(String... locators);
 
     /**
-     * Wait for appearance of the defined text
+     * Wait for the appearance of the defined text
      *
      * @param text to wait for
      */
     void waitForVisibilityOfText(String text);
+
+    /**
+     * Waits until the edit field containing the specified text becomes visible.
+     *
+     * @param text the text expected to be present in the edit field to wait for its visibility
+     */
+    void waitForVisibilityOfEdit(String text);
+
+    /**
+     * Waits for the visibility of an element identified by the provided descriptor.
+     *
+     * @param text the descriptor or identifier for the element to wait for its visibility
+     */
+    void waitForVisibilityOfDesc(String text);
 
     /**
      * Wait for an element to be selected
@@ -142,7 +170,7 @@ public interface WaitsForWebElements {
     void waitSelected(String locator);
 
     /**
-     * Wait for appearance of the defined element and the click on it
+     * Wait for the appearance of the defined element and the click on it
      *
      * @param locator string locator of an element to be waited for
      * @param x1      coordinate offset
@@ -151,14 +179,14 @@ public interface WaitsForWebElements {
     void waitThenClickOn(double x1, double y1, String locator);
 
     /**
-     * Wait for appearance of the defined element and the click on it
+     * Wait for the appearance of the defined element and the click on it
      *
      * @param locator string locator of an element to be waited for
      */
     void waitThenClickOn(String locator);
 
     /**
-     * Wait for appearance of the defined element, click on it, wait for it to be got
+     * Wait for the appearance of the defined element, click on it, wait for it to be got
      *
      * @param thenWaitForInvisibilityOf if true
      * @param locator                   string locator of an element to be waited for
@@ -166,14 +194,14 @@ public interface WaitsForWebElements {
     void waitThenClickOn(boolean thenWaitForInvisibilityOf, String locator);
 
     /**
-     * Wait for appearance of the defined text and the click on it
+     * Wait for the appearance of the defined text and the click on it
      *
      * @param text string locator of an element to be waited for //TODO: make this not Android-only
      */
     void waitThenClickOnText(String text);
 
     /**
-     * Wait for appearance of the defined element and return reference to it
+     * Wait for the appearance of the defined element and return reference to it
      *
      * @param locator string locator of an element to be waited for
      * @return element
@@ -189,7 +217,7 @@ public interface WaitsForWebElements {
     void waitValue(String locator, String value);
 
     /**
-     * Wait for a text value of an element to change from defined one.
+     * Wait for a text value of an element to change from a defined one.
      *
      * @param locator string locator of an element
      * @param value   the value to change from
