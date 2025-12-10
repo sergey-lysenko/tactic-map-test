@@ -25,7 +25,7 @@ public class Polygon extends Node {
         waitForText(CLEAR_BUTTON_TEXT);
         waitForDesc(MORE_TEXT);
         waitForText(MORE_TEXT);
-        waitForText(COORDINATE_TEXT);
+        waitForText(COORDINATES_TEXT);
         notImplemented(true);
     }
 }

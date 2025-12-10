@@ -5,7 +5,7 @@ import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.*;
 import static interlink.util.Constants.CLEAR_BUTTON_TEXT;
-import static interlink.util.Constants.COORDINATE_TEXT;
+import static interlink.util.Constants.COORDINATES_TEXT;
 import static interlink.util.Constants.MORE_TEXT;
 import static interlink.util.lang.D.DRAG_HANDLE;
 import static interlink.util.lang.T.TOTAL_DISTANCE;
@@ -27,7 +27,7 @@ public class TotalDistance extends Node {
         waitForText(CLEAR_BUTTON_TEXT);
         waitForDesc(MORE_TEXT);
         waitForText(MORE_TEXT);
-        waitForText(COORDINATE_TEXT);
+        waitForText(COORDINATES_TEXT);
         notImplemented(true);
     }
 }
