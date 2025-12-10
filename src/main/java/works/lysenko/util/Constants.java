@@ -7,11 +7,13 @@ import static works.lysenko.util.chrs.___.COM;
 import static works.lysenko.util.chrs.___.DOTS;
 import static works.lysenko.util.chrs.____.*;
 import static works.lysenko.util.data.strs.Bind.b;
+import static works.lysenko.util.data.strs.Bind.d;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.data.strs.Swap.s;
 import static works.lysenko.util.lang.word.A.ANDROID;
 import static works.lysenko.util.lang.word.B.BUTTON;
 import static works.lysenko.util.lang.word.C.CHILD;
+import static works.lysenko.util.lang.word.C.CONTENT;
 import static works.lysenko.util.lang.word.F.FRAME;
 import static works.lysenko.util.lang.word.G.GROUP;
 import static works.lysenko.util.lang.word.I.INTERNAL;
@@ -36,6 +38,7 @@ public record Constants() {
     public static final String TEXT_VIEW = s(c(TEXT), c(VIEW));
     public static final String _ANDROID_VIEW = s(_SLASH_, ANDROID, _DOT_, VIEW, _DOT_);
     public static final String _AND_CHILD = b(EMPTY, DOTS, AND, CHILD);
+    public static final String CONTENT_DESC = d(CONTENT, DESC);
 
     // Tier 2
     private static final String FRAME_LAYOUT = s(c(FRAME), c(LAYOUT));
@@ -52,8 +55,13 @@ public record Constants() {
     public static final String ANDROID_WIDGET_FRAME_LAYOUT = s(ANDROID_WIDGET, FRAME_LAYOUT);
     public static final String ANDROID_WIDGET_LINEAR_LAYOUT = s(ANDROID_WIDGET, LINEAR_LAYOUT);
     public static final String ANDROID_WIDGET_TEXT_VIEW = s(ANDROID_WIDGET, TEXT_VIEW);
-    public static final String _ANDROID_WIDGET = s(_SLASH_, _SLASH_, ANDROID_WIDGET);
-    public static final String _ANDROID_WIDGET_BUTTON = s(_ANDROID_WIDGET, c(BUTTON));
-    public static final String _ANDROID_WIDGET_SCROLLVIEW = s(_ANDROID_WIDGET, SCROLL_VIEW);
-    public static final String _ANDROID_WIDGET_TEXTVIEW = s(_ANDROID_WIDGET, TEXT_VIEW);
+
+    // Tier 4
+    public static final String __ANDROID_VIEW = s(_SLASH_, _SLASH_, ANDROID_VIEW);
+    public static final String __ANDROID_WIDGET = s(_SLASH_, _SLASH_, ANDROID_WIDGET);
+
+    // Tier 5
+    public static final String _ANDROID_WIDGET_BUTTON = s(__ANDROID_WIDGET, c(BUTTON));
+    public static final String _ANDROID_WIDGET_SCROLLVIEW = s(__ANDROID_WIDGET, SCROLL_VIEW);
+    public static final String _ANDROID_WIDGET_TEXTVIEW = s(__ANDROID_WIDGET, TEXT_VIEW);
 }
