@@ -11,11 +11,10 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static works.lysenko.Base.logDebug;
 import static works.lysenko.base.core.Routines.in;
-import static works.lysenko.util.Constants.TEXT_VIEW;
-import static works.lysenko.util.Constants._ANDROID_WIDGET;
+import static works.lysenko.util.Constants.*;
 import static works.lysenko.util.chrs.__.IS;
 import static works.lysenko.util.chrs.___.NTH;
-import static works.lysenko.util.chrs.____.TEXT;
+import static works.lysenko.util.chrs.____.*;
 import static works.lysenko.util.data.enums.Brackets.ROUND;
 import static works.lysenko.util.data.enums.Brackets.SQUARE;
 import static works.lysenko.util.data.enums.Platform.ANDROID;
@@ -103,7 +102,7 @@ public record Locators() {
     }
 
     /**
-     * Edit the text with given input text.
+     * Edit the text with the given input text.
      *
      * @param s The input text to edit
      * @return The edited text as a String
@@ -111,7 +110,7 @@ public record Locators() {
     @SuppressWarnings("WeakerAccess")
     public static String editTextWithText(final String s) {
 
-        if (in(ANDROID)) return s(_ANDROID_WIDGET, Constants.EDIT_TEXT, e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s))));
+        if (in(ANDROID)) return s(__ANDROID_WIDGET, Constants.EDIT_TEXT, e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s))));
         throw new IllegalStateException(getWrongPlatformMessage(ANDROID));
 
     }
@@ -126,7 +125,7 @@ public record Locators() {
     @SuppressWarnings("unused")
     public static String elementWithIndex(final String element, final int i) {
 
-        if (in(ANDROID)) return s(_ANDROID_WIDGET, element, e(SQUARE, s(_AT_SGN, INDEX, _EQUAL_, q(s(i)))));
+        if (in(ANDROID)) return s(__ANDROID_WIDGET, element, e(SQUARE, s(_AT_SGN, INDEX, _EQUAL_, q(s(i)))));
         throw new IllegalStateException(getWrongPlatformMessage(ANDROID));
     }
 
@@ -137,7 +136,7 @@ public record Locators() {
     }
 
     /**
-     * Retrieves the text of n-th EditText element with the given index as a text string.
+     * Retrieves the text of an n-th EditText element with the given index as a text string.
      *
      * @param i The index of the EditText element to retrieve text from
      * @return The text of the element
@@ -150,7 +149,7 @@ public record Locators() {
 
     private static String nthElement(final String element, final int i) {
 
-        if (in(ANDROID)) return s(_ANDROID_WIDGET, element, e(SQUARE, s(i)));
+        if (in(ANDROID)) return s(__ANDROID_WIDGET, element, e(SQUARE, s(i)));
         throw new IllegalStateException(getWrongPlatformMessage(ANDROID));
     }
 
@@ -274,6 +273,40 @@ public record Locators() {
     }
 
     /**
+     * Edits the given text and generates a descriptor string for it.
+     * The edited string is stored in a descriptor map and returned.
+     *
+     * @param text The input text to be edited and used for generating the descriptor string.
+     * @return The generated descriptor string corresponding to the edited text.
+     */
+    @SuppressWarnings("StandardVariableNames")
+    public static String edit(final String text) {
+
+        final String k = b(EDIT, q(text));
+        final String v = s(editWithText(text));
+        Descriptors.put(k, v);
+        return k;
+    }
+
+    /**
+     * Generates a descriptor string based on the given input text. The generated
+     * descriptor string is created by binding certain components of the text and
+     * invoking specific formatting methods. The descriptor is then stored in a
+     * descriptor map and returned.
+     *
+     * @param text The input text used for generating the descriptor string.
+     * @return The generated descriptor string corresponding to the input text.
+     */
+    @SuppressWarnings("StandardVariableNames")
+    public static String desc(final String text) {
+
+        final String k = b(DESC, q(text));
+        final String v = s(viewWithDesc(text));
+        Descriptors.put(k, v);
+        return k;
+    }
+
+    /**
      * Generates a button locator string based on the given input text.
      * The generated string is stored in a descriptor map and returned.
      *
@@ -298,7 +331,32 @@ public record Locators() {
      */
     private static String textWithText(final String s) {
 
-        return (in(ANDROID)) ? s(_ANDROID_WIDGET, TEXT_VIEW, e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s)))) : s(_SLASH_,
+        return (in(ANDROID)) ? s(__ANDROID_WIDGET, TEXT_VIEW, e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s)))) : s(_SLASH_,
+                _SLASH_, _ASTRS_, e(SQUARE, s(TEXT, e(ROUND, EMPTY), _EQUAL_, q(s))));
+    }
+
+    /**
+     * Edits the given text and generates a formatted locator string with the text.
+     * The generated string is conditioned based on the platform.
+     *
+     * @param s The input text to be edited and used for generating the locator string.
+     * @return The generated locator string, formatted according to the platform.
+     */
+    private static String editWithText(final String s) {
+
+        return (in(ANDROID)) ? s(__ANDROID_WIDGET, EDIT_TEXT, e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s)))) : s(_SLASH_,
+                _SLASH_, _ASTRS_, e(SQUARE, s(TEXT, e(ROUND, EMPTY), _EQUAL_, q(s))));
+    }
+
+    /**
+     * Generates a view locator string with a description, formatted for the appropriate platform.
+     *
+     * @param s The description text to use for the view locator.
+     * @return The generated view locator string, formatted based on the platform.
+     */
+    private static String viewWithDesc(final String s) {
+
+        return (in(ANDROID)) ? s(__ANDROID_VIEW, c(VIEW), e(SQUARE, s(_AT_SGN, CONTENT_DESC, _EQUAL_, q(s)))) : s(_SLASH_,
                 _SLASH_, _ASTRS_, e(SQUARE, s(TEXT, e(ROUND, EMPTY), _EQUAL_, q(s))));
     }
 
@@ -310,7 +368,7 @@ public record Locators() {
      */
     private static String buttonWithText(final String s) {
 
-        return (in(ANDROID)) ? s(_ANDROID_WIDGET, c(BUTTON), e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s)))) : s(_SLASH_,
+        return (in(ANDROID)) ? s(__ANDROID_WIDGET, c(BUTTON), e(SQUARE, s(_AT_SGN, TEXT, _EQUAL_, q(s)))) : s(_SLASH_,
                 _SLASH_, _ASTRS_, e(SQUARE, s(TEXT, e(ROUND, EMPTY), _EQUAL_, q(s))));
     }
 }
