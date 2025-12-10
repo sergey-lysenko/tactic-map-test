@@ -19,8 +19,7 @@ import static works.lysenko.util.chrs.____.INFO;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.lang.word.S.SEARCH;
 
-@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess",
-        "PublicStaticArrayField"})
+@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess", "PublicStaticArrayField", "HardcodedLineSeparator"})
 public record Constants() {
 
     public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT,
@@ -64,7 +63,6 @@ public record Constants() {
     public static final String ADD_BUTTON_TEXT = "Додати";
     public static final String CLEAR_BUTTON_TEXT = "Скинути";
     public static final String MORE_TEXT = "Більше";
-    public static final String COORDINATE_TEXT = "Координати";
     public static final String TOTAL_DISTANCE_TEXT = "Загальна відстань";
     public static final String COPY_BUTTON_TEXT = "Копіювати";
     public static final String NEW_OBJECT_TEXT = "Новий об'єкт";

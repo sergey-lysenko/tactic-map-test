@@ -6,7 +6,7 @@ import works.lysenko.util.apis.exception.checked.SafeguardException;
 import static interlink.util.lang.S.SEARCH_2;
 import static works.lysenko.util.func.core.Assertions.notImplemented;
 
-@SuppressWarnings({"unused", "MissingJavadoc"})
+@SuppressWarnings({"unused", "MissingJavadoc", "ClassNamePrefixedWithPackageName"})
 public class Search2 extends Node {
 
     @Override
