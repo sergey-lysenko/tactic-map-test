@@ -310,6 +310,11 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         clickOn(false, text(text));
     }
 
+    public final void clickOnDesc(final String contentDesc) {
+
+        clickOn(false, desc(contentDesc));
+    }
+
     public final void clickOnText(final boolean thenWaitForInvisibilityOf, final String text) {
 
         clickOn(thenWaitForInvisibilityOf, text(text));
@@ -1125,9 +1130,9 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         waitForVisibilityOfEdit(text);
     }
 
-    public final void waitForDesc(final String text) {
+    public final void waitForDesc(final String contentDesc) {
 
-        waitForVisibilityOfEdit(text);
+        waitForVisibilityOfDesc(contentDesc);
     }
 
     public final void waitForVisibilityOf(final String locator) {
@@ -1465,7 +1470,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
         /**
          * Increments the integer value associated with a specific key in the data storage by 1.
-         * If the key does not exist, initialize it with a value of 0 before incrementing.
+         * If the key does not exist, initialise it with a value of 0 before incrementing.
          *
          * @param name the name of the key to be incremented
          */

@@ -115,9 +115,9 @@ public interface WaitsForWebElements {
     /**
      * Waits for the visibility or presence of an element identified by the provided descriptor.
      *
-     * @param text a descriptive string or identifier for the element to wait for
+     * @param contentDesc a descriptive string or identifier for the element to wait for
      */
-    void waitForDesc(String text);
+    void waitForDesc(String contentDesc);
 
     /**
      * Waits until all the specified texts become present or visible.
