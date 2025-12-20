@@ -2,6 +2,7 @@ package works.lysenko.tree;
 
 import io.appium.java_client.HidesKeyboard;
 import io.appium.java_client.InteractsWithApps;
+import org.apache.commons.math3.fraction.Fraction;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
@@ -225,6 +226,11 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void clickOn(final WebElement element, final boolean geometry) {
 
         clickOn(false, element);
+    }
+
+    public final void clickOn(final Fraction x1, final Fraction y1, final String... locator) {
+
+        clickOn(x1.doubleValue(), y1.doubleValue(), locator);
     }
 
     public final void clickOn(final double x1, final double y1, final String... locator) {
@@ -474,9 +480,8 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         List<String> result;
         do {
             if (attempts != retries) sleep(implicit);
-            result = findAll(locator).stream()
-                    .map(candidate -> candidate.getAttribute(TEXT))
-                    .filter(attribute -> pattern.matcher(attribute).matches()) // Keep only strings with digits only
+            result =
+                    findAll(locator).stream().map(candidate -> candidate.getAttribute(TEXT)).filter(attribute -> pattern.matcher(attribute).matches()) // Keep only strings with digits only
                     .toList();
         } while (ZERO < --attempts && result.isEmpty());
         log(0, b(s(FAT_BUL), q(yb(s(result)))), true);
@@ -776,8 +781,8 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         // TODO: [framework] investigate reason of unpredictable scrolling behavior (or just fall back to swipes)
         if (in(ANDROID)) {
             log(b(SCROLLING, s1(steps, STEP), FORWARD));
-            return exec.getWebDriver().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, _DOT_, SCROLL, c(FORWARD)
-                    , e(ROUND, steps))));
+            return exec.getWebDriver().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, _DOT_, SCROLL, c(FORWARD),
+                    e(ROUND, steps))));
         } else {
             logEvent(S3, b(s(SCROLL, c(FORWARD), e(ROUND, EMPTY)), ONLY, APPLICABLE, FOR, c(ANDROID), TESTING));
             return null;

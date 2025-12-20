@@ -1,5 +1,6 @@
 package works.lysenko.util.apis.common;
 
+import org.apache.commons.math3.fraction.Fraction;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -40,6 +41,19 @@ public interface ClicksOnWebElements {
      * @param locator string locator(s) of an element to be clicked on
      */
     void clickOn(double x1, double y1, String... locator);
+
+    /**
+     * Performs a click on a specific location within an element, where the location
+     * is defined by fractional x and y coordinates. Each coordinate is represented
+     * as a fraction, where 0 represents the starting edge (e.g., left or top)
+     * and 1 represents the opposite edge (e.g., right or bottom). The element is
+     * identified by its locator(s).
+     *
+     * @param x1      the fractional x coordinate of the click position relative to the element
+     * @param y1      the fractional y coordinate of the click position relative to the element
+     * @param locator the string locator(s) used to identify the element to be clicked
+     */
+    void clickOn(Fraction x1, Fraction y1, String... locator);
 
     /**
      * Click on an Element defined by locator and then wait for certain milliseconds
