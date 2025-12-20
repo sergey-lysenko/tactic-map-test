@@ -4,6 +4,8 @@ import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.*;
+import static org.apache.commons.math3.fraction.Fraction.ONE_HALF;
+import static org.apache.commons.math3.fraction.Fraction.ONE_QUARTER;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class CommonMore extends Leaf {
@@ -28,12 +30,12 @@ public class CommonMore extends Leaf {
 
     private void menuOn() {
 
-        clickOnText(MORE_TEXT);
-        clickOnText(SAVE_BUTTON_TEXT);
-        clickOnText(COPY_BUTTON_TEXT);
-        clickOnText(AREA_FORMAT_TEXT);
-        clickOnText(DISTANCE_FORMAT_TEXT);
-        clickOnText(SYSTEM_COORDINATES_TEXT);
+        clickOn(ONE_HALF, ONE_QUARTER, MORE_TEXT);
+        waitForText(SAVE_BUTTON_TEXT);
+        waitForText(COPY_BUTTON_TEXT);
+        waitForText(AREA_FORMAT_TEXT);
+        waitForText(DISTANCE_FORMAT_TEXT);
+        waitForText(SYSTEM_COORDINATES_TEXT);
     }
 }
 

@@ -16,7 +16,8 @@ public class DragHandle extends Node {
     public final void action() throws SafeguardException {
 
         swipeVertically(DRAG_HANDLE, -DRAG_HANDLE_STEP);
-        notImplemented(true);
+        swipeVertically(DRAG_HANDLE, DRAG_HANDLE_STEP);
+        notImplemented(false);
     }
 }
 

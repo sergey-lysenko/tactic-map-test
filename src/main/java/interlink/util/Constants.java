@@ -80,6 +80,21 @@ public record Constants() {
     public static final String UKROP_SYNC_BETA = "UkropSync Beta";
     public static final String UNLIMITED_LAYERS_TEXT = "Необмежені шари";
     public static final String URL_SETTINGS_LOCATOR = "URL Settings";
+    public static final String MAP_RELOCATION_TEXT = "Перемістіть мапу";
+    public static final String DEVIATION_TEXT = "Відхилення";
+    public static final String HEIGHT_GRAPH_TEXT = "Графік висот";
+    public static final String ORIGIN_TEXT = "Початкова";
+    public static final String TERMINAL_TEXT = "Кінцева";
+    public static final String FUNCTIONS_DISPLAY_TEXT = "Показати всі функції";
+    public static final String FULL_VERSION_TEXT = "Повна версія";
+    public static final String ADDITIONAL_APPS_TEXT = "Інші наші застосунки";
+    public static final String FEATURES_INTRODUCTION_TEXT = "Нові функції";
+    public static final String MISCELLANEOUS_TEXT = "Різне";
+    public static final String PRIVACY_POLICY_TEXT = "Політика конфіденційності";
+    public static final String ACCEPTABLE_USE_TEXT = "Умови використання";
+    public static final String LEGAL_NOTICE_TEXT = "Юридична інформація";
+
+
 
     // Long strings
     public static final String API_INTEGRATION_MESSAGE = "Ми працюємо над інтеграцією API в TacticMap, і наразі цей функціонал доступний лише в рамках закритого бета-тестування.\n\nЯкщо ви хочете спробувати API та отримати доступ, зв'яжіться з нами через WhatsApp: +380933394092.\nБудемо раді співпраці та вашим відгукам!";

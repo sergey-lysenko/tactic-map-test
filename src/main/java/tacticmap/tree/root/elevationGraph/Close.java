@@ -13,7 +13,6 @@ public class Close extends Leaf {
     public final void action() throws SafeguardException {
 
         clickOnDesc(CLOSE_BUTTON_TEXT);
-        notImplemented(true);
     }
 }
 

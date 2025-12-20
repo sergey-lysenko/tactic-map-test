@@ -3,6 +3,7 @@
 
 # Common
 Android Launcher==//android.widget.FrameLayout[@package='com.google.android.apps.nexuslauncher']
+Content==//android.view.ViewGroup[@resource-id='android:id/content']
 
 # Project Specific
 Add Object==//android.view.View[@content-desc="Додати об'єкт"]/..
