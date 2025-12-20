@@ -7,7 +7,6 @@ import static interlink.util.Constants.*;
 import static interlink.util.lang.D.DRAG_HANDLE;
 import static interlink.util.lang.word.P.POLYGON;
 import static works.lysenko.util.data.strs.Case.c;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class Polygon extends Node {
@@ -26,7 +25,6 @@ public class Polygon extends Node {
         waitForDesc(MORE_TEXT);
         waitForText(MORE_TEXT);
         waitForText(COORDINATES_TEXT);
-        notImplemented(true);
     }
 }
 

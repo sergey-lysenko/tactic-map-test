@@ -32,7 +32,7 @@ public class Login extends Node {
         swipe(-1);
         waitForText(OPEN_WHATSAPP_TEXT);
         swipe(1);
-        notImplemented(true);
+        notImplemented(false);
     }
 }
 

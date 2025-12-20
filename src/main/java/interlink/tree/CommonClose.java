@@ -1,17 +1,17 @@
-package tacticmap.tree.root;
+package interlink.tree;
 
-import works.lysenko.tree.base.Node;
+import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
-import static works.lysenko.util.func.core.Assertions.notImplemented;
+import static interlink.util.Constants.CLOSE_BUTTON_TEXT;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class Search extends Node {
+public class CommonClose extends Leaf {
 
     @Override
     public final void action() throws SafeguardException {
 
-        notImplemented(false);
+        clickOnDesc(CLOSE_BUTTON_TEXT);
     }
 }
 

@@ -1,17 +1,19 @@
-package tacticmap.tree.root;
+package tacticmap.tree.root.info;
 
-import works.lysenko.tree.base.Node;
+import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
+import static interlink.util.Constants.MORE_TEXT;
 import static works.lysenko.util.func.core.Assertions.notImplemented;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class Search extends Node {
+public class More extends Leaf {
 
     @Override
     public final void action() throws SafeguardException {
 
-        notImplemented(false);
+        clickOnText(MORE_TEXT);
+        notImplemented(true);
     }
 }
 

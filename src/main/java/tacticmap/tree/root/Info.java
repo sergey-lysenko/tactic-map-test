@@ -7,7 +7,7 @@ import static interlink.util.Constants.*;
 import static interlink.util.lang.D.DRAG_HANDLE;
 import static works.lysenko.util.chrs.____.INFO;
 import static works.lysenko.util.data.strs.Case.c;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
+import static works.lysenko.util.func.ui.Scroll.swipeVertically;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class Info extends Node {
@@ -17,6 +17,7 @@ public class Info extends Node {
 
         clickOn(c(INFO));
         waitFor(DRAG_HANDLE);
+        swipeVertically(DRAG_HANDLE, -DRAG_HANDLE_STEP);
         waitForText(MAP_CENTER_TEXT);
         waitForDesc(CLOSE_BUTTON_TEXT);
         waitForText(DISTANCE_TEXT);
@@ -29,7 +30,7 @@ public class Info extends Node {
         waitForText(COORDINATES_TEXT);
         waitForText(HEIGHT_TEXT);
         waitForText(MAP_NOMENCLATURE_TEXT);
-        notImplemented(true);
+
     }
 }
 

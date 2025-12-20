@@ -28,7 +28,6 @@ public class TotalDistance extends Node {
         waitForDesc(MORE_TEXT);
         waitForText(MORE_TEXT);
         waitForText(COORDINATES_TEXT);
-        notImplemented(true);
     }
 }
 

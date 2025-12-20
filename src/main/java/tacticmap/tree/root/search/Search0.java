@@ -14,7 +14,6 @@ public class Search0 extends Node {
     public final void action() throws SafeguardException {
 
         clickOn(c(SEARCH));
-        notImplemented(true);
     }
 }
 

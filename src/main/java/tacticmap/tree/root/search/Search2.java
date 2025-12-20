@@ -13,7 +13,7 @@ public class Search2 extends Node {
     public final void action() throws SafeguardException {
 
         clickOn(SEARCH_2);
-        notImplemented(true);
+        notImplemented(false);
     }
 }
 

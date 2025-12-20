@@ -7,7 +7,8 @@ import static interlink.util.Constants.*;
 import static interlink.util.lang.word.S.SETTINGS;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.func.core.Assertions.notImplemented;
-import static works.lysenko.util.func.ui.Scroll.swipe;
+import static works.lysenko.util.func.ui.Locators.text;
+import static works.lysenko.util.func.ui.Scroll.swipeVertically;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class Settings extends Node {
@@ -20,19 +21,19 @@ public class Settings extends Node {
         waitForText(FEEDBACK_BUTTON_TEXT);
         waitForText(FUNCTION_PROPOSAL_TEXT);
         waitForText(CONTACT_DEVELOPER_TEXT);
-        waitForText(MAP_LABEL);
-        waitForText(SETTINGS_TITLE);
-        waitForText(MEASUREMENT_UNITS_LABEL);
+        waitForText(MAP_LABEL_TEXT);
+        waitForText(SETTINGS_TITLE_TEXT);
+        waitForText(MEASUREMENT_UNITS_TEXT);
         waitForText(PERSONALIZATION_TEXT);
-        waitForText(FRIEND_INVITE_MESSAGE);
-        waitForText(TITLE_SHAPES_AND_OBJECTS);
-        waitForText(EXPORT_IMPORT_CALLSIGN_DESCRIPTION);
+        waitForText(FRIEND_INVITE_TEXT);
+        waitForText(SHAPES_AND_OBJECTS_TEXT);
+        waitForText(EXPORT_IMPORT_CALLSIGN_TEXT);
         waitForText(CALL_SIGN_TEXT);
-        waitForText(GENERAL_SETTINGS_TITLE);
+        waitForText(GENERAL_SETTINGS_TEXT);
         waitForText(SUPPORT_TEXT);
-        waitForEdit(CLOSE_BUTTON_TEXT);
+        waitForDesc(CLOSE_BUTTON_TEXT);
         waitForDesc(CALL_SIGN_TEXT);
-        swipe(-1);
+        swipeVertically(text(SUPPORT_TEXT), -DRAG_HANDLE_STEP);
         notImplemented(true);
     }
 }
