@@ -1,7 +1,7 @@
 colours=-16777216|0, -65536|0, -1|0
 colours.ignore=order,other
 colours.border=1/99
-colours.amount=3+
+colours.amount=1+
 scale=13/25
 resolution=399*399@r3/10
 
