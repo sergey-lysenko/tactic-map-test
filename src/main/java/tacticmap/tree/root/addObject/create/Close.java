@@ -1,20 +1,8 @@
 package tacticmap.tree.root.addObject.create;
 
-import works.lysenko.tree.base.Leaf;
-import works.lysenko.util.apis.exception.checked.SafeguardException;
-
-import static interlink.util.Constants.CANCEL_BUTTON_LABEL;
-import static interlink.util.Constants.CLOSE_BUTTON_TEXT;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
+import interlink.tree.CommonClose;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class Close extends Leaf {
-
-    @Override
-    public final void action() throws SafeguardException {
-
-        clickOnDesc(CLOSE_BUTTON_TEXT);
-    }
-}
+public class Close extends CommonClose {}
 
 

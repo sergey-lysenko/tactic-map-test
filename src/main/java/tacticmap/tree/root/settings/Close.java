@@ -1,4 +1,4 @@
-package tacticmap.tree.root.elevationGraph;
+ package tacticmap.tree.root.settings;
 
 import interlink.tree.CommonClose;
 

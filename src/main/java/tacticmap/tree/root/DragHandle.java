@@ -1,7 +1,6 @@
 package tacticmap.tree.root;
 
-import interlink.util.Constants;
-import works.lysenko.tree.base.Node;
+import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.DRAG_HANDLE_STEP;
@@ -10,7 +9,7 @@ import static works.lysenko.util.func.core.Assertions.notImplemented;
 import static works.lysenko.util.func.ui.Scroll.swipeVertically;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class DragHandle extends Node {
+public class DragHandle extends Leaf {
 
     @Override
     public final void action() throws SafeguardException {

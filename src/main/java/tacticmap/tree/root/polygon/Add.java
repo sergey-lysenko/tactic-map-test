@@ -1,5 +1,6 @@
 package tacticmap.tree.root.polygon;
 
+import interlink.tree.CommonClose;
 import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
@@ -13,7 +14,7 @@ public class Add extends Leaf {
     public final void action() throws SafeguardException {
 
         clickOnText(ADD_BUTTON_TEXT);
-        notImplemented(true);
+        notImplemented(false);
     }
 }
 

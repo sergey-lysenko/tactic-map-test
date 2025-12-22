@@ -1,6 +1,8 @@
 package tacticmap.tree.root;
 
+import interlink.tree.CommonClose;
 import works.lysenko.tree.base.Leaf;
+import works.lysenko.tree.base.Node;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.*;
@@ -11,7 +13,7 @@ import static works.lysenko.util.func.ui.Locators.text;
 import static works.lysenko.util.func.ui.Scroll.swipeVertically;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class Settings extends Leaf {
+public class Settings extends Node {
 
     @Override
     public final void action() throws SafeguardException {
@@ -47,8 +49,6 @@ public class Settings extends Leaf {
         waitForText(FULL_VERSION_TEXT);
         waitForText(FUNCTIONS_DISPLAY_TEXT);
         notImplemented(false); // TODO: implement
-        clickOnDesc(CLOSE_BUTTON_TEXT);
-
     }
 }
 

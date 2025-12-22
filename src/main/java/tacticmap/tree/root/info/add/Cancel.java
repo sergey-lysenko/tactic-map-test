@@ -1,4 +1,4 @@
-package tacticmap.tree.root.addObject;
+package tacticmap.tree.root.info.add;
 
 import interlink.tree.CommonCancel;
 

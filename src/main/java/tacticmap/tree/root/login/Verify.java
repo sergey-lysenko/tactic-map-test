@@ -1,4 +1,4 @@
-package tacticmap.tree.root;
+package tacticmap.tree.root.login;
 
 import works.lysenko.tree.base.Node;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
@@ -12,13 +12,24 @@ import static works.lysenko.util.func.ui.Scroll.swipe;
 import static works.lysenko.util.lang.word.C.CLOSE;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class Login extends Node {
+public class Verify extends Node {
 
     @Override
     public final void action() throws SafeguardException {
 
-        clickOn(c(LOGIN));
-        notImplemented(false);
+        waitForText(CONNECT_TEXT);
+        waitFor(c(CLOSE));
+        waitFor(c(LOGO));
+        waitForText(UKROP_SYNC_BETA);
+        waitForText(USER_CREDENTIAL_PROMPT);
+        waitForText(EMAIL);
+        waitForText(PASSWORD);
+        waitForText(LOGIN_BUTTON_TEXT);
+        waitFor(URL_SETTINGS_LOCATOR);
+        waitForText(API_INTEGRATION_MESSAGE);
+        swipe(-1);
+        waitForText(OPEN_WHATSAPP_TEXT);
+        swipe(1);
     }
 }
 

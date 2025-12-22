@@ -1,20 +1,11 @@
 package tacticmap.tree.root.info;
 
-import works.lysenko.tree.base.Leaf;
-import works.lysenko.util.apis.exception.checked.SafeguardException;
+import interlink.tree.CommonMore;
 
-import static interlink.util.Constants.MORE_TEXT;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
+import static interlink.util.Constants.*;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class More extends Leaf {
+public class More extends CommonMore {
 
-    @Override
-    public final void action() throws SafeguardException {
-
-        clickOnText(MORE_TEXT);
-        notImplemented(true);
-    }
+    public More() {super(THREE_MORE_ELEMENTS);}
 }
-
-
