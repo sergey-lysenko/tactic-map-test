@@ -38,7 +38,6 @@ import static works.lysenko.util.func.imgs.Screenshot.makeScreenshot;
 import static works.lysenko.util.func.type.Objects.isNotNull;
 import static works.lysenko.util.func.type.fractions.Factory.fr;
 import static works.lysenko.util.grid.validation.Check.image;
-import static works.lysenko.util.lang.C.CONTENT_ROOT;
 import static works.lysenko.util.lang.D.DUE_TO;
 import static works.lysenko.util.lang.U.UI_VERIFICATION_FAILED_IN;
 import static works.lysenko.util.lang.word.C.CONTENT;

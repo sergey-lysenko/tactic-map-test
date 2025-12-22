@@ -1,13 +1,9 @@
 package tacticmap.tree.root;
 
-import works.lysenko.tree.base.Leaf;
 import works.lysenko.tree.base.Node;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
-import static interlink.util.Routines.assertImage;
 import static interlink.util.lang.F.FIND_MY_LOCATION;
-import static works.lysenko.util.chrs.____.ROOT;
-import static works.lysenko.util.data.strs.Case.c;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
 public class FindMyLocation extends Node {

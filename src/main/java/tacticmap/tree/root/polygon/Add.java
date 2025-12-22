@@ -1,6 +1,5 @@
 package tacticmap.tree.root.polygon;
 
-import interlink.tree.CommonClose;
 import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 

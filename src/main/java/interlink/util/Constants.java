@@ -19,7 +19,7 @@ import static works.lysenko.util.chrs.____.INFO;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.lang.word.S.SEARCH;
 
-@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess", "PublicStaticArrayField", "HardcodedLineSeparator"})
+@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess", "PublicStaticArrayField", "HardcodedLineSeparator", "HardcodedFileSeparator"})
 public record Constants() {
 
     public static final float DRAG_HANDLE_STEP = 0.05F;

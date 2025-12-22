@@ -5,7 +5,7 @@ import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.MORE_TEXT;
 
-@SuppressWarnings({"unused", "MissingJavadoc", "DesignForExtension"})
+@SuppressWarnings({"unused", "MissingJavadoc"})
 public abstract class CommonMore extends Leaf {
 
     private final String[] texts;
@@ -19,13 +19,13 @@ public abstract class CommonMore extends Leaf {
         menuOff();
     }
 
-    protected void menuOff() {
+    private void menuOff() {
 
         back();
         waitForInvisibilityOfTexts(texts);
     }
 
-    protected void menuOn() {
+    private void menuOn() {
 
         clickOnText(MORE_TEXT);
         waitForTexts(texts);

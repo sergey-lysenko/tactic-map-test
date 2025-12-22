@@ -4,10 +4,8 @@ import works.lysenko.tree.base.Node;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
 import static interlink.util.Constants.*;
-import static interlink.util.lang.word.L.LOGIN;
 import static interlink.util.lang.word.L.LOGO;
 import static works.lysenko.util.data.strs.Case.c;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
 import static works.lysenko.util.func.ui.Scroll.swipe;
 import static works.lysenko.util.lang.word.C.CLOSE;
 
