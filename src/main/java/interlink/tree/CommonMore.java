@@ -3,13 +3,14 @@ package interlink.tree;
 import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
 
-import static interlink.util.Constants.*;
-import static org.apache.commons.math3.fraction.Fraction.ONE_HALF;
-import static org.apache.commons.math3.fraction.Fraction.ONE_QUARTER;
+import static interlink.util.Constants.MORE_TEXT;
 
-@SuppressWarnings({"unused", "MissingJavadoc"})
-public class CommonMore extends Leaf {
+@SuppressWarnings({"unused", "MissingJavadoc", "DesignForExtension"})
+public abstract class CommonMore extends Leaf {
 
+    private final String[] texts;
+
+    protected CommonMore(final String[] texts) {this.texts = texts;}
 
     @Override
     public final void action() throws SafeguardException {
@@ -18,24 +19,16 @@ public class CommonMore extends Leaf {
         menuOff();
     }
 
-    private void menuOff() {
+    protected void menuOff() {
 
-        clickOnText(MORE_TEXT);
-        waitForInvisibilityOfText(SAVE_BUTTON_TEXT);
-        waitForInvisibilityOfText(COPY_BUTTON_TEXT);
-        waitForInvisibilityOfText(AREA_FORMAT_TEXT);
-        waitForInvisibilityOfText(DISTANCE_FORMAT_TEXT);
-        waitForInvisibilityOfText(SYSTEM_COORDINATES_TEXT);
+        back();
+        waitForInvisibilityOfTexts(texts);
     }
 
-    private void menuOn() {
+    protected void menuOn() {
 
-        clickOn(ONE_HALF, ONE_QUARTER, MORE_TEXT);
-        waitForText(SAVE_BUTTON_TEXT);
-        waitForText(COPY_BUTTON_TEXT);
-        waitForText(AREA_FORMAT_TEXT);
-        waitForText(DISTANCE_FORMAT_TEXT);
-        waitForText(SYSTEM_COORDINATES_TEXT);
+        clickOnText(MORE_TEXT);
+        waitForTexts(texts);
     }
 }
 

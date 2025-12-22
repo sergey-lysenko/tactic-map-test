@@ -24,13 +24,10 @@ public record Constants() {
 
     public static final float DRAG_HANDLE_STEP = 0.05F;
 
-    public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT,
-            c(RULER), TOTAL_DISTANCE, c(POLYGON), ELEVATION_GRAPH, FIND_MY_LOCATION, c(COMPASS), DRAG_HANDLE, c(LOGIN),
-            c(SETTINGS), SEARCH_1, SEARCH_2};
-
     // Short strings
     public static final String ADD_BUTTON_TEXT = "Додати";
     public static final String AGGREGATE_AREA_TEXT = "Загальна площа";
+    public static final String ANGLES_FORMAT_TEXT = "Формат кутів";
     public static final String AREA_FORMAT_TEXT = "Формат площі";
     public static final String CALL_SIGN_TEXT = "Позивний";
     public static final String CANCEL_BUTTON_LABEL = "Скасувати";
@@ -94,8 +91,6 @@ public record Constants() {
     public static final String ACCEPTABLE_USE_TEXT = "Умови використання";
     public static final String LEGAL_NOTICE_TEXT = "Юридична інформація";
 
-
-
     // Long strings
     public static final String API_INTEGRATION_MESSAGE = "Ми працюємо над інтеграцією API в TacticMap, і наразі цей функціонал доступний лише в рамках закритого бета-тестування.\n\nЯкщо ви хочете спробувати API та отримати доступ, зв'яжіться з нами через WhatsApp: +380933394092.\nБудемо раді співпраці та вашим відгукам!";
     public static final String AUTO_RENEWAL_NOTICE_TEXT = "План автоматично поновлюється за 99,99 грн/місяць до скасування.";
@@ -109,4 +104,16 @@ public record Constants() {
     public static final String TOPOGRAPHY_HELP_TEXT = "Переглядайте висоту місцевості. Це допомагає швидко оцінити позиційні переваги для планування.";
     public static final String USER_CREDENTIAL_PROMPT = "Введіть дані свого облікового запису UkropSync";
     public static final String WARNING_LAYER_REQUIRED = "Перед додаванням об'єкта, необхідно створити шар";
+    public static final String SHARE_BUTTON_TEXT = "Поділитися";
+
+    // Arrays
+    public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT,
+            c(RULER), TOTAL_DISTANCE, c(POLYGON), ELEVATION_GRAPH, FIND_MY_LOCATION, c(COMPASS), DRAG_HANDLE, c(LOGIN),
+            c(SETTINGS), SEARCH_1, SEARCH_2};
+
+    public final static String[] AREA_FIVE_MORE_ELEMENTS = {SAVE_BUTTON_TEXT, COPY_BUTTON_TEXT, AREA_FORMAT_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
+    public final static String[] ANGLES_FIVE_MORE_ELEMENTS = {SAVE_BUTTON_TEXT, COPY_BUTTON_TEXT, ANGLES_FORMAT_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
+    public final static String[] THREE_MORE_ELEMENTS = {SHARE_BUTTON_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
+
+
 }
