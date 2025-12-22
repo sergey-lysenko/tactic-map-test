@@ -102,6 +102,31 @@ public interface ClicksOnWebElements {
     void clickOnText(String text);
 
     /**
+     * Performs a click on a specific location within a text element. The click
+     * position is defined by fractional x and y coordinates where 0 represents
+     * the starting edge (e.g., left or top) and 1 represents the ending edge
+     * (e.g., right or bottom). The method identifies the element based on its
+     * visible text.
+     *
+     * @param x1   the fractional x-coordinate of the click position relative to the text element
+     * @param y1   the fractional y-coordinate of the click position relative to the text element
+     * @param text the visible text of the element to be clicked
+     */
+    void clickOnText(double x1, double y1, String text);
+
+    /**
+     * Performs a click on a specific location within a text element. The location is defined
+     * by fractional x and y coordinates, where each coordinate represents a relative offset
+     * within the element (e.g., 0 for the start and 1 for the end of the dimension). The
+     * element is identified by its visible text.
+     *
+     * @param x1   the fractional x-coordinate of the click position relative to the text element
+     * @param y1   the fractional y-coordinate of the click position relative to the text element
+     * @param text the visible text of the element to be clicked
+     */
+    void clickOnText(Fraction x1, Fraction y1, String text);
+
+    /**
      * Clicks on a content-desc.
      *
      * @param contentDesc the text description to be clicked on

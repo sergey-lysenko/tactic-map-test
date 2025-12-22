@@ -127,8 +127,7 @@ import static works.lysenko.util.spec.Waits.*;
  * The Root class represents a base class for other classes in the application.
  * It contains various utility methods for interacting with elements on the user interface.
  */
-@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints",
-        "NegativelyNamedBooleanVariable"})
+@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints", "NegativelyNamedBooleanVariable", "WeakerAccess", "unused"})
 public abstract class Root implements ClearsWebElements, ClicksOnWebElements, ControlsExecution, DescribesWebElements,
         OperatesOnUrl, SendsKeys, ReadsWebElements, Scrolls, Swipes, Sleeps, SearchesWebElements, TypesIntoWebElements,
         WaitsForWebElements, WritesLog, Runs {
@@ -178,10 +177,34 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
      * @param total amount
      * @return {name} {fraction}/{total} xx,xx%
      */
-    @SuppressWarnings("unused")
     public static String stats(final String name, final int part, final int total) {
 
         return b(name, s(part, _SLASH_, total), yb(percentString(part, total)));
+    }
+
+    /**
+     * Navigates the web driver back to the previous page in the browser's history.
+     * This method interacts with the web driver's navigation functionality
+     * to simulate the browser's back button behaviour.
+     */
+    public static void back() {
+
+        exec.getWebDriver().navigate().back();
+    }
+
+    /**
+     * Navigates the web driver to the next page in the browser's session history,
+     * if available.
+     * <p>
+     * This method utilises the web driver's navigation capabilities to move
+     * forward in the browsing history. If there are no forward entries
+     * in the session history, this method does nothing.
+     * <p>
+     * Note: Behaviour depends on the state of the browser's history.
+     */
+    public static void forward() {
+
+        exec.getWebDriver().navigate().forward();
     }
 
     public final void clear(final boolean sendKeys, final String... locator) {
@@ -314,6 +337,16 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void clickOnText(final String text) {
 
         clickOn(false, text(text));
+    }
+
+    public final void clickOnText(final double x1, final double y1, final String text) {
+
+        clickOn(x1, y1, text(text));
+    }
+
+    public final void clickOnText(final Fraction x1, final Fraction y1, final String text) {
+
+        clickOn(x1, y1, text(text));
     }
 
     public final void clickOnDesc(final String contentDesc) {
@@ -482,7 +515,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
             if (attempts != retries) sleep(implicit);
             result =
                     findAll(locator).stream().map(candidate -> candidate.getAttribute(TEXT)).filter(attribute -> pattern.matcher(attribute).matches()) // Keep only strings with digits only
-                    .toList();
+                            .toList();
         } while (ZERO < --attempts && result.isEmpty());
         log(0, b(s(FAT_BUL), q(yb(s(result)))), true);
         return result;
@@ -1115,14 +1148,19 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         waitForInvisibilityOf(text(text), exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
     }
 
+    public final void waitForInvisibilityOfTexts(final String... texts) {
+
+        for (final String text : texts) waitForInvisibilityOfText(text);
+    }
+
     public final void waitForInvisibilityOfText(final String text, final Duration iwait) {
 
         waitForInvisibilityOf(text(text), iwait);
     }
 
-    public final void waitForTexts(final Iterable<String> texts) {
+    public final void waitForTexts(final String... texts) {
 
-        texts.forEach(this::waitForVisibilityOfText);
+        for (final String text : texts) waitForText(text);
     }
 
     public final void waitForText(final String text) {

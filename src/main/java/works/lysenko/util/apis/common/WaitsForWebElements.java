@@ -91,6 +91,14 @@ public interface WaitsForWebElements {
     void waitForInvisibilityOfText(String text);
 
     /**
+     * Waits for the invisibility of multiple specified text strings. This method will block execution
+     * until all the provided text strings are no longer visible or present on the page.
+     *
+     * @param texts one or more text strings to wait for their invisibility
+     */
+    void waitForInvisibilityOfTexts(String... texts);
+
+    /**
      * Wait for a text to be not visible, with a specific implicit wait
      *
      * @param text  to be invisible
@@ -120,11 +128,12 @@ public interface WaitsForWebElements {
     void waitForDesc(String contentDesc);
 
     /**
-     * Waits until all the specified texts become present or visible.
+     * Waits for the presence or appearance of the specified text strings on the page.
+     * The method will block execution until all the provided text strings are visible or present.
      *
-     * @param texts an iterable collection of strings representing the texts to be waited for
+     * @param texts one or more text strings to wait for their visibility or presence
      */
-    void waitForTexts(Iterable<String> texts);
+    void waitForTexts(String... texts);
 
     /**
      * Wait for the appearance of the defined element

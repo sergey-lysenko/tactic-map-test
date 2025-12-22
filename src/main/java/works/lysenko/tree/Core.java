@@ -41,6 +41,7 @@ import static works.lysenko.util.grid.validation.Check.image;
 import static works.lysenko.util.lang.C.CONTENT_ROOT;
 import static works.lysenko.util.lang.D.DUE_TO;
 import static works.lysenko.util.lang.U.UI_VERIFICATION_FAILED_IN;
+import static works.lysenko.util.lang.word.C.CONTENT;
 import static works.lysenko.util.lang.word.E.EVENT;
 import static works.lysenko.util.lang.word.S.STOPPING;
 import static works.lysenko.util.prop.tree.Scenario.root;
@@ -215,7 +216,7 @@ public abstract class Core extends Root implements _Scenario, Verifies {
     @SuppressWarnings("DesignForExtension")
     public boolean verify() throws SafeguardException {
 
-        final WebElement element = find(CONTENT_ROOT);
+        final WebElement element = find(c(CONTENT));
         final BufferedImage image = makeScreenshot(element);
         final boolean asserted = test(image(image, getShortName())).isPassed();
         assertTrue(asserted, b(UI_VERIFICATION_FAILED_IN, getShortName()));
