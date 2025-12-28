@@ -136,6 +136,14 @@ public interface WaitsForWebElements {
     void waitForTexts(String... texts);
 
     /**
+     * Waits for the presence or visibility of the specified text strings on the page.
+     * The method will block execution until all the provided text strings are visible or present.
+     *
+     * @param texts an iterable collection of text strings to wait for their visibility or presence
+     */
+    void waitForTexts(Iterable<String> texts);
+
+    /**
      * Wait for the appearance of the defined element
      *
      * @param locator string locator of an element to wait for

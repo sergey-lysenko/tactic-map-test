@@ -30,7 +30,7 @@ public class Calculator implements _GridCalculator {
      * for representing alphanumeric characters (0-9 and A-Z) in calculations or
      * conversions performed by the associated methods in the Calculator.
      */
-    public static final int RADIX = 36;
+    private static final int RADIX = 36;
     private final Grid grid;
 
     /**

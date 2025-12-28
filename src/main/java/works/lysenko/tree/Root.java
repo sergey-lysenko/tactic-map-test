@@ -127,7 +127,8 @@ import static works.lysenko.util.spec.Waits.*;
  * The Root class represents a base class for other classes in the application.
  * It contains various utility methods for interacting with elements on the user interface.
  */
-@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints", "NegativelyNamedBooleanVariable", "WeakerAccess", "unused"})
+@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints",
+        "NegativelyNamedBooleanVariable", "WeakerAccess", "unused"})
 public abstract class Root implements ClearsWebElements, ClicksOnWebElements, ControlsExecution, DescribesWebElements,
         OperatesOnUrl, SendsKeys, ReadsWebElements, Scrolls, Swipes, Sleeps, SearchesWebElements, TypesIntoWebElements,
         WaitsForWebElements, WritesLog, Runs {
@@ -1159,6 +1160,11 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     }
 
     public final void waitForTexts(final String... texts) {
+
+        for (final String text : texts) waitForText(text);
+    }
+
+    public final void waitForTexts(final Iterable<String> texts) {
 
         for (final String text : texts) waitForText(text);
     }

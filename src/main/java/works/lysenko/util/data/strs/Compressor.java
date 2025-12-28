@@ -1,7 +1,5 @@
 package works.lysenko.util.data.strs;
 
-import works.lysenko.util.lang.I;
-
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -10,6 +8,7 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import static java.util.Objects.isNull;
+import static works.lysenko.util.lang.I.INVALID_COMPRESSED_DATA;
 
 /**
  * A utility class providing methods to compress and decompress strings.
@@ -71,8 +70,8 @@ public record Compressor() {
                 final int count = inflater.inflate(buffer);
                 os.write(buffer, 0, count);
             }
-        } catch (DataFormatException e) {
-            throw new IllegalArgumentException(I.INVALID_COMPRESSED_DATA, e);
+        } catch (final DataFormatException e) {
+            throw new IllegalArgumentException(INVALID_COMPRESSED_DATA, e);
         } finally {
             inflater.end();
         }

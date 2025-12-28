@@ -45,7 +45,7 @@ import static works.lysenko.util.spec.Symbols.*;
  *
  * @author Sergii Lysenko
  */
-@SuppressWarnings({"UseOfConcreteClass", "ThisEscapedInObjectConstruction", "DesignForExtension", "OverloadedVarargsMethod"})
+@SuppressWarnings({"UseOfConcreteClass", "ThisEscapedInObjectConstruction", "DesignForExtension", "OverloadedVarargsMethod", "AbstractClassWithOnlyOneDirectInheritor"})
 public abstract class Node extends Core implements _Node {
 
     private Ctrl ctrl;

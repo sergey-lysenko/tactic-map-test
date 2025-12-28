@@ -19,7 +19,7 @@ import static works.lysenko.util.spec.Waits.SHORT_WAIT_TO;
 /**
  * The Scroll class provides static methods to perform scrolling and swiping actions on elements.
  */
-@SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "ClassIndependentOfModule"})
+@SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "ClassIndependentOfModule", "unused"})
 public record Scroll() {
 
     /**
@@ -66,6 +66,24 @@ public record Scroll() {
     public static void swipe(final double reduction) {
 
         swipe((float) reduction);
+    }
+
+    /**
+     * Performs a vertical swipe action using the default swiper locator.
+     * The swipe action is initiated with a reduction factor of -1.
+     */
+    public static void swipe() {
+
+        swipeVertically(defaultSwiperLocator(), -1);
+    }
+
+    /**
+     * Performs a vertical swipe action using the default swiper locator.
+     * This method initiates the swipe with a reduction factor of 1.
+     */
+    public static void swipeBack() {
+
+        swipeVertically(defaultSwiperLocator(), 1);
     }
 
     /**
