@@ -1,4 +1,4 @@
-package works.lysenko.base;
+package works.lysenko.base.exec;
 
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.execution._Scaler;

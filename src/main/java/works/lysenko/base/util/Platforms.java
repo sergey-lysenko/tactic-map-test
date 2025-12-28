@@ -1,4 +1,4 @@
-package works.lysenko.base;
+package works.lysenko.base.util;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -57,7 +57,7 @@ public record Platforms() {
     /**
      * --base-path
      */
-    static final String __BASE_PATH = d(s(_DASH_), BASE, PATH);
+    public static final String __BASE_PATH = d(s(_DASH_), BASE, PATH);
     private static final int ENOUGH = 3000;
 
     /**

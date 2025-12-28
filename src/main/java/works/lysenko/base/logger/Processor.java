@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
-import works.lysenko.base.Telemetry;
+import works.lysenko.base.util.Telemetry;
 import works.lysenko.base.core.Routines;
 import works.lysenko.base.logger.processor.Queue;
 import works.lysenko.base.logger.processor.Writer;

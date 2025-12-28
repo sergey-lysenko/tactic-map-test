@@ -1,4 +1,4 @@
-package works.lysenko.base;
+package works.lysenko.base.util;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +24,7 @@ import static works.lysenko.util.func.type.Objects.isNotNull;
         "ClassWithTooManyTransitiveDependents", "UtilityClassCanBeEnum", "ClassUnconnectedToPackage",
         "ClassWithTooManyTransitiveDependencies",
         "CyclicClassDependency"})
-final class WebDrivers {
+public final class WebDrivers {
 
     private WebDrivers() {
 
@@ -45,7 +45,7 @@ final class WebDrivers {
      * @return correspondent {@link org.openqa.selenium.WebDriver} object
      */
     @SuppressWarnings({"LocalCanBeFinal", "UnqualifiedStaticUsage"})
-    static WebDriver get(Platform p) {
+    public static WebDriver get(Platform p) {
 
         return get(p, false);
     }
@@ -58,7 +58,7 @@ final class WebDrivers {
      */
     @SuppressWarnings({"BooleanParameter", "ChainedMethodCall", "LocalCanBeFinal", "NestedMethodCall",
             "UnqualifiedStaticUsage", "SameParameterValue"})
-    static WebDriver get(Platform p, boolean maximize) {
+    public static WebDriver get(Platform p, boolean maximize) {
 
         WebDriver driver = null;
         switch (p) {

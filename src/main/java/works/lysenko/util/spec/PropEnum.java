@@ -1,7 +1,7 @@
 package works.lysenko.util.spec;
 
 import org.apache.commons.math3.fraction.Fraction;
-import works.lysenko.base.StringParser;
+import works.lysenko.base.util.StringParser;
 import works.lysenko.util.apis._PropEnum;
 
 import java.awt.Color;

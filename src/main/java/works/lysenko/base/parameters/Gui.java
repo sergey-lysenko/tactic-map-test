@@ -1,7 +1,7 @@
 package works.lysenko.base.parameters;
 
 import works.lysenko.base.Parameters;
-import works.lysenko.base.Platforms;
+import works.lysenko.base.util.Platforms;
 import works.lysenko.util.apis.parameters._GUI;
 import works.lysenko.util.apis.test._Test;
 import works.lysenko.util.data.enums.Platform;

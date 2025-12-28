@@ -2,6 +2,7 @@ package works.lysenko.base;
 
 import works.lysenko.Base;
 import works.lysenko.base.properties.Renderer;
+import works.lysenko.base.util.StringParser;
 import works.lysenko.util.apis._PropEnum;
 import works.lysenko.util.apis.properties._TestProperties;
 import works.lysenko.util.data.records.PropertiesMeta;

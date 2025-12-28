@@ -1,6 +1,6 @@
 package works.lysenko.util.apis.common;
 
-import works.lysenko.base.DataStorage;
+import works.lysenko.base.exec.DataStorage;
 
 import java.util.Set;
 

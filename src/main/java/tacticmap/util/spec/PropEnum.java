@@ -1,6 +1,6 @@
 package tacticmap.util.spec;
 
-import works.lysenko.base.StringParser;
+import works.lysenko.base.util.StringParser;
 import works.lysenko.util.apis._PropEnum;
 
 import java.util.Locale;

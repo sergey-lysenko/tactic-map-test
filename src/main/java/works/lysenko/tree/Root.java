@@ -39,7 +39,7 @@ import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static works.lysenko.Base.*;
-import static works.lysenko.base.DataStorage.writeDataSnapshot;
+import static works.lysenko.base.exec.DataStorage.writeDataSnapshot;
 import static works.lysenko.base.core.Routines.in;
 import static works.lysenko.util.chrs.__.*;
 import static works.lysenko.util.chrs.___.*;

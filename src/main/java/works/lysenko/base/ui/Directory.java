@@ -1,6 +1,6 @@
 package works.lysenko.base.ui;
 
-import works.lysenko.base.Telemetry;
+import works.lysenko.base.util.Telemetry;
 import works.lysenko.util.apis.scenario._Scenario;
 import works.lysenko.util.apis.util._Dashboard;
 

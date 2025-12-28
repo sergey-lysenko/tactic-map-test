@@ -1,6 +1,6 @@
 package works.lysenko.util.apis.log;
 
-import works.lysenko.base.Telemetry;
+import works.lysenko.base.util.Telemetry;
 import works.lysenko.util.data.enums.Severity;
 
 import java.io.Closeable;

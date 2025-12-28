@@ -1,4 +1,4 @@
-package works.lysenko.base;
+package works.lysenko.base.util;
 
 import org.apache.commons.math3.fraction.Fraction;
 import works.lysenko.util.apis.properties._Result;

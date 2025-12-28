@@ -1,4 +1,4 @@
-package works.lysenko.base;
+package works.lysenko.base.util;
 
 import works.lysenko.base.core.Routines;
 import works.lysenko.base.telemetry.Data;
