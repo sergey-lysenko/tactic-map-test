@@ -127,8 +127,7 @@ import static works.lysenko.util.spec.Waits.*;
  * The Root class represents a base class for other classes in the application.
  * It contains various utility methods for interacting with elements on the user interface.
  */
-@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints",
-        "NegativelyNamedBooleanVariable", "WeakerAccess", "unused"})
+@SuppressWarnings({"AbstractClassWithoutAbstractMethods", "OverlyComplexClass", "MethodWithMultipleReturnPoints", "NegativelyNamedBooleanVariable", "WeakerAccess", "unused", "DataFlowIssue"})
 public abstract class Root implements ClearsWebElements, ClicksOnWebElements, ControlsExecution, DescribesWebElements,
         OperatesOnUrl, SendsKeys, ReadsWebElements, Scrolls, Swipes, Sleeps, SearchesWebElements, TypesIntoWebElements,
         WaitsForWebElements, WritesLog, Runs {
@@ -190,7 +189,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
      */
     public static void back() {
 
-        exec.getWebDriver().navigate().back();
+        exec.wd().navigate().back();
     }
 
     /**
@@ -205,7 +204,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
      */
     public static void forward() {
 
-        exec.getWebDriver().navigate().forward();
+        exec.wd().navigate().forward();
     }
 
     public final void clear(final boolean sendKeys, final String... locator) {
@@ -272,7 +271,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
             final int offsetY = p.y - center.y;
             log(Level.supplementary, b(c(CALCULATED), OFFSET, IN, PIXELS, FROM, CENTER, IS, s(OPN_BRK, X, offsetX, _COMMA_),
                     s(Y, offsetY, CLS_BRK)), true);
-            final Actions actions = new Actions(exec.getWebDriver());
+            final Actions actions = new Actions(exec.wd());
             actions.moveToElement(element);
             actions.moveByOffset(offsetX, offsetY);
             actions.click();
@@ -393,8 +392,8 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         do {
             try {
                 if (!silent && 0 < locators.length) log(Level.supplementary, b(c(FINDING), q(bb(locators[0]))), true);
-                if (0 == locators.length) element = exec.getWebDriver().findElement(by(s(_SLASH_, _SLASH_, BODY)));
-                if (0 < locators.length) element = exec.getWebDriver().findElement(by(locators[0]));
+                if (0 == locators.length) element = exec.wd().findElement(by(s(_SLASH_, _SLASH_, BODY)));
+                if (0 < locators.length) element = exec.wd().findElement(by(locators[0]));
                 if (1 < locators.length) for (int i = 1; i < locators.length; i++) {
                     if (!silent) log(b(Constants._AND_CHILD, q(bb(locators[i])), s(_QUOTE_)));
                     if (isNotNull(element)) element = element.findElement(by(locators[i]));
@@ -416,9 +415,9 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
     public final WebElement find(final WebElement element) {
 
-        if (in(FIREFOX)) ((JavascriptExecutor) exec.getWebDriver()).executeScript(JS_FIND_CODE, element);
+        if (in(FIREFOX)) ((JavascriptExecutor) exec.wd()).executeScript(JS_FIND_CODE, element);
         else {
-            final Actions actions = new Actions(exec.getWebDriver());
+            final Actions actions = new Actions(exec.wd());
             actions.moveToElement(element);
             actions.perform();
         }
@@ -437,25 +436,25 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
     public final List<WebElement> findAll(final String locator, final boolean expose) {
 
-        return findAll(locator, expose, exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+        return findAll(locator, expose, exec.wd().manage().timeouts().getImplicitWaitTimeout());
     }
 
     public final List<WebElement> findAll(final String locator, final Duration iwait) {
 
-        return findAll(locator, false, exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+        return findAll(locator, false, exec.wd().manage().timeouts().getImplicitWaitTimeout());
     }
 
     public final List<WebElement> findAll(final String locator, final boolean expose, final Duration iwait) {
 
-        final Duration defIwait = exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout();
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(iwait);
+        final Duration defIwait = exec.wd().manage().timeouts().getImplicitWaitTimeout();
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(iwait);
         final ArrayList<WebElement> elements;
         if (isNull(locator)) elements = new ArrayList<>(1);
-        else elements = (ArrayList<WebElement>) exec.getWebDriver().findElements(by(locator, expose));
+        else elements = (ArrayList<WebElement>) exec.wd().findElements(by(locator, expose));
         final String result = (elements.isEmpty()) ? (rb(ZERO)) : (gb(elements.size()));
         log(Level.supplementary, b(c(FINDING), ALL, q(bb(locator)), s(GRT_THN), result, s(ELEMENT, s1(elements.size()))),
                 true);
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(defIwait);
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(defIwait);
         return elements;
     }
 
@@ -549,7 +548,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     @Override
     public final void hideKeyboard() {
 
-        ((HidesKeyboard) exec.getWebDriver()).hideKeyboard();
+        ((HidesKeyboard) exec.wd()).hideKeyboard();
     }
 
     public final void ifExistsClickOnText(final String text) {
@@ -560,13 +559,13 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final boolean isDisabled(final String locator) {
 
         log(b(c(CHECKING), WHETHER, q(locator), IS, DISABLED));
-        return !exec.getWebDriver().findElement(by(locator)).isEnabled();
+        return !exec.wd().findElement(by(locator)).isEnabled();
     }
 
     public final boolean isEnabled(final String locator) {
 
         log(b(c(CHECKING), WHETHER, q(locator), IS, ENABLED));
-        return !exec.getWebDriver().findElement(by(locator)).isEnabled();
+        return !exec.wd().findElement(by(locator)).isEnabled();
     }
 
     public final int amountPresent(final String locator) {
@@ -605,7 +604,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final boolean isVisible(final String locator, final boolean silent) {
 
         if (!silent) log(b(CHECKING_VISIBILITY_OF, q(locator)));
-        return !exec.getWebDriver().findElements(by(locator)).isEmpty();
+        return !exec.wd().findElements(by(locator)).isEmpty();
     }
 
     public final void log(final String message) {
@@ -705,7 +704,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
             }
         }
         log(b(c(OPENING), q(s(url))));
-        exec.getWebDriver().get(url.toString());
+        exec.wd().get(url.toString());
     }
 
     @SuppressWarnings({"ThrowInsideCatchBlockWhichIgnoresCaughtException", "HardcodedFileSeparator"})
@@ -743,7 +742,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final String read(final String locator) {
 
         log(b(READING_TEXT, q(bb(locator))));
-        final String text = exec.getWebDriver().findElement(by(locator)).getText();
+        final String text = exec.wd().findElement(by(locator)).getText();
         logText(text);
         return text;
     }
@@ -754,7 +753,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         int i = retries;
         log(b(READING_TEXT, q(bb(locator)), WITH, UP, TO, s(i), RETRIES));
         while (ZERO < i--) try {
-            final String text = exec.getWebDriver().findElement(by(locator)).getText();
+            final String text = exec.wd().findElement(by(locator)).getText();
             log(Level.none, q(yb(text)), true);
             return text;
         } catch (final NoSuchElementException e) {
@@ -768,7 +767,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final String readInput(final String locator) {
 
         log(b(READING_VALUE, q(bb(locator))));
-        final String text = exec.getWebDriver().findElement(by(locator)).getAttribute(VALUE);
+        final String text = exec.wd().findElement(by(locator)).getAttribute(VALUE);
         log(Level.none, q(yb(text)), true);
         return text;
     }
@@ -785,13 +784,13 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
         if (in(ANDROID)) {
             log(b(TERMINATING, Start.bundleId));
-            ((InteractsWithApps) exec.getWebDriver()).terminateApp(Start.bundleId);
+            ((InteractsWithApps) exec.wd()).terminateApp(Start.bundleId);
             try {
                 log(b(ACTIVATING, Start.bundleId));
                 sleep(pause);
-                ((InteractsWithApps) exec.getWebDriver()).activateApp(Start.bundleId);
+                ((InteractsWithApps) exec.wd()).activateApp(Start.bundleId);
                 sleep(pause); // TODO: [framework] investigate the reason of needing two attempts
-                ((InteractsWithApps) exec.getWebDriver()).activateApp(Start.bundleId);
+                ((InteractsWithApps) exec.wd()).activateApp(Start.bundleId);
             } catch (final RuntimeException e) {
                 //
             }
@@ -815,7 +814,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
         // TODO: [framework] investigate reason of unpredictable scrolling behavior (or just fall back to swipes)
         if (in(ANDROID)) {
             log(b(SCROLLING, s1(steps, STEP), FORWARD));
-            return exec.getWebDriver().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, _DOT_, SCROLL, c(FORWARD),
+            return exec.wd().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, _DOT_, SCROLL, c(FORWARD),
                     e(ROUND, steps))));
         } else {
             logEvent(S3, b(s(SCROLL, c(FORWARD), e(ROUND, EMPTY)), ONLY, APPLICABLE, FOR, c(ANDROID), TESTING));
@@ -875,7 +874,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
             if (in(ANDROID)) {
                 if (lazy) if (alreadyOnScreen(text)) return;
                 log(b(c(SCROLLING), TO, q(bb(text)), TEXT));
-                exec.getWebDriver().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, AUTOMATOR_CODE_PART2, text,
+                exec.wd().findElement(androidUIAutomator(s(AUTOMATOR_CODE_PART1, AUTOMATOR_CODE_PART2, text,
                         AUTOMATOR_CODE_PART3)));
                 if (isNotNull(afterScroll)) afterScroll.run();
                 return;
@@ -920,7 +919,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     @SuppressWarnings({"ObjectAllocationInLoop", "ValueOfIncrementOrDecrementUsed", "AssignmentToMethodParameter"})
     public final void sendKeys(final CharSequence keys, int i) {
 
-        do new Actions(exec.getWebDriver()).sendKeys(keys).build().perform(); while (0 < --i);
+        do new Actions(exec.wd()).sendKeys(keys).build().perform(); while (0 < --i);
     }
 
     public final void sendKeys(final String locator, final CharSequence keysToSend) {
@@ -1009,7 +1008,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void switchTo(final String window) {
 
         log(b(c(SWITCHING), TO, s(window), s(_QUOTE_)));
-        exec.getWebDriver().switchTo().window(window);
+        exec.wd().switchTo().window(window);
     }
 
     @SuppressWarnings("ImplicitNumericConversion")
@@ -1046,7 +1045,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
             logEvent(S2, b(c(EXCEPTION), q(ex.getClass().getName()), b(CAUGHT, WHILE, TRYING, TO, TYPE), s(secret ?
                     s(_BULLT_).repeat(symbols.length()) : content), INTO, describe(element), b(s(_COMMA_), ATTEMPTING,
                     WORKAROUND, DOTS)));
-            final Actions action = new Actions(exec.getWebDriver());
+            final Actions action = new Actions(exec.wd());
             action.moveToElement(element).click().sendKeys(s(content)).build().perform();
             return true;
         }
@@ -1097,7 +1096,7 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void waitClickable(final String locator) {
 
         log(b(WAITING_FOR, CLICKABILITY, OF, q(locator)));
-        exec.getWebDriverWait().until(elementToBeClickable(by(locator)));
+        exec.wdw().until(elementToBeClickable(by(locator)));
     }
 
     public final void waitFor(final String locator) {
@@ -1107,13 +1106,13 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
     public final void waitForInvisibilityOf(final String locator) {
 
-        waitForInvisibilityOf(locator, exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+        waitForInvisibilityOf(locator, exec.wd().manage().timeouts().getImplicitWaitTimeout());
     }
 
     public final boolean waitForInvisibilityOfOptional(final String locator) {
 
         try {
-            waitForInvisibilityOf(locator, exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+            waitForInvisibilityOf(locator, exec.wd().manage().timeouts().getImplicitWaitTimeout());
             return true;
         } catch (final org.openqa.selenium.TimeoutException e) {
             Base.logEvent(S1, e.toString());
@@ -1123,30 +1122,30 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
 
     public final void waitForInvisibilityOf(final WebElement element) {
 
-        waitForInvisibilityOf(element, exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+        waitForInvisibilityOf(element, exec.wd().manage().timeouts().getImplicitWaitTimeout());
     }
 
     public final void waitForInvisibilityOf(final String locator, final Duration iwait) {
 
-        final Duration defIwait = exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout();
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(iwait);
+        final Duration defIwait = exec.wd().manage().timeouts().getImplicitWaitTimeout();
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(iwait);
         log(b(WAITING_FOR_INVISIBILITY_OF, q(locator)));
-        exec.getWebDriverWait().until(invisibilityOfElementLocated(by(locator)));
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(defIwait);
+        exec.wdw().until(invisibilityOfElementLocated(by(locator)));
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(defIwait);
     }
 
     public final void waitForInvisibilityOf(final WebElement element, final Duration iwait) {
 
-        final Duration defIwait = exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout();
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(iwait);
+        final Duration defIwait = exec.wd().manage().timeouts().getImplicitWaitTimeout();
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(iwait);
         log(b(WAITING_FOR_INVISIBILITY_OF, describe(element)));
-        exec.getWebDriverWait().until(invisibilityOf(element));
-        if (!defIwait.equals(iwait)) exec.getWebDriver().manage().timeouts().implicitlyWait(defIwait);
+        exec.wdw().until(invisibilityOf(element));
+        if (!defIwait.equals(iwait)) exec.wd().manage().timeouts().implicitlyWait(defIwait);
     }
 
     public final void waitForInvisibilityOfText(final String text) {
 
-        waitForInvisibilityOf(text(text), exec.getWebDriver().manage().timeouts().getImplicitWaitTimeout());
+        waitForInvisibilityOf(text(text), exec.wd().manage().timeouts().getImplicitWaitTimeout());
     }
 
     public final void waitForInvisibilityOfTexts(final String... texts) {
@@ -1187,38 +1186,38 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void waitForVisibilityOf(final String locator) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(locator))));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(locator)));
+        exec.wdw().until(visibilityOfElementLocated(by(locator)));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public final void waitForVisibilityOf(final String... locators) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(Arrays.toString(locators)))));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(locators)));
+        exec.wdw().until(visibilityOfElementLocated(by(locators)));
     }
 
     public final void waitForVisibilityOfText(final String text) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(text(text)))));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(text(text))));
+        exec.wdw().until(visibilityOfElementLocated(by(text(text))));
     }
 
     public final void waitForVisibilityOfEdit(final String text) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(edit(text)))));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(edit(text))));
+        exec.wdw().until(visibilityOfElementLocated(by(edit(text))));
     }
 
     public final void waitForVisibilityOfDesc(final String text) {
 
         log(b(WAITING_FOR_VISIBILITY_OF, q(bb(desc(text)))));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(desc(text))));
+        exec.wdw().until(visibilityOfElementLocated(by(desc(text))));
     }
 
     public final void waitSelected(final String locator) {
 
         log(b(WAITING_FOR, q(locator), b(TO_BE, SELECTED)));
-        exec.getWebDriverWait().until(visibilityOfElementLocated(by(locator)));
+        exec.wdw().until(visibilityOfElementLocated(by(locator)));
     }
 
     public final void waitThenClickOn(final double x1, final double y1, final String locator) {
@@ -1254,20 +1253,20 @@ public abstract class Root implements ClearsWebElements, ClicksOnWebElements, Co
     public final void waitValue(final String locator, final String value) {
 
         log(s(s(WAITING_FOR, q(locator), b(TO, HAVE, VALUE), q(value))));
-        exec.getWebDriverWait().until(textToBe(by(locator), value));
+        exec.wdw().until(textToBe(by(locator), value));
     }
 
     public final String waitValueNot(final String locator, final String value) {
 
         log(b(WAITING_WHILE, q(locator), b(STILL, HAVE, VALUE), q(value)));
-        exec.getWebDriverWait().until(not(textToBe(by(locator), value)));
+        exec.wdw().until(not(textToBe(by(locator), value)));
         return read(locator);
     }
 
     public final String waitValueNotEmpty(final String locator) {
         // TODO: [framework] this routine seems to be working not as expected
         log(s(WAITING_WHILE, q(locator), b(IS, STILL, EMPTY)));
-        exec.getWebDriverWait().until(not(textToBe(by(locator), EMPTY)));
+        exec.wdw().until(not(textToBe(by(locator), EMPTY)));
         sleepShort();
         final String text = read(locator);
         log(b(c(THE), TEXT, OF, q(locator), IS, NOW, q(text)));
