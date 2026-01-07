@@ -28,7 +28,7 @@ import static works.lysenko.util.lang.word.R.RESULT;
 import static works.lysenko.util.lang.word.S.SCENARIO;
 
 /**
- * This class represent results of single bot execution
+ * This class represents results of single bot execution
  *
  * @author Sergii Lysenko
  */
@@ -53,7 +53,7 @@ public class Results implements _Results {
     public void addEvent(final _LogRecord lr) {
 
         if (isNotNull(exec)) // if execution is started
-            if (isNotNull(exec.currentScenario())) // if there's a place to store
+            if (isNotNull(exec.scenarios().current())) // if there's a place to store
                 if (lr.data() instanceof _Event) // if thing is correct
                 {
                     max = greaterSeverity(max, ((_Event) lr.data()).severity());
@@ -74,7 +74,7 @@ public class Results implements _Results {
     }
 
     /**
-     * Counts (increases by one) the number of successful execution of a scenario.
+     * Counts (increases by one) the amount of successful execution of a scenario.
      *
      * @param scenario The scenario to count successful execution for
      * @return The relevant Result object
@@ -152,7 +152,7 @@ public class Results implements _Results {
     private void addEvent0(final _LogRecord lr) {
 
         if (isNotNull(exec)) {
-            final _Scenario current = exec.currentScenario();
+            final _Scenario current = exec.scenarios().current();
             if (isNotNull(current)) {
                 final _Result result = results.getOrDefault(current, new Result(current));
                 if (isNotNull(result)) {
