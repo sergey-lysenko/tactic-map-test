@@ -21,7 +21,7 @@ import static works.lysenko.util.spec.Layout.Files.name;
 import static works.lysenko.util.spec.Layout.Templates.RUN_JSON_;
 
 /**
- * Various JSON related code
+ * Various JSON-related code
  */
 @SuppressWarnings({"UtilityClass", "UtilityClassCanBeEnum", "FinalClass", "ClassWithTooManyTransitiveDependents",
         "ClassWithTooManyTransitiveDependencies", "ClassWithoutLogger", "PublicMethodWithoutLogging",
@@ -35,7 +35,7 @@ public final class Json {
 
     /**
      * This routine writes test execution in JSON format. Potentially will be
-     * replaced by some JSON libraries, if the amount of data to write will be more
+     * replaced by some JSON libraries if the amount of data to write is more
      * than manageable. File location defined by DEFAULT_RUNS_LOCATION, file name
      * template defined by RUN_JSON_FILENAME
      */
@@ -54,7 +54,7 @@ public final class Json {
             w.write(s("{\"startAt\":", Routines.startedAt(), ",\"issues\":{")); //NON-NLS
             w.write("\"newIssues\":["); //NON-NLS
 
-            List<_LogRecord> newIssues = exec.getNewIssuesCopy();
+            List<_LogRecord> newIssues = exec.issues().latestCopy();
             i = newIssues.size();
             for (_LogRecord lr : newIssues) {
                 w.write(s('"', lr.render(core.getTotalTests(), core.getLogger().getSpanLength(), null).replaceAll("\n",
@@ -62,18 +62,18 @@ public final class Json {
                 if (1 < i--) w.write(",");
             }
 
-            i = exec.getKnownIssues().size();
+            i = exec.issues().known().size();
             w.write("],\"knownIssues\":["); //NON-NLS
-            for (String str : exec.getKnownIssues()) {
+            for (String str : exec.issues().known()) {
                 w.write(s("\"", str.replaceAll("\n", " ").replace("\"",
                         "\\\""), "\""));
                 if (1 < i--) w.write(",");
             }
 
-            if (isNotNull(exec.getNotReproduced())) {
-                i = exec.getNotReproduced().size();
+            if (isNotNull(exec.issues().notReproduced())) {
+                i = exec.issues().notReproduced().size();
                 w.write("],\"notReproduced\":["); //NON-NLS
-                for (String str : exec.getNotReproduced()) {
+                for (String str : exec.issues().notReproduced()) {
                     w.write(s("\"", str.replaceAll("\n", " ").replace("\"",
                             "\\\""), "\""));
                     if (1 < i--) w.write(",");
