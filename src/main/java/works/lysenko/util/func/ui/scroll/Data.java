@@ -48,7 +48,13 @@ import static works.lysenko.util.spec.Symbols.Y;
 import static works.lysenko.util.spec.Symbols._COLON_;
 
 /**
- * The DataStorage class represents the necessary information for performing swipe actions on a web element.
+ * A record class representing data required for swipe actions performed on web elements.
+ *
+ * @param scroller The WebElement representing the element to be scrolled or swiped through.
+ * @param height   The height of the scroller element.
+ * @param width    The width of the scroller element.
+ * @param finger   The PointerInput representing a simulated finger for touch actions.
+ * @param q        The sequence of PointerInput actions for performing the swipe.
  */
 @SuppressWarnings({"StaticMethodOnlyUsedInOneClass", "StandardVariableNames"})
 public record Data(WebElement scroller, int height, int width, PointerInput finger, Sequence q) {
@@ -161,7 +167,7 @@ public record Data(WebElement scroller, int height, int width, PointerInput fing
         d.q().addAction(d.finger().createPointerMove(Duration.ofMillis(duration),
                 PointerInput.Origin.viewport(), s.x, t.y));
         d.q().addAction(d.finger().createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        ((Interactive) exec.getWebDriver()).perform(List.of(d.q()));
+        ((Interactive) exec.wd()).perform(List.of(d.q()));
         logDebug(S7);
         exec.sleepShort();
     }
