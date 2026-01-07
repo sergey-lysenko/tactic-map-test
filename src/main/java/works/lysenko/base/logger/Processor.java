@@ -4,10 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
-import works.lysenko.base.util.Telemetry;
 import works.lysenko.base.core.Routines;
 import works.lysenko.base.logger.processor.Queue;
 import works.lysenko.base.logger.processor.Writer;
+import works.lysenko.base.util.Telemetry;
 import works.lysenko.util.apis._LimitedDeque;
 import works.lysenko.util.apis.log._LogRecord;
 import works.lysenko.util.apis.log._LogsProcessor;
@@ -111,10 +111,10 @@ public class Processor implements _LogsProcessor {
      * Creates a new log event based on the provided parameters. The method evaluates the severity,
      * text, and other attributes to determine the type of event and generates a new {@code LogRecord}.
      *
-     * @param time The timestamp when the event occurred.
-     * @param depth The depth level of the event in the execution stack.
-     * @param severity The severity of the event, represented as an instance of {@code _Severity}.
-     * @param text The text message associated with the event.
+     * @param time       The timestamp when the event occurred.
+     * @param depth      The depth level of the event in the execution stack.
+     * @param severity   The severity of the event, represented as an instance of {@code _Severity}.
+     * @param text       The text message associated with the event.
      * @param stacktrace The stack trace information relevant to the event, if any.
      * @return A {@code LogRecord} object representing the newly created event.
      */
@@ -123,14 +123,14 @@ public class Processor implements _LogsProcessor {
                                          final String stacktrace) {
 
         final LogRecord newLogRecord;
-        final Set<String> ki = (null == exec) ? null : exec.getKnownIssue(text);
+        final Set<String> ki = (null == exec) ? null : exec.issues().getKnownIssueFor(text);
         final Integer test = core.getCurrentTestNumber();
         if (isNotNull(ki) && !ki.isEmpty())
             newLogRecord = new LogRecord(test, time, new Event(++counter, KNOWN_ISSUE, depth, s(KNOWN_ISSUE.getString(),
                     SEM_CLN, ki, SEM_CLN, text), stacktrace));
         else if (isNotNull(severity)) {
             newLogRecord = new LogRecord(test, time, new Event(++counter, severity.type(), depth, text, stacktrace));
-            if (isNotNull(exec)) exec.addNewIssue(newLogRecord);
+            if (isNotNull(exec)) exec.issues().add(newLogRecord);
         } else if (text.contains(KNOWN_ISSUE.getString()))
             newLogRecord = new LogRecord(test, time, new Event(++counter, KNOWN_ISSUE, depth, text, stacktrace));
         else newLogRecord = new LogRecord(test, time, new Event(++counter, EventType.UNDEFINED, depth, text, stacktrace));
@@ -158,7 +158,7 @@ public class Processor implements _LogsProcessor {
      *                      the default time since a defined starting point. If null, the
      *                      method will use the time since start.
      * @return the computed time value based on the input redefinedTime or the
-     *         time since the defined starting point.
+     * time since the defined starting point.
      */
     private static long defineTime(final Long redefinedTime) {
 
@@ -176,7 +176,7 @@ public class Processor implements _LogsProcessor {
      */
     private static int getDepth() {
 
-        return (null == exec) ? 0 : exec.currentDepth();
+        return (null == exec) ? 0 : exec.scenarios().depth();
     }
 
     /**
@@ -211,7 +211,7 @@ public class Processor implements _LogsProcessor {
     public final void getAllDriverLogs(final int depth, final Long redefinedTime) {
 
         if (isNotNull(exec)) {
-            if (isNotNull(exec.getWebDriver())) {
+            if (isNotNull(exec.wd())) {
                 if (Routines.in(CHROME)) { // Old code
                     processLogType(LogType.BROWSER, depth, redefinedTime);
                     processLogType(LogType.CLIENT, depth, redefinedTime);
@@ -278,7 +278,8 @@ public class Processor implements _LogsProcessor {
 
         core.sleep(1L, true);
         final int depth = getDepth();
-        queue.add(new LogRecord(core.getCurrentTestNumber(), msSinceStart(), new Log(++counter, depth, ZERO, shortStackTrace)));
+        queue.add(new LogRecord(core.getCurrentTestNumber(), msSinceStart(), new Log(++counter, depth, ZERO,
+                shortStackTrace)));
         core.sleep(1L, true);
     }
 
@@ -312,7 +313,7 @@ public class Processor implements _LogsProcessor {
      * in terms of timestamp and text content. If a matching log record is found, it is returned; otherwise, null is returned.
      *
      * @param next The log record to compare against the log records in the similarity collection.
-     * @return The first log record from the similarity collection that matches the conditions, or null if no match is found.
+     * @return The first log record from the similarity collection that matches the conditions or null if no match is found.
      */
     @SuppressWarnings({"DataFlowIssue", "BreakStatement"})
     private _LogRecord findSimilar(final _LogRecord next) {
@@ -356,7 +357,7 @@ public class Processor implements _LogsProcessor {
 
     /**
      * Checks if the given log record meets the similarity criteria.
-     * This method processes the log record to determine if it is sufficiently unique or
+     * This method processes the log record to determine if it is unique enough or
      * if it is similar to an existing log record based on defined conditions.
      *
      * @param logRecord The log record to be assessed for similarity.
@@ -416,9 +417,9 @@ public class Processor implements _LogsProcessor {
      * Processes an external log entry and queues an event based on the log type and parameters.
      *
      * @param logEntry the log entry to process
-     * @param logType the type of the log entry, e.g., BROWSER or other types
-     * @param depth the depth value to associate with the log event
-     * @param time the timestamp to associate with the log event
+     * @param logType  the type of the log entry, e.g. BROWSER or other types
+     * @param depth    the depth value to associate with the log event
+     * @param time     the timestamp to associate with the log event
      */
     private void processExternalLogEntry(final LogEntry logEntry, final String logType, final int depth, final long time) {
 
@@ -435,9 +436,9 @@ public class Processor implements _LogsProcessor {
      * and adding the processed record to the queue. Also updates the dashboard with the log record's
      * text and telemetry information, if available.
      *
-     * @param time       The time associated with the current log record.
-     * @param telemetry  The telemetry data to be logged or displayed.
-     * @param logRecord  The log record to be processed.
+     * @param time      The time associated with the current log record.
+     * @param telemetry The telemetry data to be logged or displayed.
+     * @param logRecord The log record to be processed.
      */
     private void processLogRecord(final long time, final Telemetry telemetry, final _LogRecord logRecord) {
 
@@ -452,14 +453,14 @@ public class Processor implements _LogsProcessor {
     /**
      * Processes a specific log type by reading log entries and processing them.
      *
-     * @param logType the type of the log to be processed
-     * @param depth the depth level used for processing the log entries
+     * @param logType       the type of the log to be processed
+     * @param depth         the depth level used for processing the log entries
      * @param redefinedTime an optional redefined timestamp to be used in processing log entries
      */
     private void processLogType(final String logType, final int depth, final Long redefinedTime) {
 
         if (logsToRead.contains(logType)) {
-            final LogEntries ls = exec.getWebDriver().manage().logs().get(logType);
+            final LogEntries ls = exec.wd().manage().logs().get(logType);
             final long time = defineTime(redefinedTime);
             for (final LogEntry logEntry : ls) processExternalLogEntry(logEntry, logType, depth, time);
         }
@@ -469,14 +470,14 @@ public class Processor implements _LogsProcessor {
      * Reads all available driver logs and processes each log type with the specified depth and redefined time.
      * Handles exceptions related to session or unsupported commands during log retrieval.
      *
-     * @param depth specifies the depth level to process the logs.
+     * @param depth         specifies the depth level to process the logs.
      * @param redefinedTime specifies a timestamp to reprocess logs based on a specific time.
      */
     private void readAllDriverLogs(final int depth, final Long redefinedTime) {
 
         if ((null == driverLogsAvailable) || driverLogsAvailable) {
             try {
-                exec.getWebDriver().manage().logs().getAvailableLogTypes().forEach(logType -> processLogType(logType, depth,
+                exec.wd().manage().logs().getAvailableLogTypes().forEach(logType -> processLogType(logType, depth,
                         redefinedTime));
             } catch (final org.openqa.selenium.NoSuchSessionException e) {
                 driverLogsAvailable = null;
