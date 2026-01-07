@@ -97,7 +97,7 @@ public final class Core extends Root implements _Core, _Tests {
      *
      * @param test           The test manager responsible for handling execution tests.
      * @param additional     A1 collection of additional property enums that are used in the core configuration.
-     * @param parametersList A1 string representing the list of parameters for initializing configurations.
+     * @param parametersList A1 string representing the list of parameters for initialising configurations.
      */
     public Core(final _Test test, final Collection<Class<? extends _PropEnum>> additional, final String parametersList) {
 
@@ -209,7 +209,7 @@ public final class Core extends Root implements _Core, _Tests {
     }
 
     /**
-     * Creates a logger instance and initializes it with the given set of logs to read.
+     * Creates a logger instance and initialises it with the given set of logs to read.
      */
     private void buildLogger() {
 
@@ -271,7 +271,7 @@ public final class Core extends Root implements _Core, _Tests {
     }
 
     /**
-     * Creates test properties by initializing the 'properties' field and printing a message to the console.
+     * Creates test properties by initialising the 'properties' field and printing a message to the console.
      */
     private void createTestProperties(final Collection<Class<? extends _PropEnum>> additional) {
 
@@ -294,7 +294,7 @@ public final class Core extends Root implements _Core, _Tests {
      * Disposes the dashboard if it exists.
      * <p>
      * This method checks if the dashboard object is not null, and if so, calls the dispose() method on it.
-     * The dispose() method releases any resources or performs any cleanup operations associated with the dashboard object.
+     * The dispose() method releases any resources or performs any clean-up operations associated with the dashboard object.
      * <p>
      * Note: This method is private and does not return any value.
      */
@@ -340,7 +340,7 @@ public final class Core extends Root implements _Core, _Tests {
     }
 
     /**
-     * Reads the execution parameters and initializes the 'parameters' field.
+     * Reads the execution parameters and initialises the 'parameters' field.
      * This method prompts the user to enter the necessary parameters and
      * creates a new Parameters object based on the provided parametersList.
      */
