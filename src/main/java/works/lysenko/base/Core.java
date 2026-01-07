@@ -55,12 +55,19 @@ import static works.lysenko.util.spec.Numbers.ZERO;
 import static works.lysenko.util.spec.Symbols.S;
 
 /**
- * Core tasks
+ * Represents the Core class, which is a crucial part in orchestrating and managing
+ * test executions, configurations, and results.
+ * This class integrates multiple subsystems, such as logging, dashboards, and test management,
+ * and provides essential methods for managing the execution lifecycle.
  * <p>
- * - performing pre-logger output
- * - creating Core Components
- * - managing Test Properties
- * - Jar startup detection
+ * Core extends the Root class and implements _Core and _Tests interfaces, encapsulating complex
+ * logic to manage test scenarios, logs, dashboards, and test configurations.
+ * <p>
+ * Features:
+ * - Provides access to test properties, results, and scenarios.
+ * - Manages execution state, including stopping mechanisms and execution within a JAR context.
+ * - Supports dashboard creation in both GUI and directory-based modes.
+ * - Initialises and configures logging and test properties.
  */
 @SuppressWarnings({"AssignmentToStaticFieldFromInstanceMethod", "UseOfSystemOutOrSystemErr", "MethodWithMultipleReturnPoints",
         "ClassWithTooManyMethods", "OverlyCoupledClass"})
@@ -218,7 +225,7 @@ public final class Core extends Root implements _Core, _Tests {
 
         if (isInJar() && (Routines.isInsideDocker() || Routines.isInsideCI())) {
             try {
-                exec.getWebDriver().quit();
+                exec.wd().quit();
             } catch (final RuntimeException e) {
                 throw new IllegalStateException("Unable to close WebDriver due to an exception", e);
             }
