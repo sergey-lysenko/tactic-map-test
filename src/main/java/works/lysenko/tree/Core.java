@@ -96,11 +96,11 @@ public abstract class Core extends Root implements _Scenario, Verifies {
     }
 
     /**
-     * @return logical level of current scenario (number of ascendants)
+     * @return logical level of the current scenario (number of ascendants)
      */
     public int depth() {
 
-        return gauge() - exec.getMinDepth();
+        return gauge() - exec.scenarios().minDepth();
     }
 
     @SuppressWarnings("NoopMethodInAbstractClass")
@@ -184,7 +184,7 @@ public abstract class Core extends Root implements _Scenario, Verifies {
 
         if (areFailingEvents()) return false;
         startedAt = msSinceStart();
-        exec.pushScenario(this);
+        exec.scenarios().push(this);
         exec.logEmptyLine();
         log(Level.none, s(ansi(b(s(type().tag()), getShortName()), BLUE_BOLD_BRIGHT), e(s(_COLON_)),
                 core.getResults().count(this)), false);
@@ -243,7 +243,7 @@ public abstract class Core extends Root implements _Scenario, Verifies {
         final String info = info();
         log(Level.none, b(false, bb(s(q(getShortName()))), // Scenario
                 (null == info || info.isEmpty()) ? EMPTY : yb(info), b(DONE, IN), yb(t(runtime))), false);
-        exec.popScenario(this);
+        exec.scenarios().pop(this);
     }
 
     /**
@@ -254,7 +254,7 @@ public abstract class Core extends Root implements _Scenario, Verifies {
     private int gauge() {
 
         final int g = getName().split("\\.").length;
-        if (isNull(exec.getMinDepth())) exec.setMinDepth(g);
+        if (isNull(exec.scenarios().minDepth())) exec.scenarios().minDepth(g);
         return g;
     }
 }
