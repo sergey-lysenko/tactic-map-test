@@ -31,13 +31,13 @@ record NewIssues() {
      */
     private static void consoleNewIssues() {
 
-        if (exec.noNewIssues())
+        if (exec.issues().isLatestEmpty())
             log(Level.none, ansi(b(c(NO), NEW, c(ISSUES)), GREEN), true);
         else {
-            section(b(s1(exec.getNewIssuesCopy().size(), c(EVENT)), SUMMARY));
+            section(b(s1(exec.issues().latest().size(), c(EVENT)), SUMMARY));
             log(Level.none, s((isDebug() ? ansi(e(b(c(NOTICES), AND), true), CYAN) : EMPTY), ansi(b(c(NEW), s(c(ISSUES),
                     _COLON_)), RED)), true);
-            for (final _LogRecord lr : exec.getNewIssuesCopy())
+            for (final _LogRecord lr : exec.issues().latestCopy())
                 log(Level.none, ansi(lr.render(core.getTotalTests(), -1, null)), false);
         }
     }
@@ -49,7 +49,7 @@ record NewIssues() {
      */
     static void run() {
 
-        final List<_LogRecord> newIssues = exec.getNewIssuesCopy();
+        final List<_LogRecord> newIssues = exec.issues().latestCopy();
         consoleNewIssues();
         fileNewIssues(newIssues);
     }
