@@ -48,7 +48,7 @@ import static works.lysenko.util.spec.Numbers.ZERO;
  * - findAll: Finds and returns multiple WebElements using a locator, with optional exposure.
  * - findEach: Finds and returns a list of WebElements for multiple locators provided in a collection.
  * - getBoolean: Retrieves boolean values from execution context using field names, titles, or suppliers with default values.
- * - getInteger: Retrieves integer values from execution context with optional default values and silent execution.
+ * - getInteger: Retrieves integer values from the execution context with optional default values and silent execution.
  * - getString: Retrieves string representations from execution context with support for defaults, silence, and null handling.
  * - getWebDriver: Retrieves the WebDriver instance.
  * - isAllPresent: Checks whether given elements or locators are present in the execution context.
@@ -201,7 +201,7 @@ public record Base() {
      */
     public static int currentDepth() {
 
-        return exec.currentDepth();
+        return exec.scenarios().depth();
     }
 
     /**
@@ -374,7 +374,7 @@ public record Base() {
 
     /**
      * Retrieves a long value associated with the specified field.
-     * If the field is not found or cannot be converted to a long,
+     * If the field is not found or cannot be converted to along,
      * the provided default value is returned.
      *
      * @param field the field whose associated long value is to be retrieved
@@ -441,7 +441,7 @@ public record Base() {
      * @param silent a flag indicating whether the method should throw an exception if the field is null
      *               or silently return the default string value
      * @return the string representation of the field or the default string value if the field is null
-     * and silent flag is set to true
+     * and a silent flag is set to true
      */
     public static String getString(final Object field, final String def, final boolean silent) {
 
@@ -456,7 +456,7 @@ public record Base() {
     @SuppressWarnings("MethodWithMultipleReturnPoints")
     public static WebDriver getWebDriver() {
 
-        if (isNotNull(exec)) return exec.getWebDriver();
+        if (isNotNull(exec)) return exec.wd();
         return null;
     }
 
