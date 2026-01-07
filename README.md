@@ -41,7 +41,7 @@ There are several possible scenarios for both types of closure:
 
 1. The configured **Number of Tests** is performed successfully.
 2. Test execution is **stopped programmatically** by one of the **Scenarios**.
-3. It is impossible to generate a new **Test** (i.e., no sequential **Scenario** can be selected among those available).
+3. It is impossible to generate a new **Test** (i.e. no sequential **Scenario** can be selected among those available).
 
 ### **Causes of Failed Test Execution:**
 
@@ -137,10 +137,10 @@ The **Dashboard** serves as a central control hub for managing test execution, p
    A directory- and file-based interface primarily used during headless Bot operations. The project’s `/target/dash` directory serves as the UI
    substitute. For instance:
     - To activate debug mode, create a file named `debug` in this directory.
-    - To deactivate debug mode, simply delete the file.
+    - To deactivate debug mode, delete the file.
 
 2. **UserInterface.java**
-   A dialog box-based interface designed for local Bot executions, providing a more interactive and intuitive experience. Each of the four
+   A dialogue box-based interface designed for local Bot executions, providing a more interactive and intuitive experience. Each of the four
    dashboard functions (Debug, Pause, Halt, Stop) is represented as a dedicated toggle button in the interface.
 
 ### Operations
@@ -152,7 +152,7 @@ The **Dashboard** offers real-time insights into test execution status and inclu
 3. **Halt** puts the current **Test Case** into a halt state, allowing the **Test Scenario** to finish execution. However, the selection of the
    next
    Scenario will be skipped until this feature is toggled off. The next cycle will only begin once the halt mode is deactivated.
-4. **Stop** ensures that the current **Test Case** finishes its execution as usual, but prevents the initiation of the next **Test Cycle**. This
+4. **Stop** ensures that the current **Test Case** finishes its execution as usual but prevents the initiation of the next **Test Cycle**. This
    provides
    a clean exit from the current testing phase.
 
@@ -166,7 +166,7 @@ over test scenarios and cycles.
 
 ## Required and Optional Configurations
 
-The Bot offers multiple ways to configure and control its behavior, categorized as either **required** or **optional**:
+The Bot offers multiple ways to configure and control its behaviour, categorised as either **required** or **optional**:
 
 | **Name**                | **Type** | **Form**                                               | **Used for**           | **Goal**                              |
 |-------------------------|----------|--------------------------------------------------------|------------------------|---------------------------------------|
@@ -176,9 +176,9 @@ The Bot offers multiple ways to configure and control its behavior, categorized 
 |                         | Required | `.test` files in `./src/main/resources/tests`          | Test run configuration | Specify exact test actions to perform |
 | **Validation Matrices** | Optional | `.properties` files in `./src/main/resources/matrices` | Image validation       | Enable feature for image analysis     |
 
-- **Required Configurations**: These include files or parameters necessary to define the environment and test behavior (e.g., specifying
+- **Required Configurations**: These include files or parameters necessary to define the environment and test behaviour (e.g. specifying
   environment details, shared properties, and test actions).
-- **Optional Configurations**: Validation matrices provide additional capabilities, like analyzing images in test runs, but are not mandatory
+- **Optional Configurations**: Validation matrices provide additional capabilities, like analysing images in test runs, but are not mandatory
   for Bot execution.
 
 ### Test Environments Configuration
@@ -219,7 +219,7 @@ Environment Variables or from /var/properties file.
 
 If the Bot is not in **CI mode**, **Test Parameters** can be redefined interactively before each test run.
 
-Name of **Test Configuration** corresponds to the **Test Data Storage** property file name in the *./src/test/resources/tests* directory. For
+The name of **Test Configuration** corresponds to the **Test Data Storage** property file name in the *./src/test/resources/tests* directory. For
 local executions, these parameters can be omitted and defined interactively.
 
 ---
@@ -260,14 +260,14 @@ Additionally, there is a possibility to "import" sets of properties using _inclu
 
 This helps to better organise settings as well as reduce clutter.
 
-To control which configuration parameters are used, each execution starts with output of config summary. It consists of two parts:
+To control which configuration parameters are used, each execution starts with the output of a config summary. It consists of two parts:
 
 ### Applied Test Configuration
 
 This section displays all applied configuration parameters along with their respective values. The following rules apply to parameter
-visualization:
+visualisation:
 
-1. If a configuration parameter is **unrecognized**, it is marked in **red**.
+1. If a configuration parameter is **unrecognised**, it is marked in **red**.
     - This likely indicates a typo or an invalid parameter name.
 
 2. If a configuration parameter has `null` as its **default value**, its assignment is highlighted with a **green equals sign (`=`)** to draw
@@ -282,7 +282,7 @@ This section lists all configuration parameters that retain their **default valu
 ### Configuration validation ###
 
 All in all, **Test Properties** define what exactly the Bot will do.
-To minimize possible confusion and incorrect test results, in case any discrepancy test execution is halted.
+To minimise possible confusion and incorrect test results, in case of any discrepancy, test execution is halted.
 
 ### Important parameters ###
 
@@ -290,7 +290,7 @@ There are some details about several important test properties:
 
 #### .root ####
 
-Name of package which contains the root of test nodes' hierarchy.
+Name of the package which contains the root of test nodes' hierarchy.
 Test Scenarios are referenced in **Test Properties** file relatively to this package.
 
 #### .include ####
@@ -310,7 +310,7 @@ For example, to execute a single scenario, use this **Test Properties**:
 
 That gives 1.0 weight coefficient to a particular scenario and activates upstream weight propagation,
 which sets the same weight to parents of this particular scenario.
-That allows skipping the exact definition of weights for each of parent scenarios.
+That allows skipping the exact definition of weights for each of the parent scenarios.
 
 To execute a subset (subtree) of scenarios, use the following:
 
@@ -327,12 +327,12 @@ The `.tests` property defines the number of **Test Executions** to be performed 
 - **Medium Number of Tests**: Ideal for regression testing to verify that recent changes haven't affected existing functionality.
 - **High Number of Tests**: Used for stability testing under extended conditions, ensuring the system can handle prolonged operations without
   failures.
-  This flexibility allows **multiple types of testing** to be performed using the same code base. As a result, it minimizes the need for
+  This flexibility allows **multiple types of testing** to be performed using the same code base. As a result, it minimises the need for
   additional maintenance and reduces tooling variations, streamlining the testing process.
 
 #### .stop ####
 
-This is the example of custom test parameter used by **de.medice.abstracts.willkommen.anmelden.auth.wiss.Plan**
+This is the example of a custom test parameter used by **de.medice.abstracts.willkommen.anmelden.auth.wiss.Plan**
 class to define whether to stop test execution after reaching 100% of Trainingsplan reading or not.
 
 #### .persist ####
@@ -344,9 +344,8 @@ This boolean parameter defines whether to persist **Test Data Storage** informat
 Activating this feature results in more detailed logs, facilitating test development and analysis of outcomes. Alternatively, deactivating debug
 output streamlines the test log by reducing excess information and size.
 
-For complete list of available test configuration parameters, refer to two enums: interlink.util.spec.PropEnum for application-specific and
+For a complete list of available test configuration parameters, refer to two enums: interlink.util.spec.PropEnum for application-specific and
 works.lysenko.util.spec.PropEnum for common technical parameters
-Additionally,
 
 ### Regression test configuration ###
 
@@ -374,7 +373,7 @@ This specific **Test Configuration** introduces several additional parameters wi
 The Last step to perform before actual test execution is to provide accessible running Android OS. There are two possible ways for that:
 
 1. Connect a physical device in debug mode to a workstation
-2. Start emulator on the same host
+2. Start an emulator on the same host
 
 *./emulator.bash* script contains all required simulation parameters.
 Before using it, update *./etc/device* file with the actual name of an
@@ -382,15 +381,14 @@ emulated device to use.
 
 ### Test Data Storage ###
 
-Is case of **_persist** set to **true**, The Bot uses file-based storage for saving information about the expected system state.
-These are plain Java property files, with name reflecting associated users pools, for example *./var/hetzner-remote.properties*
+In case of **_persist** set to **true**, The Bot uses file-based storage for saving information about the expected system state.
+These are plain Java property files, with name reflecting associated user pools, for example *./var/hetzner-remote.properties*
 
 ### Preparing/maintaining Users Pool ###
 
 For effective testing, there should be a way to reset user accounts to their initial "empty" state.
 See *./reset-environment-local.bash* for examples.
-After resetting a pool, its correspondent **Test Data Storage** properties file must also be deleted from *./var* directory (
-*./var/development-local.data.properties*, for example).
+After resetting a pool, its correspondent **Test Data Storage** properties file must also be deleted from *./var* directory (*./var/development-local.data.properties*, for example).
 
 So, the very first execution must be done with clean user accounts and empty/absent **Test Data Storage** file.
 
@@ -402,7 +400,7 @@ There are three modes of Test Bot execution:
 
 1. Starting of **./src/main/{app}/Run.java** by IDE
 2. Starting **./run.maven.bash** which will build Bot from sources and then start through Maven as a regular application
-3. Starting **./run.shade.bash** will build Bot, create shade jar with all dependencies, and then start the Bot
+3. Starting **./run.shade.bash** will build Bot, create a shade jar with all dependencies, and then start the Bot
 
 ### Testing process overview ###
 
@@ -433,7 +431,7 @@ In turn, the selection of a scenario from a set (done by Ctrl.execute()) is a se
    *true** (prerequisites are satisfied), then a selected scenario is executed.
 4. Step 2 and step 3 kept being repeated until one of three happens: (1) Mathematically selected scenario meets
    prerequisites, or (2) maximum number of retries exhausted (defined by **_default.scenario.fitting.retries** Test Property),
-   or (3) list of candidates become empty. By default, all mentioned states are not exceptional, but it can be changed
+   or (3) list of candidates becomes empty. By default, all mentioned states are not exceptional, but it can be changed
    through **Test Properties** modification
 
 After selecting a Scenario, there are three main possibilities:
@@ -446,7 +444,7 @@ After selecting a Scenario, there are three main possibilities:
 Execution of a Node Scenario (see works.lysenko.tree.base.Node.java) is:
 
 1. super.execute(): execution of common Base.execute() (technical stuff like writing title in log, renewing current scenario references, etc.)
-2. action(): performing Scenario Actions (for example - selection of 'Solutions' from navigation bar)
+2. action(): performing Scenario Actions (for example - selection of 'Solutions' from the navigation bar)
 3. scenarios.execute(): selecting a nested scenario from a set, same as described above
 4. finals(): final actions for a scenario
 5. done(): technical finalization of scenario
@@ -458,18 +456,18 @@ Execution of a Leaf scenario (see works.lysenko.tree.base.Leaf.java) is:
 3. finals(): final actions for a scenario
 4. done(): technical finalization of scenario
 
-Execution of a Mono scenario (see works.lysenko.tree.base.Leaf.java) is generally similar to Leaf one, but it could be executed
+Execution of a Mono scenario (see works.lysenko.tree.base.Leaf.java) is generally similar to the Leaf one, but it could be executed
 only once per test scenario.
-This type of test node is intended to be used for testing simple actions like pressing Cancel button in forms.
+This type of test node is intended to be used for testing simple actions like pressing the Cancel button in forms.
 
 #### Test Cycle(s) Repetition ####
 
-Normally, each test run will contain a particular amount of **Test Cycles** defined by .cycles Test Property.
+Normally, each test run will contain a particular number of **Test Cycles** defined by .cycles Test Property.
 
 Programmatically, it is also possible to stop Cycles from repeating further by calling stopCycles() method.
 This is used for stopping tests right after reaching some condition, like - reading odf 100% of the Trainingsplan.
 
-Finally, by using Stop function of **Dashboard**, it is possible to forbid starting of a new Test Cycle and stop the Bot after completion of the
+Finally, by using the Stop function of **Dashboard**, it is possible to forbid starting of a new Test Cycle and stop the Bot after completion of the
 current one.
 
 ---
@@ -477,10 +475,10 @@ current one.
 ## Scenarios tree/graph ##
 
 Scenarios are structured as a tree with the ability to induce some graph-type relations.
-At the root of this tree is a set of level-1 Elements which used by Cycles class for initiation of each consequent test execution.
+At the root of this tree is a set of level-1 Elements which are used by Cycles class for initiation of each consequent test execution.
 All elements could be of any type, but only **Node** scenarios are used for linking with next-level scenarios.
 
-There are several ways of further scenarios definition for a Node:
+There are several ways of further scenario definition for a Node:
 
 1. Putting later scenarios into a package with a name similar to the classname of a Node (lowercase one)
 2. Defining the following scenarios in the constructor
@@ -505,7 +503,7 @@ scenario without any Actions.)
 Due to the random nature of Bot activities, there is nothing which embodies "Prerequisites" exactly.
 Prerequisite for each Test Cycle is a whole set of actions performed on a particular User Account by previously executed tests.
 
-Consequently, there is no sense/way to define prerequisites for any Test Scenario. Instead, each scenario should redefine Boolean fits() method.
+Consequently, there is no sense/way to define prerequisites for any Test Scenario. Instead, each scenario should redefine the Boolean fits() method.
 Withing this method, a test scenario must analyse the contents of UI and/or **Test Data Storage** data to indicate whether a node is capable
 of execution or not. All scenarios are not fit by default.
 
@@ -516,7 +514,7 @@ of execution or not. All scenarios are not fit by default.
 Any UI part can be additionally verified by applying parametric validation.
 It means that there is no need to collect, store, and update a huge set of binary images.
 Instead, requirements are formulated as key/value pairs.
-Based on these values, sampling and validation of image is performed.
+Based on these values, sampling and validation of the image is performed.
 
 | Property                  | Type           | Sample values     | Description                                                                            |
 |---------------------------|----------------|-------------------|----------------------------------------------------------------------------------------|
@@ -542,14 +540,14 @@ Based on these values, sampling and validation of image is performed.
 | brightness.fences         | Integer        |                   | Amount of dividers of brightness range                                                 | 
 
 The **scale** and **resolution** define the size of the area defined for probing.
-In order get higher-then-wide area, particularly to ge fullscreen probe on vertically aligned screen,
-scale should be set to correspondent higher-then-1 value, and resolution should reflect verticality as well, fo example:
+To get higher-than-wide area, particularly to ge fullscreen probe on vertically aligned screen,
+scale should be set to correspondent higher-then-1 value, and resolution should reflect verticality as well, for example:
 
     scale=19/10
     resolutiion=99*199
 
 The **colours** property defines expected colour distribution by *list of ranges*.
-Each comma separated range in a list can be defined by one of the following ways:
+Each comma-separated range in a list can be defined by one of the following ways:
 
     {value}:{min}:{max}, ...
     {value}:{max}:{min}, ...
@@ -566,10 +564,10 @@ assertion.
 **colours.ignore=order** should only be used together with **colours.amount** to configure "loose" validation for cases where different colours
 may and may not be present
 
-**polychromy** parameter is for validation of colourful images. Tracking of hundreds of colours is impractical, therefore other approach is
+**polychromy** parameter is for validation of colourful images. Tracking of hundreds of colours is impractical; therefore, another approach is
 used.
-Polychromy is a fractional number which reflects how different are samples between themselves.
-To calculate this, colours of samples are treated as 3d coordinates in space, and total distance between all elements is calculated.
+Polychromy is a fractional number which reflects how different are samples are between themselves.
+To calculate this, colours of samples are treated as 3d coordinates in space, and the total distance between all elements is calculated.
 Then, it is comparedd to maximum theoretically possible value, which in turn gives that Polychromy coefficient.
 
 ### Support of different resolutions ###
@@ -581,24 +579,24 @@ At the beginning of each run, there's that log line
 
     • Current UI resolution is 1200x2000, scale is ³⁄₅, native is ⁹⁄₁₉, compensation is ¹⁵⁄₁₉
 
-It indicates current screen proportion, native one, and relation between them.
-This is an example of defining specific value for non-native screen proportion:
+It indicates the current screen proportion, native one, and relation between them.
+This is an example of defining a specific value for non-native screen proportion:
 
     scale=8/9
     3/5.scale=294/390
 
-It is also possible to add scale behind mail key, like:
+It is also possible to add scale behind a mail key, like:
 
     5-5-2-2.3/5=44,1,1,130,1,339,186,7
 
-This allows to combine/sort keys in a way more suitable for each particular data file.
+This allows combining/sorting keys in a way more suitable for each particular data file.
 
 The following files support scaled properties:
 
 1. Grid files in *src/main/resources/matrices*
 2. Page Properties in *resources/expected/page*
 
-Support of different resolutions with same proportions will be implemented later.
+Support for different resolutions with same proportions will be implemented later.
 
 ---
 
@@ -630,33 +628,33 @@ src/main/resources/tests directory.
 
 **{timestamp}** is a per-test-execution value which indicated the moment of test text initialisation.
 
-**{test-time}** is the number of milliseconds passed since starting of a test.
-This value used in test logs and filenames of screenshots and snapshots,
+**{test-time}** is the number of milliseconds passed since the starting of a test.
+This value is used in test logs and filenames of screenshots and snapshots,
 which allows easy binding of test data to an exact moment of test execution.
 
-**{cycle}** is the number of Test Cycles at which a snapshot was taken, so that it's easier to bind it to particular action done by Bot.
+**{cycle}** is the number of Test Cycles at which a snapshot was taken, so that it's easier to bind it to a particular action done by Bot.
 
 **{name}** of a snapshot is defined by test code.
 
 **{operation}** reflects which Data modification triggered that particular Data snapshot.
-Additionally, detailed description of modification added as comment to each file.
+Additionally, a detailed description of the modification is added as a comment to each file.
 
 ### .../{timestamp}/snapshots ###
 
 There are two types of snapshots:
 
 1. Plain screenshots to *.png* files. These screenshots could also be additionally modified by markings depicting Element or Action performed.
-2. Pairs of *.png* and *.xml*. XML file is in turn a snapshot of object hierarchy at the moment of snapshotting.
+2. Pairs of *.png* and *.xml*. An XML file is in turn a snapshot of object hierarchy at the moment of snapshotting.
 
 ### .../{timestamp}/snapshots ###
 
 While making a snapshot of **Test Data Storage** after each modification could be very handy for tests development and results analysis, it
 could
-also create a massive amounts if big files during each test execution. To avoid that, set **_data.snapshots.allowed** parameter to *false*.
+also create a massive number of big files during each test execution. To avoid that, set **_data.snapshots.allowed** parameter to *false*.
 
 ---
 
-## Configuring Remote test execution server ##
+## Configuring a Remote test execution server ##
 
 It is recommended to use a dedicated hardware server running Ubuntu 22.04 LTS (or later) with Java 17 installed.
 The following steps are required to configure a server (freshly installed OS is assumed):
@@ -697,7 +695,7 @@ Next steps:
 
 1. Copy ```jenkins/jobs/Bot/config.xml``` file from a Bot repository file to ```/var/lib/jenkins/jobs/Bot/config.xml```
 2. Restart Jenkins by ```systemctl restart jenkins``` to let it pick up "Bot" job
-3. Start "Bot" job once to let Jenkins create workspace for "Bot" job
+3. Start the "Bot" job once to let Jenkins create a workspace for the "Bot" job
 4. Copy contents of Test Bot repository to ```/var/lib/jenkins/workspace/Bot```
 5. target and var directories must be owned/modifiable by Jenkins:
 
@@ -707,7 +705,7 @@ chown -R jenkins:jenkins target
 chown -R jenkins:jenkins var
 ~~~
 
-Job's workspace considered as Production copy of Bot, deployment could be automated further.
+Job's workspace considered as a Production copy of Bot, deployment could be automated further.
 
 Next, Command Line Tools of Android SDK should be installed:
 
@@ -741,7 +739,7 @@ Finally, other required parts of Android SDK must be installed:
 | sdkmanager "system-images;android-35;google_apis;arm64-v8a"                                 | Exact versions of packages could be different |
 | avdmanager create avd -n avd35_25 -d 25 -k "system-images;android-35;google_apis;arm64-v8a" | creation of virtual device named "avd35_25"   |
 
-Emulator should be started in dedicated shell which will stay active after interactive login session exit. To do that:
+Emulator should be started in a dedicated shell which will stay active after interactive login session exit. To do that:
 
 1. Execute ```screen``` command
 2. Within the screen session, execute ```emulator -avd avd33_25 -no-audio -no-window```
@@ -751,10 +749,10 @@ Emulator will be running within its own screen session. To reattach, execute ```
 
 ## Locators ##
 
-It is possible to address elements of interface by direct CSS and XPath references. For better logs readability though,
+It is possible to address elements of the interface by direct CSS and XPath references. For better logs readability, though, an
 additional layer of named locators was added. The file *./etc/descriptors* contains all named references used in test
 nodes. It was expected to have space characters inside references, so a standard Java properties file format wasn't
-applicable. Double equals sign *==* is used as separator between named reference and locator.
+applicable. Double equals sign *==* is used as a separator between the named reference and locator.
 
 ---
 
