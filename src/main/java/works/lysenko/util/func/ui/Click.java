@@ -104,7 +104,7 @@ public record Click() {
         longClickScreenshot(BEFORE, duration, x1, y1);
         logDebug(b(b(c(PERFORMING), d(LONG, CLICK), AT, COORDINATES),
                 s(X, x1), s(Y, y1), WITH, s(duration, MS), DURATION));
-        ((Interactive) exec.getWebDriver()).perform(List.of(click));
+        ((Interactive) exec.wd()).perform(List.of(click));
         longClickScreenshot(AFTER, duration, x1, y1);
         logDebug(DONE);
     }
