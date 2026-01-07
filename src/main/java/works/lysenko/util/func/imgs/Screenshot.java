@@ -70,7 +70,7 @@ public record Screenshot() {
     @SuppressWarnings({"ThrowInsideCatchBlockWhichIgnoresCaughtException", "MethodWithMultipleReturnPoints"})
     private static BufferedImage getFullscreenBufferedImage() {
 
-        final TakesScreenshot webDriver = (TakesScreenshot) exec.getWebDriver();
+        final TakesScreenshot webDriver = (TakesScreenshot) exec.wd();
 
         if (isNull(webDriver)) {
             fail(UNABLE_TO_READ___);
@@ -105,7 +105,7 @@ public record Screenshot() {
      */
     private static org.openqa.selenium.Dimension getWindowSize() {
 
-        return exec.getWebDriver().manage().window().getSize();
+        return exec.wd().manage().window().getSize();
     }
 
     /**
@@ -119,8 +119,8 @@ public record Screenshot() {
         final String ext = in(ANDROID) ? XML : HTML;
         final Path path = Path.of(getSnapshotPath(SCREENSHOT_, root, name, ext));
         try {
-            if (isNotNull(exec.getWebDriver()))
-                java.nio.file.Files.writeString(path, exec.getWebDriver().getPageSource());
+            if (isNotNull(exec.wd()))
+                java.nio.file.Files.writeString(path, exec.wd().getPageSource());
         } catch (final IOException e) {
             throw new IllegalArgumentException(b(UNABLE_TO_WRITE_CODE___, q(name)));
         }
@@ -235,7 +235,7 @@ public record Screenshot() {
         if (isNotNull(fullscreen)) img = fullscreen;
         else // There are no alternatives - due to ongoing Appium issue it is only possible to make full screenshots
             img = getFullscreenBufferedImage();
-        // Then, there are two options - do we need full screenshot or partial one
+        // Then, there are two options - do we need a full screenshot or partial one
         if (isNotNull(element))
             return writePartialScreenshot(img, new ScreenshotSettings(silent, (null == fullscreen), write, element, root),
                     name);
