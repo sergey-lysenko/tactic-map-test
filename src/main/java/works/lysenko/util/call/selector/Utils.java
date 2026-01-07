@@ -173,7 +173,7 @@ public record Utils() {
 
     private static void processSafeguard() throws SafeguardException {
 
-        final int depth = exec.currentDepth();
+        final int depth = exec.scenarios().depth();
         logTrace(b(a(DEPTH, depth, _COMMA_), a(SAFEGUARD, scenarioDepth)));
         if (depth > scenarioDepth)
             throw new SafeguardException(b(SCENARIO, IS, TOO, DEEP), b(s(depth), IS, MORE, THAN, s(scenarioDepth)));
