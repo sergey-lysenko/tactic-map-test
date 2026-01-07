@@ -55,7 +55,7 @@ public class ExceptionHandler implements _ExceptionsHandler {
             printInfo();
         });
         section(ATTEMPTING_COUNTER_ACTION);
-        action(exception, exec.getCurrentScenario(true));
+        action(exception, exec.scenarios().currentString(true));
     }
 
     public final void setExceptional(final _Scenario scenario) {
