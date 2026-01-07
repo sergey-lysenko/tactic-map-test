@@ -29,13 +29,13 @@ record KnownIssues() {
      */
     private static void notReproduced() {
 
-        if (!exec.getKnownIssues().isEmpty()) {
+        if (!exec.issues().known().isEmpty()) {
             exec.logEmptyLine();
-            if (exec.getNotReproduced().isEmpty())
+            if (exec.issues().notReproduced().isEmpty())
                 log(Level.none, ansi(b(c(ALL), KNOWN_ISSUES, WERE_REPRODUCED), GREEN), true);
             else {
                 log(Level.none, ansi(b(c(NOT), REPRODUCED, s(KNOWN_ISSUES, _COLON_)), YELLOW), true);
-                log(Level.none, ansi(String.join(COMMA_SPACE, exec.getNotReproduced()), YELLOW), false);
+                log(Level.none, ansi(String.join(COMMA_SPACE, exec.issues().notReproduced()), YELLOW), false);
             }
         }
     }
@@ -46,11 +46,11 @@ record KnownIssues() {
     private static void reproduced() {
 
         exec.logEmptyLine();
-        if (exec.getKnownIssues().isEmpty())
+        if (exec.issues().known().isEmpty())
             log(Level.none, ansi(b(c(NO), KNOWN_ISSUES, WERE_REPRODUCED), RED), true);
         else {
             log(Level.none, ansi(b(c(CONFIRMED), s(KNOWN_ISSUES, _COLON_)), MAGENTA), true);
-            log(Level.none, ansi(String.join(COMMA_SPACE, exec.getKnownIssues()), MAGENTA), false);
+            log(Level.none, ansi(String.join(COMMA_SPACE, exec.issues().known()), MAGENTA), false);
         }
     }
 
