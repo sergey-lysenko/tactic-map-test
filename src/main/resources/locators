@@ -25,5 +25,13 @@ Settings==(//android.view.View[@content-desc='Налаштування'])[2]/..
 Total Distance==//android.view.View[@content-desc='Загальна відстань']/..
 URL Settings==(//android.view.View[@content-desc='URL Settings'])
 View Holder==//androidx.compose.ui.viewinterop.ViewFactoryHolder
+Weather Coordinates==//android.widget.ScrollView/android.widget.TextView[2]
+Weather Explanation==//android.widget.ScrollView/android.view.View[3]/android.widget.TextView[2]
+Weather Place==//android.widget.ScrollView/android.widget.TextView[1]
+Weather Recommendation==//android.widget.ScrollView/android.view.View[3]/android.widget.TextView[1]
+Weather Settings Value by Title==(//android.widget.TextView[@text='%1$s']/following-sibling::android.widget.EditText)[1]
+Weather Update==//android.widget.ScrollView/android.widget.TextView[3]
+Weather Value by Title==//android.widget.TextView[@text='%1$s']/../android.widget.TextView[2]
+Weather==//android.view.View[@content-desc='Weather']/..
 Zoom In==(//android.view.View[@content-desc='Інформація'])[3]/..
 Zoom Out==(//android.view.View[@content-desc='Інформація'])[4]/..

@@ -19,7 +19,8 @@ import static works.lysenko.util.chrs.____.INFO;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.lang.word.S.SEARCH;
 
-@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess", "PublicStaticArrayField", "HardcodedLineSeparator", "HardcodedFileSeparator"})
+@SuppressWarnings({"HardCodedStringLiteral", "MissingJavadoc", "StaticMethodOnlyUsedInOneClass", "WeakerAccess", "PublicStaticArrayField",
+        "HardcodedLineSeparator", "HardcodedFileSeparator"})
 public record Constants() {
 
     public static final float DRAG_HANDLE_STEP = 0.05F;
@@ -90,6 +91,24 @@ public record Constants() {
     public static final String PRIVACY_POLICY_TEXT = "Політика конфіденційності";
     public static final String ACCEPTABLE_USE_TEXT = "Умови використання";
     public static final String LEGAL_NOTICE_TEXT = "Юридична інформація";
+    public static final String WEATHER = "Weather";
+    public static final String TEMPERATURE_TEXT = "Температура";
+    public static final String HUMIDITY_TEXT = "Вологість";
+    public static final String DEW_POINT_TEXT = "Точка роси";
+    public static final String WIND_TEXT = "Вітер";
+    public static final String WIND_GUSTS_TEXT = "Пориви";
+    public static final String ATMOSPHERIC_PRESSURE_TEXT = "Тиск";
+    public static final String PRECIPITATION_TEXT = "Опади";
+    public static final String CLOUD_COVERAGE_TEXT = "Хмарність";
+    public static final String VISIBILITY_TEXT = "Видимість";
+    public static final String SUNRISE_TEXT = "Схід сонця";
+    public static final String SUNSET_TEXT = "Захід сонця";
+    public static final String SAFETY_LIMITS_TITLE = "МЕЖІ БЕЗПЕКИ";
+    public static final String WIND_LIMIT_TEXT = "Вітер (max допустимий)";
+    public static final String MAX_WIND_LIMIT_TEXT = "Пориви (max допустимий)";
+    public static final String MIN_VISIBILITY_TEXT = "Видимість (min допустимий)";
+    public static final String MIN_TEMPERATURE_TEXT = "Температура (min допустимий)";
+    public static final String MAX_TEMPERATURE_TEXT = "Температура (max допустимий)";
 
     // Long strings
     public static final String API_INTEGRATION_MESSAGE = "Ми працюємо над інтеграцією API в TacticMap, і наразі цей функціонал доступний лише в рамках закритого бета-тестування.\n\nЯкщо ви хочете спробувати API та отримати доступ, зв'яжіться з нами через WhatsApp: +380933394092.\nБудемо раді співпраці та вашим відгукам!";
@@ -107,13 +126,17 @@ public record Constants() {
     public static final String SHARE_BUTTON_TEXT = "Поділитися";
 
     // Arrays
-    public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT,
-            c(RULER), TOTAL_DISTANCE, c(POLYGON), ELEVATION_GRAPH, FIND_MY_LOCATION, c(COMPASS), DRAG_HANDLE, c(LOGIN),
-            c(SETTINGS), SEARCH_1, SEARCH_2};
-
+    public final static String[] MAIN_SCREEN_ELEMENTS = {c(INFO), c(SEARCH), WEATHER, ZOOM_IN, ZOOM_OUT, VIEW_HOLDER, ADD_OBJECT, c(RULER), TOTAL_DISTANCE,
+            c(POLYGON), ELEVATION_GRAPH, FIND_MY_LOCATION, c(COMPASS), DRAG_HANDLE, c(LOGIN), c(SETTINGS), SEARCH_1, SEARCH_2};
     public final static String[] AREA_FIVE_MORE_ELEMENTS = {SAVE_BUTTON_TEXT, COPY_BUTTON_TEXT, AREA_FORMAT_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
-    public final static String[] ANGLES_FIVE_MORE_ELEMENTS = {SAVE_BUTTON_TEXT, COPY_BUTTON_TEXT, ANGLES_FORMAT_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
+    public final static String[] ANGLES_FIVE_MORE_ELEMENTS = {SAVE_BUTTON_TEXT, COPY_BUTTON_TEXT, ANGLES_FORMAT_TEXT, DISTANCE_FORMAT_TEXT,
+            SYSTEM_COORDINATES_TEXT};
     public final static String[] THREE_MORE_ELEMENTS = {SHARE_BUTTON_TEXT, DISTANCE_FORMAT_TEXT, SYSTEM_COORDINATES_TEXT};
+
+    public final static String[] WEATHER_SCREEN_ELEMENTS_I = {TEMPERATURE_TEXT, HUMIDITY_TEXT, DEW_POINT_TEXT, WIND_TEXT, WIND_GUSTS_TEXT,
+            ATMOSPHERIC_PRESSURE_TEXT, PRECIPITATION_TEXT, CLOUD_COVERAGE_TEXT, VISIBILITY_TEXT};
+    public final static String[] WEATHER_SCREEN_ELEMENTS_II = {SUNRISE_TEXT, SUNSET_TEXT};
+    public final static String[] WEATHER_SETTINGS_ELEMENTS = {WIND_LIMIT_TEXT, MAX_WIND_LIMIT_TEXT, MIN_VISIBILITY_TEXT, MIN_TEMPERATURE_TEXT, MAX_TEMPERATURE_TEXT};
 
 
 }

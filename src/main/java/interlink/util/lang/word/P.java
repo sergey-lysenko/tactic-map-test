@@ -10,4 +10,5 @@ import static works.lysenko.util.spec.Symbols.G;
 public record P() {
 
     public static final String POLYGON = s(PO, LY, G, ON);
+    public static final String PLACE = "place";
 }
