@@ -7,12 +7,12 @@ import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.lang.word.C.CLOSE;
 
 @SuppressWarnings({"unused", "MissingJavadoc"})
-public class CommonClose extends Leaf {
+public class OptionalClose extends Leaf {
 
     @Override
     public final void action() throws SafeguardException {
 
-        clickOn(c(CLOSE));
+        if (isPresent(c(CLOSE))) clickOn(c(CLOSE));
     }
 }
 
