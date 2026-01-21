@@ -17,6 +17,7 @@ public abstract class CommonMore extends Leaf {
 
         menuOn();
         menuOff();
+        new CommonClose().isOk();
     }
 
     private void menuOff() {
