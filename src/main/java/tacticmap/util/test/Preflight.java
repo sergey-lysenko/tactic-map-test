@@ -15,8 +15,7 @@ public class Preflight implements Runnable {
     public final void run() {
 
         section(getClass().getSimpleName());
-        if (isPresent(c(CLOSE))) clickOn(CLOSE);
+        if (isPresent(c(CLOSE))) clickOn(c(CLOSE));
         log(Level.none, bb(b(getClass().getSimpleName(), DONE)), false);
-
     }
 }
