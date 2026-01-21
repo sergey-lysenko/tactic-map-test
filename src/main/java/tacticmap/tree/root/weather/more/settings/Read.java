@@ -11,7 +11,6 @@ import static works.lysenko.util.chrs.____.TEXT;
 import static works.lysenko.util.data.strs.Bind.b;
 import static works.lysenko.util.data.strs.Case.c;
 import static works.lysenko.util.data.strs.Swap.s;
-import static works.lysenko.util.func.core.Assertions.notImplemented;
 import static works.lysenko.util.func.type.Booleans.isTrue;
 import static works.lysenko.util.func.ui.Descriptors.fill;
 import static works.lysenko.util.func.ui.Scroll.swipeBack;

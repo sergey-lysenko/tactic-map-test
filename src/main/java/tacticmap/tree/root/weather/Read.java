@@ -1,6 +1,5 @@
 package tacticmap.tree.root.weather;
 
-import interlink.tree.CommonClose;
 import org.openqa.selenium.WebElement;
 import works.lysenko.tree.base.Leaf;
 import works.lysenko.util.apis.exception.checked.SafeguardException;
