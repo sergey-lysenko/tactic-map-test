@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -105,7 +106,7 @@ public record Screenshot() {
      */
     private static org.openqa.selenium.Dimension getWindowSize() {
 
-        return exec.wd().manage().window().getSize();
+        return Objects.requireNonNull(exec.wd()).manage().window().getSize();
     }
 
     /**
@@ -118,9 +119,10 @@ public record Screenshot() {
         log(Level.none, gray(b(s(RHT_ARR), c(MAKING), q(name), SNAPSHOT_OF_PAGE_CODE)), true);
         final String ext = in(ANDROID) ? XML : HTML;
         final Path path = Path.of(getSnapshotPath(SCREENSHOT_, root, name, ext));
+        // Writes a page source to file; throws on failure
         try {
             if (isNotNull(exec.wd()))
-                java.nio.file.Files.writeString(path, exec.wd().getPageSource());
+                java.nio.file.Files.writeString(path, Objects.requireNonNull(exec.wd()).getPageSource());
         } catch (final IOException e) {
             throw new IllegalArgumentException(b(UNABLE_TO_WRITE_CODE___, q(name)));
         }
@@ -253,7 +255,9 @@ public record Screenshot() {
      */
     private static void logMakingScreenshot(final String[] name) {
 
+        // Logs screenshot creation with optional filename
         if (isNull(name)) log(Level.none, gray(b(s(DWN_ARR), MAKING_SCREENSHOT)), true);
+        // Logs screenshot creation with optional filename components
         else log(Level.none, gray(b(false, s(DWN_ARR), c(MAKING), (0 == name.length || name[0].isEmpty()) ? EMPTY :
                 q(s(name).replace(File.separator, s(_DASH_))), SCREENSHOT)), true);
     }
@@ -297,8 +301,10 @@ public record Screenshot() {
         final String croppedPath = getSnapshotPath(SCREENSHOT_, settings.root(), (null == name) ? null : s(name), PNG);
         if (!settings.silent()) logDebug(b(GETTING_PARTIAL_SCREENSHOT_OF, q(exec.describe(settings.element()))));
         final Rectangle rect = settings.element().getRect();
+        // Logs dimensions of element rectangle
         logTrace(b(a(s(X), rect.x, _COMMA_), a(s(Y), rect.y, _COMMA_), a(s(WIDTH), rect.width, _COMMA_), a(s(HEIGHT),
                 rect.height)));
+        // Stores screenshots; returns cropped image; handles exceptions
         try {
             final BufferedImage prune = getCropped(image, rect, settings.silent());
             image = drawArea(image, Marker.colour, rect);
@@ -325,6 +331,7 @@ public record Screenshot() {
 
         if (isNull(image)) return null;
         final String s = (null == name) ? EMPTY : s(name);
+        // Writes image to file; throws on writing error
         try {
             final String path = getSnapshotPath(SCREENSHOT_, root, s, PNG);
             logDebug(b(WRITING_FULL_SCREENSHOT, q(path)));

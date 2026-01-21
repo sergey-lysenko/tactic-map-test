@@ -53,6 +53,7 @@ public class Scaler implements _Scaler {
     public Scaler() {
 
         image = makeScreenshot();
+        // Handles screenshot failure; logs scaling information
         if (isNull(image)) {
             nativeScale = null;
             compensation = null;
@@ -68,6 +69,7 @@ public class Scaler implements _Scaler {
 
             if (ZERO == current.compareTo(nativeScale))
                 message = b(message, SCALE, s(yb(ts(current))), IS, NATIVE);
+            // Logs scale and compensation relative to native
             else message = b(message,
                     SCALE, IS, s(yb(ts(current)), _COMMA_),
                     NATIVE, IS, s(yb(ts(nativeScale)), _COMMA_),

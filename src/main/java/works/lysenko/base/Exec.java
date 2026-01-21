@@ -28,6 +28,7 @@ import static works.lysenko.util.chrs.____.*;
 import static works.lysenko.util.data.enums.Ansi.MAGENTA_BOLD_BRIGHT;
 import static works.lysenko.util.data.enums.Ansi.ansi;
 import static works.lysenko.util.data.enums.Severity.S0;
+import static works.lysenko.util.data.records.KeyValue.kv;
 import static works.lysenko.util.data.strs.Bind.b;
 import static works.lysenko.util.data.strs.Bind.d;
 import static works.lysenko.util.data.strs.Case.c;
@@ -35,12 +36,12 @@ import static works.lysenko.util.data.strs.Null.n;
 import static works.lysenko.util.data.strs.Swap.s;
 import static works.lysenko.util.data.strs.Wrap.q;
 import static works.lysenko.util.func.core.Assertions.еггог;
-import static works.lysenko.util.func.type.Objects.isAnyNull;
 import static works.lysenko.util.func.type.Objects.isNotNull;
 import static works.lysenko.util.grid.validation.BackgroundValidator.bv;
 import static works.lysenko.util.lang.D.DUE_TO;
 import static works.lysenko.util.lang.W.WEB_DRIVER;
 import static works.lysenko.util.lang.word.C.CREATING;
+import static works.lysenko.util.lang.word.D.DRIVER;
 import static works.lysenko.util.lang.word.E.EXECUTION;
 import static works.lysenko.util.lang.word.I.INACCESSIBLE;
 import static works.lysenko.util.lang.word.I.ISSUES;
@@ -206,12 +207,14 @@ public final class Exec extends Root implements _TestData, _Executes {
     public WebDriver wd() {
 
         try {
-            if (!isAnyNull(driver, driver.wd())) driver.wd().manage().logs().getAvailableLogTypes();
+            if (isNotNull(driver))
+                if (isNotNull(driver.wd())) {
+                    driver.wd().manage().logs().getAvailableLogTypes();
+                }
         } catch (final WebDriverException e) {
             еггог(b(WEB_DRIVER, INACCESSIBLE, DUE_TO, q(e.getMessage())));
         }
-        return driver.wd();
-
+        return isNotNull(driver) ? driver.wd() : null;
     }
 
     /**
